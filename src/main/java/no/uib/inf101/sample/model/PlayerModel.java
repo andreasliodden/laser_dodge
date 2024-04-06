@@ -15,9 +15,10 @@ public class PlayerModel implements ControllablePlayerModel {
         this.position = new GamePosition(20, 20);
         this.playerSpeed = 3;
         this.playerHealth = 100;
-        this.playerImage = Inf101Graphics.loadImageFromResources("resources/player_right.png");
+        this.playerImage = Inf101Graphics.loadImageFromResources("/player_right.png");
     }
 
+    // Fix problems with image scaling
     public GamePosition getPosition() {
         return this.position;
     }
@@ -30,15 +31,15 @@ public class PlayerModel implements ControllablePlayerModel {
         return this.position.y() + playerImage.getHeight() / 2;
     }
 
-    public double getPlayerSpeed() {
+    public double getSpeed() {
         return this.playerSpeed;
     }
 
-    public int getPlayerHealth()  {
+    public int getHealth()  {
         return this.playerHealth;
     }
 
-    public BufferedImage getPlayerImage() {
+    public BufferedImage getImage() {
         return this.playerImage;
     }
 }

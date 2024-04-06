@@ -2,6 +2,7 @@ package no.uib.inf101.sample.view;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -16,10 +17,12 @@ public class GameView extends JPanel {
 
     private ColorTheme colorTheme;
     private PlayerModel playerModel;
+    private TurretModel turretModel;
 
 
     public GameView(PlayerModel playerModel, TurretModel turretModel){
         this.playerModel = playerModel;
+        this.turretModel = turretModel;
         this.colorTheme = new DefaultColorTheme();
         this.setPreferredSize(new Dimension(
                 START_WIDTH, START_HEIGHT));
@@ -32,10 +35,18 @@ public class GameView extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         drawPlayer(g2);
+        drawTurret(g2);
     }
+
+    // Fix problems with image scale
 
     private void drawPlayer(Graphics2D g2) {
         GamePosition playerPosition = playerModel.getPosition();
-        Inf101Graphics.drawImage(g2, playerModel.getPlayerImage(), playerPosition.x(), playerPosition.y(), IMAGE_SCALE);
+        Inf101Graphics.drawImage(g2, playerModel.getImage(), playerPosition.x(), playerPosition.y(), IMAGE_SCALE);
+    }
+
+    private void drawTurret(Graphics2D g2) {
+        turretModel.setPosition(this);
+        Inf101Graphics.drawCenteredImage(g2, turretModel.getImage(), this.getWidth() / 2, this.getHeight() / 2, IMAGE_SCALE);
     }
 }
