@@ -2,7 +2,6 @@ package no.uib.inf101.sample.view;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -13,7 +12,9 @@ import no.uib.inf101.sample.model.TurretModel;
 public class GameView extends JPanel {
     private static final int START_WIDTH = 1000;
     private static final int START_HEIGHT = 800;
-    private static final int IMAGE_SCALE = 6;
+
+    private double scaleX;
+    private double scaleY;
 
     private ColorTheme colorTheme;
     private PlayerModel playerModel;
@@ -34,19 +35,26 @@ public class GameView extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+
+        initDimensions();
+
         drawPlayer(g2);
         drawTurret(g2);
     }
 
+    private void initDimensions() {
+        scaleX = (double) this.getWidth() / START_WIDTH;
+        scaleY = (double) this.getHeight() / START_HEIGHT;
+    }
     // Fix problems with image scale
 
     private void drawPlayer(Graphics2D g2) {
         GamePosition playerPosition = playerModel.getPosition();
-        Inf101Graphics.drawImage(g2, playerModel.getImage(), playerPosition.x(), playerPosition.y(), IMAGE_SCALE);
+        Inf101Graphics.drawImage(g2, playerModel.getImage(), playerPosition.x(), playerPosition.y(), Math.min(scaleX, scaleY) * 5);
     }
 
     private void drawTurret(Graphics2D g2) {
         turretModel.setPosition(this);
-        Inf101Graphics.drawCenteredImage(g2, turretModel.getImage(), this.getWidth() / 2, this.getHeight() / 2, IMAGE_SCALE);
+        Inf101Graphics.drawCenteredImage(g2, turretModel.getImage(), this.getWidth() / 2, this.getHeight() / 2, Math.min(scaleX, scaleY) * 0.75);
     }
 }

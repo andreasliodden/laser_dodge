@@ -11,7 +11,7 @@ public class TurretModel {
 
     public TurretModel() {
         // placeholder
-        this.turretImage = Inf101Graphics.loadImageFromResources("/player_right.png");
+        this.turretImage = Inf101Graphics.loadImageFromResources("/turret.png");
     }
 
     // Fix problems with image scaling
