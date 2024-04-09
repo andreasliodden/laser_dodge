@@ -22,6 +22,7 @@ public class EnemyModel {
         this.enemyY = (gameView.getHeight() - enemyImage.getHeight()) / 2;
     }
 
+
     public double getX() {
         return this.enemyX;
     }

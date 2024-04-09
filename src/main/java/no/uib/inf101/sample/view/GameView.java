@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import no.uib.inf101.sample.model.PlayerModel;
 import no.uib.inf101.sample.model.EnemyModel;
+import no.uib.inf101.sample.model.GameModel;
 
 public class GameView extends JPanel {
     private static final int START_WIDTH = 1600;
@@ -15,18 +16,25 @@ public class GameView extends JPanel {
     private double scaleY;
 
     private ColorTheme colorTheme;
+    private GameModel gameModel;
     private PlayerModel playerModel;
     private EnemyModel enemyModel;
 
 
-    public GameView(PlayerModel playerModel, EnemyModel enemyModel){
+    public GameView(PlayerModel playerModel, GameModel gameModel){
+        this.gameModel = gameModel;
         this.playerModel = playerModel;
-        this.enemyModel = enemyModel;
         this.colorTheme = new DefaultColorTheme();
         this.setPreferredSize(new Dimension(
                 START_WIDTH, START_HEIGHT));
         this.setBackground(colorTheme.getBackgroundColor());
         this.isDoubleBuffered();
+
+        initGameComponents();
+    }
+
+    private void initGameComponents() {
+        this.enemyModel = gameModel.getEnemyModel();
     }
 
     @Override

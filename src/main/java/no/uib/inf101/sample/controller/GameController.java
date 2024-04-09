@@ -3,23 +3,29 @@ package no.uib.inf101.sample.controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.Timer;
+
 import no.uib.inf101.sample.model.GameState;
 import no.uib.inf101.sample.model.EnemyModel;
+import no.uib.inf101.sample.model.GameModel;
 import no.uib.inf101.sample.view.GameView;
 
-public class GameController implements KeyListener, Runnable {
+public class GameController implements KeyListener {
     private ControllablePlayerModel playerModel;
-    private EnemyModel turretModel;
+    private EnemyModel enemyModel;
     private GameView gameView;
-    private Thread gameLoop;
+    private Timer gameLoop;
+
+    private static final int timeDelay = 5;
+    private int counter = 0;
 
     private boolean movedUp, movedDown, movedLeft, movedRight;
     
-    public GameController(ControllablePlayerModel playerModel, EnemyModel turretModel, GameView gameView) {
+    public GameController(ControllablePlayerModel playerModel, GameModel gameModel, GameView gameView) {
         this.playerModel = playerModel;
-        this.turretModel = turretModel;
+        this.enemyModel = gameModel.getEnemyModel();
         this.gameView = gameView;
-        this.gameLoop = new Thread(this);
+        this.gameLoop = new Timer(timeDelay, e -> clockTick());
         gameView.setFocusable(true);
         gameView.addKeyListener(this);
         gameLoop.start();
@@ -59,25 +65,13 @@ public class GameController implements KeyListener, Runnable {
         }
     }
 
-    @Override
-    public void run() {
-        double drawInterval = 10;
-        GameState gameState = playerModel.getCurrentState();
-        int counter = 0;
-
-       while (gameState == GameState.ACTIVE) {
+    private void clockTick() {
+       GameState gameState = playerModel.getCurrentState();
+       if (gameState == GameState.ACTIVE) {
             gameView.repaint();
             handleKeyInputs();
-            if (counter % 15 == 0) {
-                turretModel.getNextImage();
-                counter = 0;
-            }
-
-            try {
-                Thread.sleep((long) drawInterval);
-                
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (counter % 20 == 0) {
+                enemyModel.getNextImage();
             }
             counter++;
        }

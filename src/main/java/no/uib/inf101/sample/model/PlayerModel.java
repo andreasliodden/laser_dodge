@@ -27,7 +27,6 @@ public class PlayerModel implements ControllablePlayerModel {
         this.gameState = GameState.ACTIVE;
     }
 
-    // Fix problems with image scaling
     public double getX() {
         return this.playerX;
     }
@@ -50,7 +49,7 @@ public class PlayerModel implements ControllablePlayerModel {
 
     @Override
     public GameState getCurrentState() {
-        return gameState;
+        return this.gameState;
     }
 
     private void setPlayerImage(int directionX, int directionY) {
@@ -92,4 +91,8 @@ public class PlayerModel implements ControllablePlayerModel {
         playerY += playerSpeed * direction;
         setPlayerImage(0, direction);
     }
+
+    /* private boolean isLegalPosition(double x, double y) {
+        
+    } */
 }
