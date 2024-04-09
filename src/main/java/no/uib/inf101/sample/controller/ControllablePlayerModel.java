@@ -8,4 +8,8 @@ public interface ControllablePlayerModel {
     void movePlayerX(int direction);
 
     void movePlayerY(int direction);
+
+    void checkValidPosition();
+
+    void updateWindowSize(int width, int height);
 }

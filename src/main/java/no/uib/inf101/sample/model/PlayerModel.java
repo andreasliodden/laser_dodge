@@ -6,6 +6,11 @@ import no.uib.inf101.sample.controller.ControllablePlayerModel;
 import no.uib.inf101.sample.view.Inf101Graphics;
 
 public class PlayerModel implements ControllablePlayerModel {
+    private static final double START_X = 100;
+    private static final double START_Y = 100;
+    private static final int START_HEALTH = 100;
+    private static final int SPEED = 7;
+
     private double playerSpeed;
     private int playerHealth;
     private BufferedImage playerImage;
@@ -13,16 +18,19 @@ public class PlayerModel implements ControllablePlayerModel {
     private double playerX;
     private double playerY;
 
+    private double windowWidth;
+    private double windowHeight;
+
     private BufferedImage playerFrontLeft = Inf101Graphics.loadImageFromResources("/player_front_left.png");
     private BufferedImage playerFrontRight = Inf101Graphics.loadImageFromResources("/player_front_right.png");
     private BufferedImage playerBackLeft = Inf101Graphics.loadImageFromResources("/player_back_left.png");
     private BufferedImage playerBackRight = Inf101Graphics.loadImageFromResources("/player_back_right.png");
 
     public PlayerModel() {
-        this.playerX = 100;
-        this.playerY = 100;
-        this.playerSpeed = 7;
-        this.playerHealth = 100;
+        this.playerX = START_X;
+        this.playerY = START_Y;
+        this.playerHealth = START_HEALTH;
+        this.playerSpeed = SPEED;
         this.playerImage = playerFrontRight; 
         this.gameState = GameState.ACTIVE;
     }
@@ -45,6 +53,12 @@ public class PlayerModel implements ControllablePlayerModel {
 
     public BufferedImage getImage() {
         return this.playerImage;
+    }
+
+    @Override
+    public void updateWindowSize(int width, int height) {
+        this.windowWidth = width;
+        this.windowHeight = height;
     }
 
     @Override
@@ -82,17 +96,63 @@ public class PlayerModel implements ControllablePlayerModel {
 
     @Override
     public void movePlayerX(int direction) {
-        playerX += playerSpeed * direction;
+        double nextX;
+        if (direction == -1) {
+            nextX = playerX - playerSpeed;
+            if (isLegalPosition(nextX, playerY)) {
+                playerX = nextX;
+            } 
+        } else if (direction == 1) {
+            nextX = playerX + playerSpeed;
+            if (isLegalPosition(nextX, playerY)) {
+                playerX = nextX;
+            } 
+        }
         setPlayerImage(direction, 0);
+
+        
     }
 
     @Override
     public void movePlayerY(int direction) {
-        playerY += playerSpeed * direction;
+        double nextY;
+        if (direction == -1) {
+            nextY = playerY - playerSpeed;
+            if (isLegalPosition(playerX, nextY)) {
+                playerY = nextY;
+            } 
+        } else if (direction == 1) {
+            nextY = playerY + playerSpeed;
+            if (isLegalPosition(playerX, nextY)) {
+                playerY = nextY;
+            } 
+        }
         setPlayerImage(0, direction);
     }
 
-    /* private boolean isLegalPosition(double x, double y) {
-        
-    } */
+    private boolean isLegalPosition(double x, double y) {
+        if (x < playerImage.getWidth() * 2 || x > windowWidth - playerImage.getWidth() * 2) {
+            return false;
+        } else if (y < playerImage.getHeight() * 2 || y > windowHeight - playerImage.getHeight() * 2) {
+            return false;
+        }
+        return true;
+    } 
+
+    @Override
+    public void checkValidPosition() {
+        double maxX = windowWidth - playerImage.getHeight() * 2;
+        double maxY = windowHeight - playerImage.getHeight() * 2;
+
+        if(!isLegalPosition(playerX, playerY)) {
+            if(isLegalPosition(maxX, playerY)) {
+                playerX = maxX;
+            } else if (isLegalPosition(playerX, maxY)) {
+                playerY = maxY;
+            } else {
+                playerX = maxX;
+                playerY = maxY;
+            }
+        }
+    }
 }
