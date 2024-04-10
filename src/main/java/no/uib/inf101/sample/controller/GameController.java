@@ -8,24 +8,20 @@ import java.awt.event.KeyListener;
 import javax.swing.Timer;
 
 import no.uib.inf101.sample.model.GameState;
-import no.uib.inf101.sample.model.EnemyModel;
-import no.uib.inf101.sample.model.GameModel;
 import no.uib.inf101.sample.view.GameView;
 
 public class GameController implements KeyListener {
-    private ControllablePlayerModel playerModel;
-    private EnemyModel enemyModel;
+    private ControllableGameModel gameModel;
     private GameView gameView;
     private Timer gameLoop;
 
     private static final int timeDelay = 5;
-    private int counter = 0;
+    private int tickCounter = 0;
 
-    private boolean movedUp, movedDown, movedLeft, movedRight;
+    private boolean playerUp, playerDown, playerLeft, playerRight;
     
-    public GameController(ControllablePlayerModel playerModel, GameModel gameModel, GameView gameView) {
-        this.playerModel = playerModel;
-        this.enemyModel = gameModel.getEnemyModel();
+    public GameController(ControllableGameModel gameModel, GameView gameView) {
+        this.gameModel = gameModel;
         this.gameView = gameView;
         this.gameLoop = new Timer(timeDelay, e -> clockTick());
         gameView.setFocusable(true);
@@ -37,8 +33,10 @@ public class GameController implements KeyListener {
         this.gameView.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                playerModel.updateWindowSize(gameView.getWidth(), gameView.getHeight());
-                playerModel.checkValidPosition();
+                gameView.updateWindowScale();
+                gameModel.scaleComponents(gameView.getWindowScale());
+                gameModel.updateWindowSize(gameView.getWidth(), gameView.getHeight());
+                gameModel.playerOutOfBounds();
             }
         });
     
@@ -48,13 +46,13 @@ public class GameController implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W){
-            movedUp = true;
+            playerUp = true;
         } else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S){
-            movedDown = true;
+            playerDown = true;
         } else if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A){
-            movedLeft = true;
+            playerLeft = true;
         } else if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D){
-            movedRight = true;
+            playerRight = true;
         } 
     }
 
@@ -65,41 +63,41 @@ public class GameController implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W){
-            movedUp = false;
+            playerUp = false;
         } else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S){
-            movedDown = false;
+            playerDown = false;
         } else if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A){
-            movedLeft = false;
+            playerLeft = false;
         } else if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D){
-            movedRight = false;
+            playerRight = false;
         }
     }
 
     private void clockTick() {
-       GameState gameState = playerModel.getCurrentState();
+       GameState gameState = gameModel.getCurrentState();
        if (gameState == GameState.ACTIVE) {
             gameView.repaint();
             handleKeyInputs();
-            if (counter % 20 == 0) {
-                enemyModel.getNextImage();
+            if (tickCounter % 20 == 0) {
+                gameModel.getEnemyModel().getNextImage();
             }
-            counter++;
+            tickCounter++;
        }
     }
 
     private void handleKeyInputs() {
-        if ((movedUp && movedDown) || (movedLeft && movedRight)) {
+        if ((playerUp && playerDown) || (playerLeft && playerRight)) {
             return;
         } 
         
-        if (movedUp) {
-            playerModel.movePlayerY(-1);
-        } if (movedDown) {
-            playerModel.movePlayerY(1);
-        } if (movedLeft) {
-            playerModel.movePlayerX(-1);
-        } if (movedRight) {
-            playerModel.movePlayerX(1);
+        if (playerUp) {
+            gameModel.movePlayer(0, -1);
+        } if (playerDown) {
+            gameModel.movePlayer(0,1);
+        } if (playerLeft) {
+            gameModel.movePlayer(-1, 0);
+        } if (playerRight) {
+            gameModel.movePlayer(1, 0);
         }
     }
 } 

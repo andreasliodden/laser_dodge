@@ -2,24 +2,19 @@ package no.uib.inf101.sample.model;
 
 import java.awt.image.BufferedImage;
 
-import no.uib.inf101.sample.controller.ControllablePlayerModel;
 import no.uib.inf101.sample.view.Inf101Graphics;
 
-public class PlayerModel implements ControllablePlayerModel {
+public class PlayerModel {
     private static final double START_X = 100;
     private static final double START_Y = 100;
     private static final int START_HEALTH = 100;
-    private static final int SPEED = 7;
 
     private double playerSpeed;
     private int playerHealth;
     private BufferedImage playerImage;
-    private GameState gameState;
-    private double playerX;
-    private double playerY;
-
-    private double windowWidth;
-    private double windowHeight;
+    private double playerX, playerY;
+    private double windowWidth, windowHeight;
+    private double playerWidth, playerHeight;
 
     private BufferedImage playerFrontLeft = Inf101Graphics.loadImageFromResources("/player_front_left.png");
     private BufferedImage playerFrontRight = Inf101Graphics.loadImageFromResources("/player_front_right.png");
@@ -30,9 +25,7 @@ public class PlayerModel implements ControllablePlayerModel {
         this.playerX = START_X;
         this.playerY = START_Y;
         this.playerHealth = START_HEALTH;
-        this.playerSpeed = SPEED;
         this.playerImage = playerFrontRight; 
-        this.gameState = GameState.ACTIVE;
     }
 
     public double getX() {
@@ -43,27 +36,24 @@ public class PlayerModel implements ControllablePlayerModel {
         return this.playerY;
     }
 
-    public double getSpeed() {
-        return this.playerSpeed;
-    }
-
-    public int getHealth()  {
-        return this.playerHealth;
-    }
-
     public BufferedImage getImage() {
         return this.playerImage;
     }
 
-    @Override
-    public void updateWindowSize(int width, int height) {
-        this.windowWidth = width;
-        this.windowHeight = height;
+    double getPlayerWidth() {
+        return this.playerWidth;
     }
 
-    @Override
-    public GameState getCurrentState() {
-        return this.gameState;
+    double getPlayerHeight() {
+        return this.playerHeight;
+    }
+
+    double getSpeed() {
+        return this.playerSpeed;
+    }
+
+    int getHealth()  {
+        return this.playerHealth;
     }
 
     private void setPlayerImage(int directionX, int directionY) {
@@ -94,8 +84,7 @@ public class PlayerModel implements ControllablePlayerModel {
         }
     }
 
-    @Override
-    public void movePlayerX(int direction) {
+    void moveX(int direction) {
         double nextX;
         if (direction == -1) {
             nextX = playerX - playerSpeed;
@@ -113,8 +102,7 @@ public class PlayerModel implements ControllablePlayerModel {
         
     }
 
-    @Override
-    public void movePlayerY(int direction) {
+    void moveY(int direction) {
         double nextY;
         if (direction == -1) {
             nextY = playerY - playerSpeed;
@@ -131,18 +119,17 @@ public class PlayerModel implements ControllablePlayerModel {
     }
 
     private boolean isLegalPosition(double x, double y) {
-        if (x < playerImage.getWidth() * 2 || x > windowWidth - playerImage.getWidth() * 2) {
+        if (x < playerWidth / 2 || x > windowWidth - playerWidth / 2) {
             return false;
-        } else if (y < playerImage.getHeight() * 2 || y > windowHeight - playerImage.getHeight() * 2) {
+        } else if (y < playerWidth / 2 || y > windowHeight - playerHeight / 2) {
             return false;
         }
         return true;
     } 
 
-    @Override
-    public void checkValidPosition() {
-        double maxX = windowWidth - playerImage.getHeight() * 2;
-        double maxY = windowHeight - playerImage.getHeight() * 2;
+    public void checkOutOfBounds() {
+        double maxX = windowWidth - playerWidth / 2;
+        double maxY = windowHeight - playerHeight / 2;
 
         if(!isLegalPosition(playerX, playerY)) {
             if(isLegalPosition(maxX, playerY)) {
@@ -154,5 +141,16 @@ public class PlayerModel implements ControllablePlayerModel {
                 playerY = maxY;
             }
         }
+    }
+
+    void updateWindowSize(double width, double height) {
+        this.windowWidth = width;
+        this.windowHeight = height;
+    }
+
+    void resizeComponents(double windowScale) {
+        this.playerWidth = playerImage.getWidth() * windowScale * 5;
+        this.playerHeight = playerImage.getHeight() * windowScale * 5;
+        this.playerSpeed = windowScale * 7;
     }
 }
