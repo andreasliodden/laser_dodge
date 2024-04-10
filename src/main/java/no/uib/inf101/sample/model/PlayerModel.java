@@ -8,6 +8,8 @@ public class PlayerModel {
     private static final double START_X = 100;
     private static final double START_Y = 100;
     private static final int START_HEALTH = 100;
+    private static final double SPEED_MULTIPLE = 7;
+    private static final double IMAGE_SCALE = 5;
 
     private double playerSpeed;
     private int playerHealth;
@@ -25,7 +27,7 @@ public class PlayerModel {
         this.playerX = START_X;
         this.playerY = START_Y;
         this.playerHealth = START_HEALTH;
-        this.playerImage = playerFrontRight; 
+        this.playerImage = playerFrontRight;
     }
 
     public double getX() {
@@ -48,14 +50,6 @@ public class PlayerModel {
         return this.playerHeight;
     }
 
-    double getSpeed() {
-        return this.playerSpeed;
-    }
-
-    int getHealth()  {
-        return this.playerHealth;
-    }
-
     private void setPlayerImage(int directionX, int directionY) {
         if (directionX == -1) {
             if (playerImage == playerFrontRight) {
@@ -68,54 +62,47 @@ public class PlayerModel {
                 playerImage = playerFrontRight;
             } else if (playerImage == playerBackLeft) {
                 playerImage = playerBackRight;
-            } 
+            }
         } else if (directionY == -1) {
             if (playerImage == playerFrontRight) {
                 playerImage = playerBackRight;
             } else if (playerImage == playerFrontLeft) {
                 playerImage = playerBackLeft;
-            } 
+            }
         } else if (directionY == 1) {
             if (playerImage == playerBackRight) {
                 playerImage = playerFrontRight;
             } else if (playerImage == playerBackLeft) {
                 playerImage = playerFrontLeft;
-            } 
+            }
         }
     }
 
-    void moveX(int direction) {
+    void move(int directionX, int directionY) {
         double nextX;
-        if (direction == -1) {
+        double nextY;
+        if (directionX == -1) {
             nextX = playerX - playerSpeed;
             if (isLegalPosition(nextX, playerY)) {
                 playerX = nextX;
-            } 
-        } else if (direction == 1) {
+            }
+        } else if (directionX == 1) {
             nextX = playerX + playerSpeed;
             if (isLegalPosition(nextX, playerY)) {
                 playerX = nextX;
-            } 
-        }
-        setPlayerImage(direction, 0);
-
-        
-    }
-
-    void moveY(int direction) {
-        double nextY;
-        if (direction == -1) {
+            }
+        } else if (directionY == -1) {
             nextY = playerY - playerSpeed;
             if (isLegalPosition(playerX, nextY)) {
                 playerY = nextY;
-            } 
-        } else if (direction == 1) {
+            }
+        } else if (directionY == 1) {
             nextY = playerY + playerSpeed;
             if (isLegalPosition(playerX, nextY)) {
                 playerY = nextY;
-            } 
+            }
         }
-        setPlayerImage(0, direction);
+        setPlayerImage(directionX, directionY);
     }
 
     private boolean isLegalPosition(double x, double y) {
@@ -125,14 +112,14 @@ public class PlayerModel {
             return false;
         }
         return true;
-    } 
+    }
 
     public void checkOutOfBounds() {
         double maxX = windowWidth - playerWidth / 2;
         double maxY = windowHeight - playerHeight / 2;
 
-        if(!isLegalPosition(playerX, playerY)) {
-            if(isLegalPosition(maxX, playerY)) {
+        if (!isLegalPosition(playerX, playerY)) {
+            if (isLegalPosition(maxX, playerY)) {
                 playerX = maxX;
             } else if (isLegalPosition(playerX, maxY)) {
                 playerY = maxY;
@@ -149,8 +136,8 @@ public class PlayerModel {
     }
 
     void resizeComponents(double windowScale) {
-        this.playerWidth = playerImage.getWidth() * windowScale * 5;
-        this.playerHeight = playerImage.getHeight() * windowScale * 5;
-        this.playerSpeed = windowScale * 7;
+        this.playerWidth = playerImage.getWidth() * windowScale * IMAGE_SCALE;
+        this.playerHeight = playerImage.getHeight() * windowScale * IMAGE_SCALE;
+        this.playerSpeed = windowScale * SPEED_MULTIPLE;
     }
 }

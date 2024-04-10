@@ -4,8 +4,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
-import no.uib.inf101.sample.model.PlayerModel;
-import no.uib.inf101.sample.model.EnemyModel;
 import no.uib.inf101.sample.model.GameModel;
 
 public class GameView extends JPanel {
@@ -49,13 +47,11 @@ public class GameView extends JPanel {
     }
 
     private void drawPlayer(Graphics2D g2) {
-        PlayerModel playerModel = gameModel.getPlayerModel();
-        Inf101Graphics.drawCenteredImage(g2, playerModel.getImage(), playerModel.getX(), playerModel.getY(), this.getWindowScale() * 5);
+        Inf101Graphics.drawCenteredImage(g2, gameModel.getPlayerImage(), gameModel.getPlayerX(), gameModel.getPlayerY(), this.getWindowScale() * 5);
     }
 
     private void drawEnemy(Graphics2D g2) {
-        EnemyModel enemyModel = gameModel.getEnemyModel();
-        Inf101Graphics.drawCenteredImage(g2, enemyModel.getImage(), this.getWidth() / 2, this.getHeight() / 2,  this.getWindowScale() * 5);
+        Inf101Graphics.drawCenteredImage(g2, gameModel.getEnemyImage(), this.getWidth() / 2, this.getHeight() / 2,  this.getWindowScale() * 5);
     }
 
 }

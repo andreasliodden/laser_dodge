@@ -1,5 +1,7 @@
 package no.uib.inf101.sample.model;
 
+import java.awt.image.BufferedImage;
+
 import no.uib.inf101.sample.controller.ControllableGameModel;
 
 public class GameModel implements ControllableGameModel {
@@ -14,17 +16,7 @@ public class GameModel implements ControllableGameModel {
     }
 
     @Override
-    public EnemyModel getEnemyModel() {
-        return enemyModel;
-    }
-
-    @Override
-    public PlayerModel getPlayerModel() {
-        return playerModel;
-    }
-
-    @Override
-    public void updateWindowSize(double windowWidth, double windowHeight) {
+    public void updateBounds(double windowWidth, double windowHeight) {
         playerModel.updateWindowSize(windowWidth, windowHeight);
     }
 
@@ -42,16 +34,12 @@ public class GameModel implements ControllableGameModel {
 
     @Override
     public void movePlayer(int x, int y) {
-        if(x == 0){
-            playerModel.moveY(y);
-        } else {
-            playerModel.moveX(x);
-        }
+        playerModel.move(x, y);
     }
 
 
     @Override
-    public void playerOutOfBounds() {
+    public void checkOutOfBounds() {
         playerModel.checkOutOfBounds();
     }
 
@@ -68,5 +56,26 @@ public class GameModel implements ControllableGameModel {
 
         return (playerEndX < enemyStartX || playerStartX > enemyEndX) 
             && (playerEndY < enemyStartY || playerStartY > enemyEndY);
+    }
+
+    @Override
+    public void getNextEnemyImage() {
+        enemyModel.getNextImage();
+    }
+
+    public double getPlayerX() {
+        return playerModel.getX();
+    }
+
+    public double getPlayerY() {
+        return playerModel.getY();
+    }
+
+    public BufferedImage getPlayerImage() {
+        return playerModel.getImage();
+    }
+
+    public BufferedImage getEnemyImage() {
+        return enemyModel.getImage();
     }
 }

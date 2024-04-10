@@ -35,8 +35,8 @@ public class GameController implements KeyListener {
             public void componentResized(ComponentEvent e) {
                 gameView.updateWindowScale();
                 gameModel.scaleComponents(gameView.getWindowScale());
-                gameModel.updateWindowSize(gameView.getWidth(), gameView.getHeight());
-                gameModel.playerOutOfBounds();
+                gameModel.updateBounds(gameView.getWidth(), gameView.getHeight());
+                gameModel.checkOutOfBounds();
             }
         });
     
@@ -79,7 +79,7 @@ public class GameController implements KeyListener {
             gameView.repaint();
             handleKeyInputs();
             if (tickCounter % 20 == 0) {
-                gameModel.getEnemyModel().getNextImage();
+                gameModel.getNextEnemyImage();
             }
             tickCounter++;
        }
