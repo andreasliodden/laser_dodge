@@ -17,7 +17,7 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Default location of the window
-        frame.setLocation(160, 90);
+        frame.setLocation(110, 40);
         frame.setContentPane(gameView);
         frame.pack();
         frame.setVisible(true);

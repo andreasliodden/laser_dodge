@@ -1,29 +1,19 @@
 package no.uib.inf101.sample.model;
 
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import no.uib.inf101.sample.controller.ControllableGameModel;
 
 public class GameModel implements ControllableGameModel {
-    private EnemyModel enemyModel;
-    private PlayerModel playerModel;
+    private Enemy enemy;
+    private Player player;
     private GameState gameState;
 
     public GameModel() {
-        this.enemyModel = new EnemyModel();
-        this.playerModel = new PlayerModel();
+        this.enemy = new Enemy();
+        this.player = new Player();
         this.gameState = GameState.ACTIVE;
-    }
-
-    @Override
-    public void updateBounds(double windowWidth, double windowHeight) {
-        playerModel.updateWindowSize(windowWidth, windowHeight);
-    }
-
-    @Override
-    public void scaleComponents(double windowScale) {
-        enemyModel.resizeComponents(windowScale);
-        playerModel.resizeComponents(windowScale);
     }
 
 
@@ -33,49 +23,46 @@ public class GameModel implements ControllableGameModel {
     }
 
     @Override
-    public void movePlayer(int x, int y) {
-        playerModel.move(x, y);
-    }
-
-
-    @Override
-    public void checkOutOfBounds() {
-        playerModel.checkOutOfBounds();
-    }
-
-    private boolean playerEnemyCollision() {
-        double playerStartX = playerModel.getX() - playerModel.getPlayerWidth() / 2;
-        double playerEndX = playerStartX + playerModel.getPlayerWidth();
-        double playerStartY = playerModel.getY() - playerModel.getPlayerHeight() / 2;
-        double playerEndY = playerStartY + playerModel.getPlayerHeight();
-
-        double enemyStartX = enemyModel.getX() - enemyModel.getImageWidth() / 2;
-        double enemyEndX = enemyStartX + enemyModel.getImageWidth();
-        double enemyStartY = enemyModel.getY() - enemyModel.getImageHeight() / 2;
-        double enemyEndY = enemyStartY + enemyModel.getImageHeight();
-
-        return (playerEndX < enemyStartX || playerStartX > enemyEndX) 
-            && (playerEndY < enemyStartY || playerStartY > enemyEndY);
+    public void movePlayer(int deltaX, int deltaY) {
+        double nextX = player.getNextX(deltaX);
+        double nextY = player.getNextY(deltaY);
+        if (!playerEnemyCollision(nextX, nextY)) {
+            player.move(deltaX, deltaY);
+        }
     }
 
     @Override
     public void getNextEnemyImage() {
-        enemyModel.getNextImage();
+        enemy.getNextImage();
     }
 
     public double getPlayerX() {
-        return playerModel.getX();
+        return player.getX();
     }
 
     public double getPlayerY() {
-        return playerModel.getY();
+        return player.getY();
     }
 
     public BufferedImage getPlayerImage() {
-        return playerModel.getImage();
+        return player.getImage();
     }
 
     public BufferedImage getEnemyImage() {
-        return enemyModel.getImage();
+        return enemy.getImage();
+    }
+
+    public double getEnemyX() {
+        return enemy.getX();
+    }
+
+    public double getEnemyY() {
+        return enemy.getY();
+    }
+
+
+    private boolean playerEnemyCollision(double playerX, double playerY) {
+        Rectangle2D restricedArea = enemy.getRestricedArea();
+        return restricedArea.contains(playerX, playerY);
     }
 }

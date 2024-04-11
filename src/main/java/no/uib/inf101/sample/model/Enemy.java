@@ -1,33 +1,36 @@
 package no.uib.inf101.sample.model;
 
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import no.uib.inf101.sample.view.GameView;
 import no.uib.inf101.sample.view.Inf101Graphics;
 
-public class EnemyModel {
+public class Enemy {
+    private static final double MARGIN_X = 0.06;
+    private static final double MARGIN_Y = 0.12;
     private double enemyX, enemyY;
     private BufferedImage enemyImage;
-    private double imageWidth, imageHeight;
+    private Rectangle2D restrictedArea;
 
     private BufferedImage firstCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy1.png");
     private BufferedImage secondCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy2.png");
 
-    public EnemyModel() {
+    public Enemy() {
+        this.enemyX = 0.50;
+        this.enemyY = 0.50;
         this.enemyImage = firstCPU;
-    }
-
-    public void setPosition(GameView gameView) {
-        this.enemyX = (gameView.getWidth() - enemyImage.getWidth()) / 2;
-        this.enemyY = (gameView.getHeight() - enemyImage.getHeight()) / 2;
+        this.restrictedArea = new Rectangle2D.Double(
+            enemyX - MARGIN_X, enemyY - MARGIN_Y, 
+            MARGIN_X * 2, MARGIN_Y * 2
+        );
     }
 
     public double getX() {
-        return this.enemyX;
+        return enemyX;
     }
 
     public double getY() {
-        return this.enemyY;
+        return enemyY;
     }
 
     public BufferedImage getImage() {
@@ -42,19 +45,7 @@ public class EnemyModel {
         }
     }
 
-    double getImageWidth() {
-        return this.imageWidth;
+    public Rectangle2D getRestricedArea() {
+        return this.restrictedArea;
     }
-
-    double getImageHeight() {
-        return this.imageHeight;
-    }
-
-    void resizeComponents(double windowScale) {
-        this.imageWidth = getImageWidth() * windowScale * 5;
-        this.imageHeight = getImageHeight() * windowScale * 5;
-    }
-
-
-
 }

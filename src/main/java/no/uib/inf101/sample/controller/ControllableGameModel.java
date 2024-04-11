@@ -7,11 +7,5 @@ public interface ControllableGameModel {
 
     void movePlayer(int x, int y);
 
-    void checkOutOfBounds();
-
-    void scaleComponents(double windowScale);
-
-    void updateBounds(double windowWidth, double windowHeight);
-
     void getNextEnemyImage();
 }
