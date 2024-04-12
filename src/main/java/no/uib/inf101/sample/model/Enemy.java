@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 import no.uib.inf101.sample.view.Inf101Graphics;
 
 public class Enemy {
-    private static final double MARGIN_X = 0.06;
-    private static final double MARGIN_Y = 0.12;
+    private static final double MARGIN_X = 0.05;
+    private static final double MARGIN_Y = 0.1;
     private double enemyX, enemyY;
     private BufferedImage enemyImage;
     private Rectangle2D restrictedArea;
@@ -15,7 +15,7 @@ public class Enemy {
     private BufferedImage firstCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy1.png");
     private BufferedImage secondCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy2.png");
 
-    public Enemy() {
+    Enemy() {
         this.enemyX = 0.50;
         this.enemyY = 0.50;
         this.enemyImage = firstCPU;
@@ -25,19 +25,19 @@ public class Enemy {
         );
     }
 
-    public double getX() {
+    double getX() {
         return enemyX;
     }
 
-    public double getY() {
+    double getY() {
         return enemyY;
     }
 
-    public BufferedImage getImage() {
+    BufferedImage getImage() {
         return this.enemyImage;
     }
 
-    public void getNextImage(){
+    void getNextImage(){
         if (enemyImage == firstCPU) {
             enemyImage = secondCPU;
         } else {
@@ -45,7 +45,7 @@ public class Enemy {
         }
     }
 
-    public Rectangle2D getRestricedArea() {
+    Rectangle2D getRestricedArea() {
         return this.restrictedArea;
     }
 }

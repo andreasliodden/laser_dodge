@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 import no.uib.inf101.sample.view.Inf101Graphics;
 
 public class Player {
-    private static final double START_X = 0;
-    private static final double START_Y = 0;
+    private static final double START_X = 0.10;
+    private static final double START_Y = 0.10;
     private static final double MAX_X = 1;
     private static final double MAX_Y = 1;
 
@@ -19,26 +19,26 @@ public class Player {
     private BufferedImage playerBackLeft = Inf101Graphics.loadImageFromResources("/player_back_left.png");
     private BufferedImage playerBackRight = Inf101Graphics.loadImageFromResources("/player_back_right.png");
 
-    public Player() {
+    Player() {
         this.playerX = START_X;
         this.playerY = START_Y;
         this.playerImage = playerFrontRight;
         this.playerSpeed = 6;
     }
 
-    public double getX() {
+    double getX() {
         return this.playerX;
     }
 
-    public double getY() {
+    double getY() {
         return this.playerY;
     }
 
-    public BufferedImage getImage() {
+    BufferedImage getImage() {
         return this.playerImage;
     }
 
-    public double getPlayerSpeed() {
+    double getPlayerSpeed() {
         return this.playerSpeed;
     }
 
@@ -70,15 +70,15 @@ public class Player {
         }
     }
 
-    public double getNextX(int deltaX) {
+    double getNextX(int deltaX) {
         return playerX + deltaX * 0.001 * playerSpeed;
     }
 
-    public double getNextY(int deltaY) {
+    double getNextY(int deltaY) {
         return playerY + deltaY * 0.001 * playerSpeed;
     }
 
-    public void move(int deltaX, int deltaY) {
+    void move(int deltaX, int deltaY) {
         double nextX = getNextX(deltaX);
         double nextY = getNextY(deltaY);
         if (isLegalPosition(nextX, nextY)) {
@@ -89,6 +89,6 @@ public class Player {
     }
 
     private boolean isLegalPosition(double x, double y) {
-        return (x >= 0 && x <= 1 && y >= 0 && y <= 1);
+        return (x >= 0 && x <= MAX_X && y >= 0 && y <= MAX_Y);
     }
 }

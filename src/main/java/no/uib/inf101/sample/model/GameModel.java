@@ -4,13 +4,17 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import no.uib.inf101.sample.controller.ControllableGameModel;
+import no.uib.inf101.sample.model.projectile.Projectile;
+import no.uib.inf101.sample.model.projectile.ProjectileFactory;
 
 public class GameModel implements ControllableGameModel {
     private Enemy enemy;
     private Player player;
+    private Projectile projectile;
     private GameState gameState;
 
-    public GameModel() {
+    public GameModel(ProjectileFactory factory) {
+        this.projectile = factory.getNext();
         this.enemy = new Enemy();
         this.player = new Player();
         this.gameState = GameState.ACTIVE;
@@ -60,9 +64,22 @@ public class GameModel implements ControllableGameModel {
         return enemy.getY();
     }
 
+    public double getProjectileX() {
+        return projectile.getX();
+    }
+
+    public double getProjectileY() {
+        return projectile.getY();
+    }
+
 
     private boolean playerEnemyCollision(double playerX, double playerY) {
         Rectangle2D restricedArea = enemy.getRestricedArea();
         return restricedArea.contains(playerX, playerY);
+    }
+
+    @Override
+    public void clockTick() {
+        projectile.move();
     }
 }

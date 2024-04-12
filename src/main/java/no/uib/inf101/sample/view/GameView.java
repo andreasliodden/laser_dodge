@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import no.uib.inf101.sample.model.GameModel;
@@ -15,7 +16,7 @@ public class GameView extends JPanel {
 
     private ColorTheme colorTheme;
     private GameModel gameModel;
-
+    private double windowRatio;
 
     public GameView(GameModel gameModel){
         this.gameModel = gameModel;
@@ -30,28 +31,46 @@ public class GameView extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        
+
         drawPlayer(g2);
+        drawProjectile(g2);
         drawEnemy(g2);
+    }
+
+    public void updateWindowRatio() {
+        windowRatio = this.getWidth() / this.getHeight();
     }
 
     private void drawPlayer(Graphics2D g2) {
         BufferedImage playerImage = gameModel.getPlayerImage();
         int imageWidth = (int) (playerImage.getWidth() * this.getWidth() * IMAGE_SCALE) / START_WIDTH;
-        int imageHeight = (int) ((playerImage.getHeight() * this.getHeight() * IMAGE_SCALE)) / START_HEIGHT;
-        int playerX = (int) (gameModel.getPlayerX() * (this.getWidth() - imageWidth));
-        int playerY = (int) (gameModel.getPlayerY() * (this.getHeight() - imageHeight));
-        g2.drawImage(playerImage, playerX, playerY, imageWidth, imageHeight, null);
+        int imageHeight = (int) (imageWidth * windowRatio);
+        int imageX = (int) (gameModel.getPlayerX() * this.getWidth());
+        int imageY = (int) (gameModel.getPlayerY() * this.getHeight());
+        g2.drawImage(playerImage, imageX, imageY, imageWidth, imageHeight, null);
     }
 
     private void drawEnemy(Graphics2D g2) {
         BufferedImage enemyImage = gameModel.getEnemyImage();
         int imageWidth = (int) (enemyImage.getWidth() * this.getWidth() * IMAGE_SCALE) / START_WIDTH;
-        int imageHeight = (int) (enemyImage.getHeight() * this.getHeight() * IMAGE_SCALE) / START_HEIGHT;
-        int enemyX = (int) (gameModel.getEnemyX() * (this.getWidth() - imageWidth));
-        int enemyY = (int) (gameModel.getEnemyY() * (this.getHeight() - imageHeight));
+        int imageHeight = (int) (imageWidth * windowRatio);
+        int imageX = (int) (gameModel.getEnemyX() * (this.getWidth() - imageWidth));
+        int imageY = (int) (gameModel.getEnemyY() * (this.getHeight() - imageHeight));
 
-        g2.drawImage(enemyImage, enemyX, enemyY, imageWidth, imageHeight, null);
+        g2.drawImage(enemyImage, imageX, imageY, imageWidth, imageHeight, null);
+    }
+
+    private void drawProjectile(Graphics2D g2) {
+        double width = 0.02 * this.getWidth();
+        double height = width * windowRatio;
+        Rectangle2D projectileBox = new Rectangle2D.Double(
+                (gameModel.getProjectileX() * this.getWidth()) - (width / 2), 
+                (gameModel.getProjectileY() * this.getHeight()) - (height / 2),
+                width, 
+                height);
+    
+        g2.setColor(Color.RED);
+        g2.fill(projectileBox);
     }
 
 }

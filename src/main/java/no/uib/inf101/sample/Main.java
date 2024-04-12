@@ -4,12 +4,15 @@ import javax.swing.JFrame;
 
 import no.uib.inf101.sample.controller.GameController;
 import no.uib.inf101.sample.model.GameModel;
+import no.uib.inf101.sample.model.projectile.RandomProjectileFactory;
+import no.uib.inf101.sample.model.projectile.ProjectileFactory;
 import no.uib.inf101.sample.view.GameView;
 
 public class Main {
     private static final String WINDOW_TITLE = "INF101 - TETRIS";
     public static void main(String[] args) {
-        GameModel gameModel = new GameModel();
+        ProjectileFactory factory = new RandomProjectileFactory();
+        GameModel gameModel = new GameModel(factory);
         GameView gameView = new GameView(gameModel);
         new GameController(gameModel, gameView);
     

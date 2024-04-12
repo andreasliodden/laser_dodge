@@ -8,4 +8,6 @@ public interface ControllableGameModel {
     void movePlayer(int x, int y);
 
     void getNextEnemyImage();
+
+    void clockTick();
 }
