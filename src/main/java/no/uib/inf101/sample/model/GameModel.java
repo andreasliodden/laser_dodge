@@ -2,6 +2,7 @@ package no.uib.inf101.sample.model;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import no.uib.inf101.sample.controller.ControllableGameModel;
 import no.uib.inf101.sample.model.projectile.Projectile;
@@ -10,11 +11,12 @@ import no.uib.inf101.sample.model.projectile.ProjectileFactory;
 public class GameModel implements ControllableGameModel {
     private Enemy enemy;
     private Player player;
-    private Projectile projectile;
+    private ArrayList<Projectile> projectiles = new ArrayList<>();
+    private ProjectileFactory factory;
     private GameState gameState;
 
     public GameModel(ProjectileFactory factory) {
-        this.projectile = factory.getNext();
+        this.factory = factory;
         this.enemy = new Enemy();
         this.player = new Player();
         this.gameState = GameState.ACTIVE;
@@ -64,12 +66,16 @@ public class GameModel implements ControllableGameModel {
         return enemy.getY();
     }
 
-    public double getProjectileX() {
-        return projectile.getX();
+    public double getProjectileX(int index) {
+        return projectiles.get(index).getX();
     }
 
-    public double getProjectileY() {
-        return projectile.getY();
+    public double getProjectileY(int index) {
+        return projectiles.get(index).getY();
+    }
+
+    public int getNumberOfProjectiles() {
+        return projectiles.size();
     }
 
 
@@ -80,6 +86,22 @@ public class GameModel implements ControllableGameModel {
 
     @Override
     public void clockTick() {
-        projectile.move();
+        for (int i = 0; i < projectiles.size(); i++) {
+            Projectile projectile = projectiles.get(i);
+            projectile.move();
+            if (playerProjectileCollision(projectile)) {
+                projectiles.remove(projectile);
+                i--;
+            }
+        }
+    }
+
+    private boolean playerProjectileCollision(Projectile projectile) {
+        return Math.abs(projectile.getX() - player.getX()) < 0.015 && Math.abs(projectile.getY() - player.getY()) < 0.015;
+    }
+
+    @Override
+    public void addProjectile() {
+        projectiles.add(factory.getNext());
     }
 }

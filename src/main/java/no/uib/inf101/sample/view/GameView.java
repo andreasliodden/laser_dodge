@@ -16,7 +16,10 @@ public class GameView extends JPanel {
 
     private ColorTheme colorTheme;
     private GameModel gameModel;
+
     private double windowRatio;
+
+
 
     public GameView(GameModel gameModel){
         this.gameModel = gameModel;
@@ -45,32 +48,41 @@ public class GameView extends JPanel {
         BufferedImage playerImage = gameModel.getPlayerImage();
         int imageWidth = (int) (playerImage.getWidth() * this.getWidth() * IMAGE_SCALE) / START_WIDTH;
         int imageHeight = (int) (imageWidth * windowRatio);
-        int imageX = (int) (gameModel.getPlayerX() * this.getWidth());
-        int imageY = (int) (gameModel.getPlayerY() * this.getHeight());
-        g2.drawImage(playerImage, imageX, imageY, imageWidth, imageHeight, null);
+        int playerX = (int) (gameModel.getPlayerX() * (this.getWidth() - imageWidth));
+        int playerY = (int) (gameModel.getPlayerY() * (this.getHeight() - imageHeight));
+        g2.drawImage(playerImage, playerX, playerY, imageWidth, imageHeight, null);
     }
 
     private void drawEnemy(Graphics2D g2) {
         BufferedImage enemyImage = gameModel.getEnemyImage();
         int imageWidth = (int) (enemyImage.getWidth() * this.getWidth() * IMAGE_SCALE) / START_WIDTH;
         int imageHeight = (int) (imageWidth * windowRatio);
-        int imageX = (int) (gameModel.getEnemyX() * (this.getWidth() - imageWidth));
-        int imageY = (int) (gameModel.getEnemyY() * (this.getHeight() - imageHeight));
+        int enemyX = (int) (gameModel.getEnemyX() * (this.getWidth() - imageWidth));
+        int enemyY = (int) (gameModel.getEnemyY() * (this.getHeight() - imageHeight));
 
-        g2.drawImage(enemyImage, imageX, imageY, imageWidth, imageHeight, null);
+        g2.drawImage(enemyImage, enemyX, enemyY, imageWidth, imageHeight, null);
     }
 
     private void drawProjectile(Graphics2D g2) {
+        g2.setColor(Color.RED);
         double width = 0.02 * this.getWidth();
         double height = width * windowRatio;
-        Rectangle2D projectileBox = new Rectangle2D.Double(
-                (gameModel.getProjectileX() * this.getWidth()) - (width / 2), 
-                (gameModel.getProjectileY() * this.getHeight()) - (height / 2),
-                width, 
-                height);
-    
-        g2.setColor(Color.RED);
-        g2.fill(projectileBox);
+        Rectangle2D projectileBox;
+        
+        for (int i = 0; i < gameModel.getNumberOfProjectiles(); i++) {
+            projectileBox = new Rectangle2D.Double(
+                    gameModel.getProjectileX(i) * (this.getWidth() - width), 
+                    gameModel.getProjectileY(i) * (this.getHeight() - height),
+                    width, height
+                );
+            g2.fill(projectileBox);
+        }
+
     }
 
 }
+
+
+
+
+

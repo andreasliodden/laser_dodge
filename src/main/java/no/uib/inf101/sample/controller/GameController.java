@@ -75,7 +75,9 @@ public class GameController implements KeyListener {
             gameModel.clockTick();
             if (tickCounter % 20 == 0) {
                 gameModel.getNextEnemyImage();
-            }
+            } if (tickCounter % 500 == 0) {
+                gameModel.addProjectile();
+            } 
             tickCounter++;
        }
     }

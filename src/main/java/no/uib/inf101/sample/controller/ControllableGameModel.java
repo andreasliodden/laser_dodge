@@ -10,4 +10,6 @@ public interface ControllableGameModel {
     void getNextEnemyImage();
 
     void clockTick();
+
+    void addProjectile();
 }
