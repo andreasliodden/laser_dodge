@@ -97,7 +97,7 @@ public class GameModel implements ControllableGameModel {
     }
 
     private boolean playerProjectileCollision(Projectile projectile) {
-        return Math.abs(projectile.getX() - player.getX()) < 0.015 && Math.abs(projectile.getY() - player.getY()) < 0.015;
+        return Math.abs(projectile.getX() - player.getX()) < 0.02 && Math.abs(projectile.getY() - player.getY()) < 0.02;
     }
 
     @Override
