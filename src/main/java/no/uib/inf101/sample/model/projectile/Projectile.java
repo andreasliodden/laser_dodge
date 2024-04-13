@@ -1,10 +1,14 @@
 package no.uib.inf101.sample.model.projectile;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 public class Projectile {
     private double y;
     private double x;
     private double velocityX;
     private double velocityY;
+    private ArrayList<Point2D> trail = new ArrayList<>();
     
     private Projectile(double velocityX, double velocityY) {
         this.x = 0.5;
@@ -20,6 +24,12 @@ public class Projectile {
     public void move() {
         double nextX = x + velocityX;
         double nextY = y + velocityY;
+
+        trail.add(new Point2D.Double(x, y));
+
+        if (trail.size() > 40) {
+            trail.remove(0);
+        }
 
         if(isLegalPosition(nextX, nextY)) {
             x = nextX;
@@ -43,5 +53,9 @@ public class Projectile {
 
     public double getY() {
         return this.y;
+    }
+
+    public ArrayList<Point2D> getTrail() {
+        return this.trail;
     }
 }

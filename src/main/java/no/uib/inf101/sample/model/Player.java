@@ -13,6 +13,7 @@ public class Player {
     private BufferedImage playerImage;
     private double playerX, playerY;
     private double playerSpeed;
+    private int playerHealth;
 
     private BufferedImage playerFrontLeft = Inf101Graphics.loadImageFromResources("/player_front_left.png");
     private BufferedImage playerFrontRight = Inf101Graphics.loadImageFromResources("/player_front_right.png");
@@ -24,6 +25,7 @@ public class Player {
         this.playerY = START_Y;
         this.playerImage = playerFrontRight;
         this.playerSpeed = 6;
+        this.playerHealth = 50;
     }
 
     double getX() {
@@ -40,6 +42,10 @@ public class Player {
 
     double getPlayerSpeed() {
         return this.playerSpeed;
+    }
+
+    int getPlayerHealth() {
+        return this.playerHealth;
     }
 
     private void setPlayerImage(int deltaX, int deltaY) {
@@ -90,5 +96,11 @@ public class Player {
 
     private boolean isLegalPosition(double x, double y) {
         return (x >= 0 && x <= MAX_X && y >= 0 && y <= MAX_Y);
+    }
+
+    void isHit() {
+        if (playerHealth > 0) {
+            this.playerHealth -= 10;
+        }
     }
 }

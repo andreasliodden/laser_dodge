@@ -1,5 +1,6 @@
 package no.uib.inf101.sample.model;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -78,6 +79,10 @@ public class GameModel implements ControllableGameModel {
         return projectiles.size();
     }
 
+    public int getPlayerHealth() {
+        return player.getPlayerHealth();
+    }
+
 
     private boolean playerEnemyCollision(double playerX, double playerY) {
         Rectangle2D restricedArea = enemy.getRestricedArea();
@@ -90,6 +95,7 @@ public class GameModel implements ControllableGameModel {
             Projectile projectile = projectiles.get(i);
             projectile.move();
             if (playerProjectileCollision(projectile)) {
+                player.isHit();
                 projectiles.remove(projectile);
                 i--;
             }
@@ -103,5 +109,9 @@ public class GameModel implements ControllableGameModel {
     @Override
     public void addProjectile() {
         projectiles.add(factory.getNext());
+    }
+
+    public ArrayList<Point2D> getProjectileTrail(int index) {
+        return projectiles.get(index).getTrail();
     }
 }
