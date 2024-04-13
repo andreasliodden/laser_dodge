@@ -108,10 +108,18 @@ public class GameModel implements ControllableGameModel {
 
     @Override
     public void addProjectile() {
+        enemy.hasShot();
         projectiles.add(factory.getNext());
     }
 
     public ArrayList<Point2D> getProjectileTrail(int index) {
         return projectiles.get(index).getTrail();
     }
+
+    @Override
+    public void setEnemyStatus() {
+        enemy.setReadyToShoot();
+    }
+
+    
 }

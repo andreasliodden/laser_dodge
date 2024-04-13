@@ -2,6 +2,7 @@ package no.uib.inf101.sample.model;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
 import no.uib.inf101.sample.view.Inf101Graphics;
 
@@ -11,9 +12,11 @@ public class Enemy {
     private double enemyX, enemyY;
     private BufferedImage enemyImage;
     private Rectangle2D restrictedArea;
+    private boolean readyToShoot;
 
     private BufferedImage firstCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy1.png");
     private BufferedImage secondCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy2.png");
+    private BufferedImage readyCPU = Inf101Graphics.loadImageFromResources("/cpu_ready.png"); 
 
     Enemy() {
         this.enemyX = 0.50;
@@ -23,6 +26,7 @@ public class Enemy {
             enemyX - MARGIN_X, enemyY - MARGIN_Y, 
             MARGIN_X * 2, MARGIN_Y * 2
         );
+        this.readyToShoot = false;
     }
 
     double getX() {
@@ -38,7 +42,10 @@ public class Enemy {
     }
 
     void getNextImage(){
-        if (enemyImage == firstCPU) {
+        if (readyToShoot) {
+            enemyImage = readyCPU;
+        }
+        else if (enemyImage == firstCPU) {
             enemyImage = secondCPU;
         } else {
             enemyImage = firstCPU;
@@ -47,5 +54,14 @@ public class Enemy {
 
     Rectangle2D getRestricedArea() {
         return this.restrictedArea;
+    }
+
+    void hasShot() {
+        readyToShoot = false;
+        getNextImage();
+    }
+
+    void setReadyToShoot() {
+        readyToShoot = true;
     }
 }

@@ -12,4 +12,6 @@ public interface ControllableGameModel {
     void clockTick();
 
     void addProjectile();
+
+    void setEnemyStatus();
 }
