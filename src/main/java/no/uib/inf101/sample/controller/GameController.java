@@ -73,12 +73,13 @@ public class GameController implements KeyListener {
             gameView.repaint();
             handleKeyInputs();
             gameModel.clockTick();
-            if (tickCounter % 400 == 0) {
-                gameModel.setEnemyStatus();
-            }
             if (tickCounter % 20 == 0) {
                 gameModel.updateEnemyImage();
-            } if (tickCounter % 500 == 0) {
+            } 
+            if (tickCounter % 400 == 0) {
+                gameModel.setEnemyStatus();
+            } 
+            if (tickCounter % 500 == 0) {
                 gameModel.addProjectile();
             } 
             tickCounter++;

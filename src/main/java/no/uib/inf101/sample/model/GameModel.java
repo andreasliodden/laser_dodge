@@ -41,7 +41,7 @@ public class GameModel implements ControllableGameModel {
 
     @Override
     public void updateEnemyImage() {
-        enemy.getNextImage();
+        enemy.updateImage();
     }
 
     public double getPlayerX() {

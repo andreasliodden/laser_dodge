@@ -41,7 +41,7 @@ public class Enemy {
         return this.enemyImage;
     }
 
-    void getNextImage(){
+    void updateImage(){
         if (readyToShoot) {
             enemyImage = readyCPU;
         } else if (enemyImage == firstCPU) {
@@ -57,7 +57,7 @@ public class Enemy {
 
     void hasShot() {
         readyToShoot = false;
-        getNextImage();
+        updateImage();
     }
 
     void setReadyToShoot() {

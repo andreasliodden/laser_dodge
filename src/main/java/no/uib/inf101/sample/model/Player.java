@@ -130,6 +130,18 @@ public class Player {
         if (isLegalPosition(nextX, nextY)) {
             playerX = nextX;
             playerY = nextY;
+        } else if (isLegalPosition(nextX, playerY)) {
+            if (deltaY == 1) {
+                playerY = 1;
+            } else {
+                playerY = 0;
+            }
+        } else {
+            if (deltaX == 1) {
+                playerX = 1;
+            } else {
+                playerX = 0;
+            }
         }
 
         if (!isHit) {
