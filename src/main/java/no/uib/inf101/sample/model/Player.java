@@ -2,30 +2,25 @@ package no.uib.inf101.sample.model;
 
 import java.awt.image.BufferedImage;
 
-import no.uib.inf101.sample.view.Inf101Graphics;
-
 public class Player {
     private static final double START_X = 0.10;
     private static final double START_Y = 0.10;
     private static final double MAX_X = 1;
     private static final double MAX_Y = 1;
 
-    private BufferedImage playerImage;
     private double playerX, playerY;
     private double playerSpeed;
     private int playerHealth;
-
-    private BufferedImage playerFrontLeft = Inf101Graphics.loadImageFromResources("/player_front_left.png");
-    private BufferedImage playerFrontRight = Inf101Graphics.loadImageFromResources("/player_front_right.png");
-    private BufferedImage playerBackLeft = Inf101Graphics.loadImageFromResources("/player_back_left.png");
-    private BufferedImage playerBackRight = Inf101Graphics.loadImageFromResources("/player_back_right.png");
+    private PlayerState playerState;
+    private boolean isHit;
 
     Player() {
         this.playerX = START_X;
         this.playerY = START_Y;
-        this.playerImage = playerFrontRight;
-        this.playerSpeed = 6;
+        this.playerState = PlayerState.FRONT_RIGHT;
+        this.playerSpeed = 7;
         this.playerHealth = 50;
+        this.isHit = false;
     }
 
     double getX() {
@@ -37,7 +32,7 @@ public class Player {
     }
 
     BufferedImage getImage() {
-        return this.playerImage;
+        return playerState.getImage();
     }
 
     double getPlayerSpeed() {
@@ -48,30 +43,75 @@ public class Player {
         return this.playerHealth;
     }
 
-    private void setPlayerImage(int deltaX, int deltaY) {
-        if (deltaX == -1) {
-            if (playerImage == playerFrontRight) {
-                playerImage = playerFrontLeft;
-            } else if (playerImage == playerBackRight) {
-                playerImage = playerBackLeft;
+    private void updatePlayerState(int deltaX, int deltaY) {
+        if (deltaX == 0 && deltaY == 0) {
+            switch (playerState) {
+                case FRONT_LEFT:
+                    playerState = PlayerState.HURT_FRONT_LEFT;
+                    break;
+                case FRONT_RIGHT:
+                    playerState = PlayerState.HURT_FRONT_RIGHT;
+                    break;
+                case BACK_LEFT:
+                    playerState = PlayerState.HURT_BACK_LEFT;
+                    break;
+                case BACK_RIGHT:
+                    playerState = PlayerState.HURT_BACK_RIGHT;
+                    break;
+                default: 
+                    break;
+            }
+        } else if (deltaX == -1) {
+            switch (playerState) {
+                case FRONT_RIGHT:
+                case HURT_FRONT_RIGHT: 
+                    playerState = PlayerState.FRONT_LEFT;
+                    break;
+                case BACK_RIGHT:
+                case HURT_BACK_RIGHT:
+                    playerState = PlayerState.BACK_LEFT;
+                    break;
+                default: 
+                    break; 
             }
         } else if (deltaX == 1) {
-            if (playerImage == playerFrontLeft) {
-                playerImage = playerFrontRight;
-            } else if (playerImage == playerBackLeft) {
-                playerImage = playerBackRight;
+            switch (playerState) {
+                case FRONT_LEFT:
+                case HURT_FRONT_LEFT: 
+                    playerState = PlayerState.FRONT_RIGHT;
+                    break;
+                case BACK_LEFT:
+                case HURT_BACK_LEFT:
+                    playerState = PlayerState.BACK_RIGHT;
+                    break;
+                default: 
+                    break; 
             }
         } else if (deltaY == -1) {
-            if (playerImage == playerFrontRight) {
-                playerImage = playerBackRight;
-            } else if (playerImage == playerFrontLeft) {
-                playerImage = playerBackLeft;
+            switch (playerState) {
+                case FRONT_LEFT:
+                case HURT_FRONT_LEFT: 
+                    playerState = PlayerState.BACK_LEFT;
+                    break;
+                case FRONT_RIGHT:
+                case HURT_FRONT_RIGHT:
+                    playerState = PlayerState.BACK_RIGHT;
+                    break;
+                default: 
+                    break; 
             }
         } else if (deltaY == 1) {
-            if (playerImage == playerBackRight) {
-                playerImage = playerFrontRight;
-            } else if (playerImage == playerBackLeft) {
-                playerImage = playerFrontLeft;
+            switch (playerState) {
+                case BACK_LEFT:
+                case HURT_BACK_LEFT: 
+                    playerState = PlayerState.FRONT_LEFT;
+                    break;
+                case BACK_RIGHT:
+                case HURT_BACK_RIGHT:
+                    playerState = PlayerState.FRONT_RIGHT;
+                    break;
+                default: 
+                    break; 
             }
         }
     }
@@ -91,16 +131,22 @@ public class Player {
             playerX = nextX;
             playerY = nextY;
         }
-        setPlayerImage(deltaX, deltaY);
+
+        if (!isHit) {
+            updatePlayerState(deltaX, deltaY);
+        }
+        isHit = false;
     }
 
     private boolean isLegalPosition(double x, double y) {
         return (x >= 0 && x <= MAX_X && y >= 0 && y <= MAX_Y);
     }
 
-    void isHit() {
+    void registerHit() {
         if (playerHealth > 0) {
-            this.playerHealth -= 10;
+            playerHealth -= 10;
         }
+        isHit = true;
+        updatePlayerState(0, 0);
     }
 }

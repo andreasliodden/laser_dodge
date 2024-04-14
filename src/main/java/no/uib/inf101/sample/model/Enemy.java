@@ -2,21 +2,21 @@ package no.uib.inf101.sample.model;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 import no.uib.inf101.sample.view.Inf101Graphics;
 
 public class Enemy {
     private static final double MARGIN_X = 0.05;
     private static final double MARGIN_Y = 0.1;
-    private double enemyX, enemyY;
+    
+    private final double enemyX, enemyY;
+    private final Rectangle2D restrictedArea;
     private BufferedImage enemyImage;
-    private Rectangle2D restrictedArea;
     private boolean readyToShoot;
 
-    private BufferedImage firstCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy1.png");
-    private BufferedImage secondCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy2.png");
-    private BufferedImage readyCPU = Inf101Graphics.loadImageFromResources("/cpu_ready.png"); 
+    private final static BufferedImage firstCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy1.png");
+    private final static BufferedImage secondCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy2.png");
+    private final static BufferedImage readyCPU = Inf101Graphics.loadImageFromResources("/cpu_ready.png"); 
 
     Enemy() {
         this.enemyX = 0.50;
@@ -30,11 +30,11 @@ public class Enemy {
     }
 
     double getX() {
-        return enemyX;
+        return this.enemyX;
     }
 
     double getY() {
-        return enemyY;
+        return this.enemyY;
     }
 
     BufferedImage getImage() {
@@ -44,8 +44,7 @@ public class Enemy {
     void getNextImage(){
         if (readyToShoot) {
             enemyImage = readyCPU;
-        }
-        else if (enemyImage == firstCPU) {
+        } else if (enemyImage == firstCPU) {
             enemyImage = secondCPU;
         } else {
             enemyImage = firstCPU;

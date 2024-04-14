@@ -5,6 +5,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import java.util.Iterator;
+
 import no.uib.inf101.sample.controller.ControllableGameModel;
 import no.uib.inf101.sample.model.projectile.Projectile;
 import no.uib.inf101.sample.model.projectile.ProjectileFactory;
@@ -23,7 +25,6 @@ public class GameModel implements ControllableGameModel {
         this.gameState = GameState.ACTIVE;
     }
 
-
     @Override
     public GameState getCurrentState() {
         return this.gameState;
@@ -39,7 +40,7 @@ public class GameModel implements ControllableGameModel {
     }
 
     @Override
-    public void getNextEnemyImage() {
+    public void updateEnemyImage() {
         enemy.getNextImage();
     }
 
@@ -55,16 +56,16 @@ public class GameModel implements ControllableGameModel {
         return player.getImage();
     }
 
-    public BufferedImage getEnemyImage() {
-        return enemy.getImage();
-    }
-
     public double getEnemyX() {
         return enemy.getX();
     }
 
     public double getEnemyY() {
         return enemy.getY();
+    }
+
+    public BufferedImage getEnemyImage() {
+        return enemy.getImage();
     }
 
     public double getProjectileX(int index) {
@@ -91,19 +92,22 @@ public class GameModel implements ControllableGameModel {
 
     @Override
     public void clockTick() {
-        for (int i = 0; i < projectiles.size(); i++) {
-            Projectile projectile = projectiles.get(i);
+        Iterator<Projectile> iterator = projectiles.iterator();
+        while (iterator.hasNext()) {
+            Projectile projectile = iterator.next();
             projectile.move();
             if (playerProjectileCollision(projectile)) {
-                player.isHit();
-                projectiles.remove(projectile);
-                i--;
+                player.registerHit();
+                iterator.remove();
             }
         }
     }
 
     private boolean playerProjectileCollision(Projectile projectile) {
-        return Math.abs(projectile.getX() - player.getX()) < 0.02 && Math.abs(projectile.getY() - player.getY()) < 0.02;
+        double collisionRoom = 0.02;
+        double projectilePlayerX = Math.abs(projectile.getX() - player.getX());
+        double projectilePlayerY = Math.abs(projectile.getY() - player.getY());
+        return projectilePlayerX < collisionRoom && projectilePlayerY < collisionRoom;
     }
 
     @Override

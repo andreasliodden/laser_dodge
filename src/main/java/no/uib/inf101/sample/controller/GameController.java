@@ -15,7 +15,7 @@ public class GameController implements KeyListener {
     private GameView gameView;
     private Timer gameLoop;
 
-    private static final int timeDelay = 5;
+    private static final int timeDelay = 10;
     private int tickCounter = 1;
 
     private boolean playerUp, playerDown, playerLeft, playerRight;
@@ -77,7 +77,7 @@ public class GameController implements KeyListener {
                 gameModel.setEnemyStatus();
             }
             if (tickCounter % 20 == 0) {
-                gameModel.getNextEnemyImage();
+                gameModel.updateEnemyImage();
             } if (tickCounter % 500 == 0) {
                 gameModel.addProjectile();
             } 
