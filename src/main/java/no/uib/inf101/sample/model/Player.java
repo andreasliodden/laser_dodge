@@ -17,7 +17,7 @@ public class Player {
         this.playerX = START_X;
         this.playerY = START_Y;
         this.playerState = PlayerState.FRONT_RIGHT;
-        this.playerSpeed = 6;
+        this.playerSpeed = 7;
         this.playerHealth = 50;
     }
 

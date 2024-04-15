@@ -39,7 +39,7 @@ public class Enemy {
         if (readyToShoot) {
             if (enemyState == EnemyState.ANGRY_ONE || enemyState == EnemyState.ANGRY_TWO) {
                 enemyState = EnemyState.ANGRY_READY;
-            } else {
+            } else if (enemyState != EnemyState.ANGRY_READY) {
                 enemyState = EnemyState.HAPPY_READY;
             }
         } else {
@@ -69,7 +69,7 @@ public class Enemy {
     }
 
     void updateShootingStatus() {
-        if (readyToShoot = false) {
+        if (readyToShoot == false) {
             readyToShoot = true;
         } else {
             readyToShoot = false;

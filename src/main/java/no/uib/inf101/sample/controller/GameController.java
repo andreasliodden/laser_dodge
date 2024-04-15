@@ -81,7 +81,7 @@ public class GameController implements KeyListener {
             if (tickCounter % 500 == 0) {
                 gameModel.addProjectile();
             } 
-            if (tickCounter % 4000 == 0 || tickCounter % 4300 == 0) {
+            if (tickCounter % 600 == 0 || tickCounter % 1400 == 0) {
                 gameModel.updateGameState();
             }
 

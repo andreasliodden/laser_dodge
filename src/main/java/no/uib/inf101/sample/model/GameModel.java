@@ -135,6 +135,4 @@ public class GameModel implements ControllableGameModel {
 
         enemy.updateState();
     }
-
-    
 }
