@@ -12,15 +12,13 @@ public class Player {
     private double playerSpeed;
     private int playerHealth;
     private PlayerState playerState;
-    private boolean isHit;
 
     Player() {
         this.playerX = START_X;
         this.playerY = START_Y;
         this.playerState = PlayerState.FRONT_RIGHT;
-        this.playerSpeed = 7;
+        this.playerSpeed = 6;
         this.playerHealth = 50;
-        this.isHit = false;
     }
 
     double getX() {
@@ -143,11 +141,7 @@ public class Player {
                 playerX = 0;
             }
         }
-
-        if (!isHit) {
-            updatePlayerState(deltaX, deltaY);
-        }
-        isHit = false;
+        updatePlayerState(deltaX, deltaY);
     }
 
     private boolean isLegalPosition(double x, double y) {
@@ -165,6 +159,5 @@ public class Player {
                 playerHealth += 5;
             }
         }
-        isHit = true;
     }
 }

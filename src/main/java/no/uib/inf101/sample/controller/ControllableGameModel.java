@@ -13,7 +13,7 @@ public interface ControllableGameModel {
 
     void addProjectile();
 
-    void setEnemyStatus();
+    void readyToShoot();
 
     void updateGameState();
 }

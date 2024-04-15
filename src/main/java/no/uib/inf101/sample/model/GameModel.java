@@ -14,7 +14,7 @@ import no.uib.inf101.sample.model.projectile.ProjectileFactory;
 public class GameModel implements ControllableGameModel {
     private Enemy enemy;
     private Player player;
-    private ArrayList<Projectile> projectiles = new ArrayList<>();
+    private ArrayList<Projectile> activeProjectiles = new ArrayList<>();
     private ProjectileFactory factory;
     private GameState gameState;
 
@@ -69,15 +69,15 @@ public class GameModel implements ControllableGameModel {
     }
 
     public double getProjectileX(int index) {
-        return projectiles.get(index).getX();
+        return activeProjectiles.get(index).getX();
     }
 
     public double getProjectileY(int index) {
-        return projectiles.get(index).getY();
+        return activeProjectiles.get(index).getY();
     }
 
     public int getNumberOfProjectiles() {
-        return projectiles.size();
+        return activeProjectiles.size();
     }
 
     public int getPlayerHealth() {
@@ -92,7 +92,7 @@ public class GameModel implements ControllableGameModel {
 
     @Override
     public void clockTick() {
-        Iterator<Projectile> iterator = projectiles.iterator();
+        Iterator<Projectile> iterator = activeProjectiles.iterator();
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
             projectile.move();
@@ -112,17 +112,17 @@ public class GameModel implements ControllableGameModel {
 
     @Override
     public void addProjectile() {
-        enemy.hasShot();
-        projectiles.add(factory.getNext());
+        enemy.updateShootingStatus();
+        activeProjectiles.add(factory.getNext());
     }
 
     public ArrayList<Point2D> getProjectileTrail(int index) {
-        return projectiles.get(index).getTrail();
+        return activeProjectiles.get(index).getTrail();
     }
 
     @Override
-    public void setEnemyStatus() {
-        enemy.setReadyToShoot();
+    public void readyToShoot() {
+        enemy.updateShootingStatus();
     }
 
     @Override

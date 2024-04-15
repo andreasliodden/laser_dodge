@@ -38,7 +38,7 @@ public class GameView extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
 
         if (gameModel.getCurrentState() == GameState.EATING) {
-            g2.setColor(Color.WHITE);
+            g2.setColor(new Color(190, 190, 190));
             g2.fill(this.getBounds());
             drawHealthBar(g2, Color.BLACK);
             drawPlayer(g2);

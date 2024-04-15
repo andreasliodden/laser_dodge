@@ -13,20 +13,19 @@ import no.uib.inf101.sample.view.GameView;
 public class GameController implements KeyListener {
     private ControllableGameModel gameModel;
     private GameView gameView;
-    private Timer gameLoop;
-
-    private static final int timeDelay = 10;
-    private int tickCounter = 1;
-
+    private Timer timer;
     private boolean playerUp, playerDown, playerLeft, playerRight;
+
+    private int tickCounter = 1;
+    private static final int timeDelay = 10;
     
     public GameController(ControllableGameModel gameModel, GameView gameView) {
         this.gameModel = gameModel;
         this.gameView = gameView;
-        this.gameLoop = new Timer(timeDelay, e -> clockTick());
+        this.timer = new Timer(timeDelay, e -> clockTick());
         gameView.setFocusable(true);
         gameView.addKeyListener(this);
-        gameLoop.start();
+        timer.start();
         
         // Hentet fra https://stackoverflow.com/questions/2303305/window-resize-event
         gameView.addComponentListener(new ComponentAdapter() {
@@ -47,7 +46,7 @@ public class GameController implements KeyListener {
             playerLeft = true;
         } else if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D){
             playerRight = true;
-        } 
+        }
     }
 
     @Override
@@ -71,32 +70,30 @@ public class GameController implements KeyListener {
        GameState gameState = gameModel.getCurrentState();
        if (gameState == GameState.ACTIVE || gameState == GameState.EATING) {
             gameView.repaint();
-            handleKeyInputs();
+            handleKeyInput();
             gameModel.clockTick();
-            if (tickCounter % 20 == 0) {
+            if (tickCounter % 30 == 0) {
                 gameModel.updateEnemyImage();
             } 
-            if (tickCounter % 400 == 0) {
-                gameModel.setEnemyStatus();
+            if (tickCounter % 500 == 400) {
+                gameModel.readyToShoot();
             } 
             if (tickCounter % 500 == 0) {
                 gameModel.addProjectile();
             } 
-
-            if (tickCounter % 1000 == 0 || tickCounter % 1400 == 0) {
+            if (tickCounter % 4000 == 0 || tickCounter % 4300 == 0) {
                 gameModel.updateGameState();
             }
+
             tickCounter++;
 
        }
     }
 
-    private void handleKeyInputs() {
+    private void handleKeyInput() {
         if ((playerUp && playerDown) || (playerLeft && playerRight)) {
             return;
-        } 
-        
-        if (playerUp) {
+        } if (playerUp) {
             gameModel.movePlayer(0, -1);
         } if (playerDown) {
             gameModel.movePlayer(0,1);

@@ -37,37 +37,30 @@ public class Enemy {
 
     void updateImage(){
         if (readyToShoot) {
-            switch (enemyState) {
+            if (enemyState == EnemyState.ANGRY_ONE || enemyState == EnemyState.ANGRY_TWO) {
+                enemyState = EnemyState.ANGRY_READY;
+            } else {
+                enemyState = EnemyState.HAPPY_READY;
+            }
+        } else {
+            switch(enemyState) {
                 case ANGRY_ONE:
+                    enemyState = EnemyState.ANGRY_TWO;
+                    break;
                 case ANGRY_TWO:
-                    enemyState = EnemyState.ANGRY_READY;
+                case ANGRY_READY:
+                    enemyState = EnemyState.ANGRY_ONE;
                     break;
                 case HAPPY_ONE:
+                    enemyState = EnemyState.HAPPY_TWO;
+                    break;
                 case HAPPY_TWO:
-                    enemyState = EnemyState.HAPPY_READY;
+                case HAPPY_READY:
+                    enemyState = EnemyState.HAPPY_ONE;
                     break;
                 default: 
                     break;
             }
-        }   else {
-                switch(enemyState) {
-                    case ANGRY_ONE:
-                        enemyState = EnemyState.ANGRY_TWO;
-                        break;
-                    case ANGRY_TWO:
-                    case ANGRY_READY:
-                        enemyState = EnemyState.ANGRY_ONE;
-                        break;
-                    case HAPPY_ONE:
-                        enemyState = EnemyState.HAPPY_TWO;
-                        break;
-                    case HAPPY_TWO:
-                    case HAPPY_READY:
-                        enemyState = EnemyState.HAPPY_ONE;
-                        break;
-                    default: 
-                        break;
-                }
         }
     }
 
@@ -75,13 +68,13 @@ public class Enemy {
         return this.restrictedArea;
     }
 
-    void hasShot() {
-        readyToShoot = false;
-        updateImage();
-    }
-
-    void setReadyToShoot() {
-        readyToShoot = true;
+    void updateShootingStatus() {
+        if (readyToShoot = false) {
+            readyToShoot = true;
+        } else {
+            readyToShoot = false;
+            updateImage();
+        }
     }
 
     void updateState() {
