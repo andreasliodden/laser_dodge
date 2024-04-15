@@ -69,7 +69,7 @@ public class GameController implements KeyListener {
 
     private void clockTick() {
        GameState gameState = gameModel.getCurrentState();
-       if (gameState == GameState.ACTIVE) {
+       if (gameState == GameState.ACTIVE || gameState == GameState.EATING) {
             gameView.repaint();
             handleKeyInputs();
             gameModel.clockTick();
@@ -82,11 +82,12 @@ public class GameController implements KeyListener {
             if (tickCounter % 500 == 0) {
                 gameModel.addProjectile();
             } 
+
+            if (tickCounter % 1000 == 0 || tickCounter % 1400 == 0) {
+                gameModel.updateGameState();
+            }
             tickCounter++;
 
-            if (tickCounter == 500) {
-                tickCounter = 0;
-            }
        }
     }
 

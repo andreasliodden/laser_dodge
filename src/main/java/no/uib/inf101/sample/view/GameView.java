@@ -12,11 +12,12 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import no.uib.inf101.sample.model.GameModel;
+import no.uib.inf101.sample.model.GameState;
 
 public class GameView extends JPanel {
     private static final int START_WIDTH = 1700;
     private static final int START_HEIGHT = 1000;
-    private static final int IMAGE_SCALE = 5;
+    private static final BufferedImage APPLE = Inf101Graphics.loadImageFromResources("apple.png");
 
     private ColorTheme colorTheme;
     private GameModel gameModel;
@@ -36,14 +37,29 @@ public class GameView extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        drawHealthBar(g2);
-        drawPlayer(g2);
-        drawProjectile(g2);
-        drawEnemy(g2);
+        if (gameModel.getCurrentState() == GameState.EATING) {
+            g2.setColor(Color.WHITE);
+            g2.fill(this.getBounds());
+            drawHealthBar(g2, Color.BLACK);
+            drawPlayer(g2);
+            drawApples(g2);
+            drawEnemy(g2);
+        } else {
+            drawHealthBar(g2, Color.WHITE);
+            drawPlayer(g2);
+            drawProjectile(g2);
+            drawEnemy(g2);
+        }
     }
 
-    private void drawHealthBar(Graphics2D g2) {
-        g2.setColor(Color.WHITE);
+    private void drawApples(Graphics2D g2) {
+        for (int i = 0; i < gameModel.getNumberOfProjectiles(); i++) {
+            drawImage(g2, APPLE, gameModel.getProjectileX(i), gameModel.getProjectileY(i), 3);
+        }
+    }
+
+    private void drawHealthBar(Graphics2D g2, Color textColor) {
+        g2.setColor(textColor);
         g2.setFont(getFont(30));
         Inf101Graphics.drawCenteredString(g2, "HEALTH:", 0, 0, this.getWidth(), this.getHeight() * 0.075);
         Rectangle2D healthBar = new Rectangle2D.Double(
@@ -59,9 +75,10 @@ public class GameView extends JPanel {
                 
         g2.setColor(getHealthColor());
         g2.fill(health);
-        g2.setColor(Color.WHITE);
+        g2.setColor(textColor);
         g2.setStroke(new BasicStroke(2));
         g2.draw(healthBar);
+        g2.setColor(Color.WHITE);
         Inf101Graphics.drawCenteredString(g2, "" + gameModel.getPlayerHealth(), healthBar);
 
     }
@@ -79,11 +96,11 @@ public class GameView extends JPanel {
     }
 
     private void drawPlayer(Graphics2D g2) {
-        drawImage(g2, gameModel.getPlayerImage(), gameModel.getPlayerX(), gameModel.getPlayerY());
+        drawImage(g2, gameModel.getPlayerImage(), gameModel.getPlayerX(), gameModel.getPlayerY(), 5);
     }
 
     private void drawEnemy(Graphics2D g2) {
-        drawImage(g2, gameModel.getEnemyImage(), gameModel.getEnemyX(), gameModel.getEnemyY());
+        drawImage(g2, gameModel.getEnemyImage(), gameModel.getEnemyX(), gameModel.getEnemyY(), 6);
     }
 
     private void drawProjectile(Graphics2D g2) {
@@ -104,6 +121,8 @@ public class GameView extends JPanel {
             g2.setColor(Color.RED);
             g2.fill(projectileBox);
 
+
+        
             for (int j = trail.size() - 1; j >= 0; j--) {
                 resizingFactor = 1 - ((trail.size() - 1) - j) * 0.04;
                 Point2D point = trail.get(j);
@@ -116,6 +135,7 @@ public class GameView extends JPanel {
                 g2.fill(trailBox);
                 colorFactor += 20;
             }
+            
         }
     }
 
@@ -124,8 +144,8 @@ public class GameView extends JPanel {
         return new Font("Monospaced", Font.BOLD, fontSize);
     }
 
-    private void drawImage(Graphics2D g2, BufferedImage image, double entityX, double entityY) {
-        int imageWidth = (int) (image.getWidth() * this.getWidth() * IMAGE_SCALE) / START_WIDTH;
+    private void drawImage(Graphics2D g2, BufferedImage image, double entityX, double entityY, int imageScale) {
+        int imageWidth = (int) (image.getWidth() * this.getWidth() * imageScale) / START_WIDTH;
         int imageHeight = (int) (imageWidth * windowRatio);
         int x = (int) (entityX * (this.getWidth() - imageWidth));
         int y = (int) (entityY * (this.getHeight() - imageHeight));

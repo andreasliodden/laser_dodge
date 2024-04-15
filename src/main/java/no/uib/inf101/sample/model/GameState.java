@@ -7,6 +7,7 @@ public enum GameState {
     HOME,
     CONTROLS,
     ACTIVE,
+    EATING,
     PAUSED,
     GAME_OVER
 }

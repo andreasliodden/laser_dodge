@@ -154,11 +154,17 @@ public class Player {
         return (x >= 0 && x <= MAX_X && y >= 0 && y <= MAX_Y);
     }
 
-    void registerHit() {
-        if (playerHealth > 0) {
-            playerHealth -= 10;
+    void registerHit(GameState gameState) {
+        if (gameState == GameState.ACTIVE) {
+            if (playerHealth > 0) {
+                playerHealth -= 10;
+            }
+            updatePlayerState(0, 0);
+        } else {
+            if (playerHealth < 50) {
+                playerHealth += 5;
+            }
         }
         isHit = true;
-        updatePlayerState(0, 0);
     }
 }

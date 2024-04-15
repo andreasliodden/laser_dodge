@@ -3,25 +3,19 @@ package no.uib.inf101.sample.model;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import no.uib.inf101.sample.view.Inf101Graphics;
-
 public class Enemy {
     private static final double MARGIN_X = 0.05;
     private static final double MARGIN_Y = 0.1;
     
     private final double enemyX, enemyY;
     private final Rectangle2D restrictedArea;
-    private BufferedImage enemyImage;
+    private EnemyState enemyState;
     private boolean readyToShoot;
-
-    private final static BufferedImage firstCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy1.png");
-    private final static BufferedImage secondCPU = Inf101Graphics.loadImageFromResources("/cpu_enemy2.png");
-    private final static BufferedImage readyCPU = Inf101Graphics.loadImageFromResources("/cpu_ready.png"); 
 
     Enemy() {
         this.enemyX = 0.50;
         this.enemyY = 0.50;
-        this.enemyImage = firstCPU;
+        this.enemyState = EnemyState.ANGRY_ONE;
         this.restrictedArea = new Rectangle2D.Double(
             enemyX - MARGIN_X, enemyY - MARGIN_Y, 
             MARGIN_X * 2, MARGIN_Y * 2
@@ -38,16 +32,42 @@ public class Enemy {
     }
 
     BufferedImage getImage() {
-        return this.enemyImage;
+        return enemyState.getImage();
     }
 
     void updateImage(){
         if (readyToShoot) {
-            enemyImage = readyCPU;
-        } else if (enemyImage == firstCPU) {
-            enemyImage = secondCPU;
-        } else {
-            enemyImage = firstCPU;
+            switch (enemyState) {
+                case ANGRY_ONE:
+                case ANGRY_TWO:
+                    enemyState = EnemyState.ANGRY_READY;
+                    break;
+                case HAPPY_ONE:
+                case HAPPY_TWO:
+                    enemyState = EnemyState.HAPPY_READY;
+                    break;
+                default: 
+                    break;
+            }
+        }   else {
+                switch(enemyState) {
+                    case ANGRY_ONE:
+                        enemyState = EnemyState.ANGRY_TWO;
+                        break;
+                    case ANGRY_TWO:
+                    case ANGRY_READY:
+                        enemyState = EnemyState.ANGRY_ONE;
+                        break;
+                    case HAPPY_ONE:
+                        enemyState = EnemyState.HAPPY_TWO;
+                        break;
+                    case HAPPY_TWO:
+                    case HAPPY_READY:
+                        enemyState = EnemyState.HAPPY_ONE;
+                        break;
+                    default: 
+                        break;
+                }
         }
     }
 
@@ -62,5 +82,13 @@ public class Enemy {
 
     void setReadyToShoot() {
         readyToShoot = true;
+    }
+
+    void updateState() {
+        if (enemyState == EnemyState.ANGRY_ONE || enemyState == EnemyState.ANGRY_TWO || enemyState == EnemyState.ANGRY_READY) {
+            enemyState = EnemyState.HAPPY_ONE;
+        } else {
+            enemyState = EnemyState.ANGRY_ONE;
+        }
     }
 }

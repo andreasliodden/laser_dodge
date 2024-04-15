@@ -14,4 +14,6 @@ public interface ControllableGameModel {
     void addProjectile();
 
     void setEnemyStatus();
+
+    void updateGameState();
 }

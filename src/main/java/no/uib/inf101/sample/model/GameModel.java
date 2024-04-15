@@ -97,7 +97,7 @@ public class GameModel implements ControllableGameModel {
             Projectile projectile = iterator.next();
             projectile.move();
             if (playerProjectileCollision(projectile)) {
-                player.registerHit();
+                player.registerHit(gameState);
                 iterator.remove();
             }
         }
@@ -123,6 +123,17 @@ public class GameModel implements ControllableGameModel {
     @Override
     public void setEnemyStatus() {
         enemy.setReadyToShoot();
+    }
+
+    @Override
+    public void updateGameState() {
+        if (gameState == GameState.ACTIVE) {
+            gameState = GameState.EATING;
+        } else {
+            gameState = GameState.ACTIVE;
+        }
+
+        enemy.updateState();
     }
 
     
