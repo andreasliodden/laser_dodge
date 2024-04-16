@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import no.uib.inf101.sample.model.Entity;
 
 public class Projectile extends Entity {
-    private static final double POSITION_LIMIT = 1;
+    private static final double MIN_POSITION = 0;
+    private static final double MAX_POSITION = 1;
 
     private double velocityX;
     private double velocityY;
@@ -49,13 +50,13 @@ public class Projectile extends Entity {
             return true;
         }
         else {
-            if (nextX < 0) {
+            if (nextX < MIN_POSITION) {
                 velocityX = -velocityX;
-            } else if (nextX > POSITION_LIMIT) {
+            } else if (nextX > MAX_POSITION) {
                 velocityX = -velocityX;
-            } else if (nextY < 0) {
+            } else if (nextY < MIN_POSITION) {
                 velocityY = -velocityY;
-            } else if (nextY > 1) {
+            } else if (nextY > MAX_POSITION) {
                 velocityY = -velocityY;
             }
         return false;

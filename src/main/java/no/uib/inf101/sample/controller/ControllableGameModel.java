@@ -16,4 +16,6 @@ public interface ControllableGameModel {
     void readyToShoot();
 
     void updateGameState();
+
+    void addGoldenApple();
 }

@@ -2,6 +2,8 @@ package no.uib.inf101.sample.model;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Enemy extends Entity {
     private static final double MARGIN_X = 0.05;
@@ -9,6 +11,8 @@ public class Enemy extends Entity {
     private final Rectangle2D restrictedArea;
     private EnemyState enemyState;
     private boolean readyToShoot;
+    private ArrayList<EnemyState> angryStates = new ArrayList<>();
+    
 
     Enemy() {
         this.x = 0.50;
@@ -19,6 +23,11 @@ public class Enemy extends Entity {
             MARGIN_X * 2, MARGIN_Y * 2
         );
         this.readyToShoot = false;
+        initAngryStates();
+    }
+
+    private void initAngryStates() {
+        Collections.addAll(angryStates, EnemyState.ANGRY_ONE, EnemyState.ANGRY_TWO, EnemyState.ANGRY_READY);
     }
 
     BufferedImage getImage() {
@@ -27,10 +36,10 @@ public class Enemy extends Entity {
 
     void updateState(){
         if (readyToShoot) {
-            if (enemyState == EnemyState.ANGRY_ONE || enemyState == EnemyState.ANGRY_TWO) {
+            if (angryStates.contains(enemyState)) {
                 enemyState = EnemyState.ANGRY_READY;
-            } else if (enemyState != EnemyState.ANGRY_READY) {
-                enemyState = EnemyState.HAPPY_READY;
+            } else {
+                enemyState = EnemyState.FRIENDLY_READY;
             }
         } else {
             switch(enemyState) {
@@ -41,12 +50,12 @@ public class Enemy extends Entity {
                 case ANGRY_READY:
                     enemyState = EnemyState.ANGRY_ONE;
                     break;
-                case HAPPY_ONE:
-                    enemyState = EnemyState.HAPPY_TWO;
+                case FRIENDLY_ONE:
+                    enemyState = EnemyState.FRIENDLY_TWO;
                     break;
-                case HAPPY_TWO:
-                case HAPPY_READY:
-                    enemyState = EnemyState.HAPPY_ONE;
+                case FRIENDLY_TWO:
+                case FRIENDLY_READY:
+                    enemyState = EnemyState.FRIENDLY_ONE;
                     break;
                 default: 
                     break;
@@ -68,10 +77,11 @@ public class Enemy extends Entity {
     }
 
     void switchGameState() {
-        if (enemyState == EnemyState.ANGRY_ONE || enemyState == EnemyState.ANGRY_TWO || enemyState == EnemyState.ANGRY_READY) {
-            enemyState = EnemyState.HAPPY_ONE;
+        if (angryStates.contains(enemyState)) {
+            enemyState = EnemyState.FRIENDLY_ONE;
         } else {
             enemyState = EnemyState.ANGRY_ONE;
         }
+        readyToShoot = false;
     }
 }

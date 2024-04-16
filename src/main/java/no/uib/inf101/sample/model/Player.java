@@ -124,7 +124,7 @@ public class Player extends Entity {
             updatePlayerState(0, 0);
         } else {
             if (playerHealth < 50) {
-                playerHealth += 5;
+                playerHealth += 3;
             }
         }
     }

@@ -17,12 +17,15 @@ public class GameModel implements ControllableGameModel {
     private ArrayList<Projectile> activeProjectiles = new ArrayList<>();
     private ProjectileFactory factory;
     private GameState gameState;
+    private GoldenApple goldenApple;
+    private boolean goldenAppleExists;
 
     public GameModel(ProjectileFactory factory) {
         this.factory = factory;
         this.enemy = new Enemy();
         this.player = new Player();
         this.gameState = GameState.ACTIVE_ENEMY;
+        this.goldenAppleExists = false;
     }
 
     @Override
@@ -46,14 +49,21 @@ public class GameModel implements ControllableGameModel {
 
     @Override
     public void clockTick() {
+        if (goldenAppleExists) {
+            goldenApple.move();
+            if (playerProjectileCollision(goldenApple.getX(), goldenApple.getY())) {
+                updateGameState();
+                goldenAppleExists = false;
+            }
+        }
         Iterator<Projectile> iterator = activeProjectiles.iterator();
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
             projectile.move();
-            if (playerProjectileCollision(projectile)) {
+            if (playerProjectileCollision(projectile.getX(), projectile.getY())) {
                 player.registerHit(gameState);
                 iterator.remove();
-            } 
+            }
         }
     }
 
@@ -123,15 +133,43 @@ public class GameModel implements ControllableGameModel {
         return activeProjectiles.size();
     }
 
-    private boolean playerProjectileCollision(Projectile projectile) {
-        double collisionRoom = 0.02;
-        double projectilePlayerX = Math.abs(projectile.getX() - player.getX());
-        double projectilePlayerY = Math.abs(projectile.getY() - player.getY());
+    public double getGappleX(){
+        return goldenApple.getX();
+    }
+
+    public double getGappleY(){
+        return goldenApple.getY();
+    }
+
+    public BufferedImage getGappleImage(){
+        return goldenApple.getImage();
+    }
+
+    private boolean playerProjectileCollision(double projectileX, double projectileY) {
+        double collisionRoom = 0.025;
+        double projectilePlayerX = Math.abs(projectileX- player.getX());
+        double projectilePlayerY = Math.abs(projectileY - player.getY());
         return projectilePlayerX < collisionRoom && projectilePlayerY < collisionRoom;
     }
 
     private boolean playerEnemyCollision(double playerX, double playerY) {
         Rectangle2D restricedArea = enemy.getRestricedArea();
         return restricedArea.contains(playerX, playerY);
+    }
+
+    @Override
+    public void addGoldenApple() {
+        if (!goldenAppleExists) {
+            goldenApple = GoldenApple.createNewApple();
+            goldenAppleExists = true;
+        }
+    }
+
+    public boolean goldenAppleExists() {
+        return goldenAppleExists;
+    }
+
+    public ArrayList<Point2D> getGappleTrail() {
+        return goldenApple.getTrail();
     }
 }

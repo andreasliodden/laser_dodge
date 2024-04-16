@@ -22,13 +22,17 @@ public class GameView extends JPanel {
     private ColorTheme colorTheme;
     private GameModel gameModel;
     private double windowRatio;
+    private Color enemyColor;
+    private Color friendlyColor;
 
     public GameView(GameModel gameModel){
         this.gameModel = gameModel;
         this.colorTheme = new DefaultColorTheme();
+        this.enemyColor = colorTheme.getEnemyBackgroundColor();
+        this.friendlyColor = colorTheme.getFriendlyBackgroundColor();
         this.setPreferredSize(new Dimension(
                 START_WIDTH, START_HEIGHT));
-        this.setBackground(colorTheme.getBackgroundColor());
+        this.setBackground(enemyColor);
         this.isDoubleBuffered();
     }
 
@@ -38,11 +42,17 @@ public class GameView extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
 
         if (gameModel.getCurrentState() == GameState.ACTIVE_FRIENDLY) {
-            g2.setColor(new Color(190, 190, 190));
-            g2.fill(this.getBounds());
+            if (this.getBackground() == enemyColor) {
+                this.setBackground(friendlyColor);
+            }
             drawHealthBar(g2, Color.BLACK);
             drawApples(g2);
         } else {
+            if (this.getBackground() == friendlyColor) {
+                this.setBackground(enemyColor);
+            } else if (gameModel.goldenAppleExists()) {
+                drawGoldenApple(g2);
+            }
             drawHealthBar(g2, Color.WHITE);
             drawProjectile(g2);
         }
@@ -50,12 +60,15 @@ public class GameView extends JPanel {
         drawEnemy(g2);
     }
 
+    private void drawGoldenApple(Graphics2D g2) {
+        drawImage(g2, gameModel.getGappleImage(), gameModel.getGappleX(), gameModel.getGappleY(), 3);
+    }
+
     private void drawApples(Graphics2D g2) {
         for (int i = 0; i < gameModel.getNumberOfProjectiles(); i++) {
             drawImage(g2, APPLE, gameModel.getProjectileX(i), gameModel.getProjectileY(i), 3);
         }
     }
-
 
     private void drawHealthBar(Graphics2D g2, Color textColor) {
         g2.setColor(textColor);
@@ -148,7 +161,6 @@ public class GameView extends JPanel {
         int y = (int) (entityY * (this.getHeight() - imageHeight));
         g2.drawImage(image, x, y, imageWidth, imageHeight, null);
     }
-
 }
 
 
