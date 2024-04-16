@@ -84,9 +84,7 @@ public class GameController implements KeyListener {
             if (tickCounter % 3200 == 0 || tickCounter % 3800 == 0) {
                 gameModel.updateGameState();
             }
-
             tickCounter++;
-
        }
     }
 

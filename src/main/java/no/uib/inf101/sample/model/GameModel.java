@@ -41,7 +41,7 @@ public class GameModel implements ControllableGameModel {
 
     @Override
     public void updateEnemyImage() {
-        enemy.updateImage();
+        enemy.updateState();
     }
 
     public double getPlayerX() {
@@ -133,6 +133,6 @@ public class GameModel implements ControllableGameModel {
             gameState = GameState.ACTIVE;
         }
 
-        enemy.updateState();
+        enemy.switchGameState();
     }
 }

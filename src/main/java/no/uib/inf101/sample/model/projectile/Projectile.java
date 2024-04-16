@@ -3,11 +3,11 @@ package no.uib.inf101.sample.model.projectile;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class Projectile {
+import no.uib.inf101.sample.model.Entity;
+
+public class Projectile extends Entity {
     private static final double POSITION_LIMIT = 1;
 
-    private double y;
-    private double x;
     private double velocityX;
     private double velocityY;
     private ArrayList<Point2D> trail = new ArrayList<>();
@@ -23,46 +23,16 @@ public class Projectile {
         return new Projectile(velocityX, velocityY);
     }
 
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
     public ArrayList<Point2D> getTrail() {
         return this.trail;
     }
 
     public void move() {
-        addPositionToTrail();
-    
         double nextX = x + velocityX;
         double nextY = y + velocityY;
 
-        if(isLegalPosition(nextX, nextY)) {
-            x = nextX;
-            y = nextY;
-        } else {
-            if (nextX < 0) {
-                velocityX = -velocityX;
-                x = 0;
-            } else if (nextX > POSITION_LIMIT) {
-                velocityX = -velocityX;
-                x = 1;
-            } else if (nextY < 0) {
-                velocityY = -velocityY;
-                y = 0;
-            } else {
-                velocityY = -velocityY;
-                y = 1;
-            }
-        }
-    }
-
-    private boolean isLegalPosition(double x, double y) {
-        return (x >= 0 && x <= POSITION_LIMIT && y >= 0 && y <= POSITION_LIMIT);
+        addPositionToTrail();
+        updatePosition(nextX, nextY);
     }
 
     private void addPositionToTrail() {
@@ -70,6 +40,25 @@ public class Projectile {
 
         if (trail.size() > 25) {
             trail.remove(0);
+        }
+    }
+
+    @Override
+    protected boolean updatePosition(double nextX, double nextY) {
+        if(super.updatePosition(nextX, nextY)) {
+            return true;
+        }
+        else {
+            if (nextX < 0) {
+                velocityX = -velocityX;
+            } else if (nextX > POSITION_LIMIT) {
+                velocityX = -velocityX;
+            } else if (nextY < 0) {
+                velocityY = -velocityY;
+            } else if (nextY > 1) {
+                velocityY = -velocityY;
+            }
+        return false;
         }
     }
 }

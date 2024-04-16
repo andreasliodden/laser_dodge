@@ -121,8 +121,6 @@ public class GameView extends JPanel {
             g2.setColor(Color.RED);
             g2.fill(projectileBox);
 
-
-        
             for (int j = trail.size() - 1; j >= 0; j--) {
                 resizingFactor = 1 - ((trail.size() - 1) - j) * 0.04;
                 Point2D point = trail.get(j);

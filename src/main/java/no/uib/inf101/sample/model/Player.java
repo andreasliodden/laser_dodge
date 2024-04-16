@@ -2,31 +2,20 @@ package no.uib.inf101.sample.model;
 
 import java.awt.image.BufferedImage;
 
-public class Player {
+public class Player extends Entity {
     private static final double START_X = 0.10;
     private static final double START_Y = 0.10;
-    private static final double MAX_X = 1;
-    private static final double MAX_Y = 1;
 
-    private double playerX, playerY;
     private double playerSpeed;
     private int playerHealth;
     private PlayerState playerState;
 
     Player() {
-        this.playerX = START_X;
-        this.playerY = START_Y;
+        this.x = START_X;
+        this.y = START_Y;
         this.playerState = PlayerState.FRONT_RIGHT;
         this.playerSpeed = 7;
         this.playerHealth = 50;
-    }
-
-    double getX() {
-        return this.playerX;
-    }
-
-    double getY() {
-        return this.playerY;
     }
 
     BufferedImage getImage() {
@@ -115,37 +104,18 @@ public class Player {
     }
 
     double getNextX(int deltaX) {
-        return playerX + deltaX * 0.001 * playerSpeed;
+        return x + deltaX * 0.001 * playerSpeed;
     }
 
     double getNextY(int deltaY) {
-        return playerY + deltaY * 0.001 * playerSpeed;
+        return y + deltaY * 0.001 * playerSpeed;
     }
 
     void move(int deltaX, int deltaY) {
         double nextX = getNextX(deltaX);
         double nextY = getNextY(deltaY);
-        if (isLegalPosition(nextX, nextY)) {
-            playerX = nextX;
-            playerY = nextY;
-        } else if (isLegalPosition(nextX, playerY)) {
-            if (deltaY == 1) {
-                playerY = 1;
-            } else {
-                playerY = 0;
-            }
-        } else {
-            if (deltaX == 1) {
-                playerX = 1;
-            } else {
-                playerX = 0;
-            }
-        }
+        updatePosition(nextX, nextY);
         updatePlayerState(deltaX, deltaY);
-    }
-
-    private boolean isLegalPosition(double x, double y) {
-        return (x >= 0 && x <= MAX_X && y >= 0 && y <= MAX_Y);
     }
 
     void registerHit(GameState gameState) {
