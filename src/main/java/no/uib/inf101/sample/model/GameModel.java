@@ -22,7 +22,7 @@ public class GameModel implements ControllableGameModel {
         this.factory = factory;
         this.enemy = new Enemy();
         this.player = new Player();
-        this.gameState = GameState.ACTIVE;
+        this.gameState = GameState.ACTIVE_ENEMY;
     }
 
     @Override
@@ -35,13 +35,52 @@ public class GameModel implements ControllableGameModel {
         double nextX = player.getNextX(deltaX);
         double nextY = player.getNextY(deltaY);
         if (!playerEnemyCollision(nextX, nextY)) {
-            player.move(deltaX, deltaY);
+            player.move(deltaX, deltaY, nextX, nextY);
         }
     }
 
     @Override
     public void updateEnemyImage() {
         enemy.updateState();
+    }
+
+    @Override
+    public void clockTick() {
+        Iterator<Projectile> iterator = activeProjectiles.iterator();
+        while (iterator.hasNext()) {
+            Projectile projectile = iterator.next();
+            projectile.move();
+            if (playerProjectileCollision(projectile)) {
+                player.registerHit(gameState);
+                iterator.remove();
+            } 
+        }
+    }
+
+    @Override
+    public void addProjectile() {
+        enemy.updateShootingStatus();
+        activeProjectiles.add(factory.getNext());
+    }
+
+    public ArrayList<Point2D> getProjectileTrail(int index) {
+        return activeProjectiles.get(index).getTrail();
+    }
+
+    @Override
+    public void readyToShoot() {
+        enemy.updateShootingStatus();
+    }
+
+    @Override
+    public void updateGameState() {
+        if (gameState == GameState.ACTIVE_ENEMY) {
+            gameState = GameState.ACTIVE_FRIENDLY;
+        } else {
+            gameState = GameState.ACTIVE_ENEMY;
+        }
+
+        enemy.switchGameState();
     }
 
     public double getPlayerX() {
@@ -54,6 +93,10 @@ public class GameModel implements ControllableGameModel {
 
     public BufferedImage getPlayerImage() {
         return player.getImage();
+    }
+
+    public int getPlayerHealth() {
+        return player.getPlayerHealth();
     }
 
     public double getEnemyX() {
@@ -80,29 +123,6 @@ public class GameModel implements ControllableGameModel {
         return activeProjectiles.size();
     }
 
-    public int getPlayerHealth() {
-        return player.getPlayerHealth();
-    }
-
-
-    private boolean playerEnemyCollision(double playerX, double playerY) {
-        Rectangle2D restricedArea = enemy.getRestricedArea();
-        return restricedArea.contains(playerX, playerY);
-    }
-
-    @Override
-    public void clockTick() {
-        Iterator<Projectile> iterator = activeProjectiles.iterator();
-        while (iterator.hasNext()) {
-            Projectile projectile = iterator.next();
-            projectile.move();
-            if (playerProjectileCollision(projectile)) {
-                player.registerHit(gameState);
-                iterator.remove();
-            }
-        }
-    }
-
     private boolean playerProjectileCollision(Projectile projectile) {
         double collisionRoom = 0.02;
         double projectilePlayerX = Math.abs(projectile.getX() - player.getX());
@@ -110,29 +130,8 @@ public class GameModel implements ControllableGameModel {
         return projectilePlayerX < collisionRoom && projectilePlayerY < collisionRoom;
     }
 
-    @Override
-    public void addProjectile() {
-        enemy.updateShootingStatus();
-        activeProjectiles.add(factory.getNext());
-    }
-
-    public ArrayList<Point2D> getProjectileTrail(int index) {
-        return activeProjectiles.get(index).getTrail();
-    }
-
-    @Override
-    public void readyToShoot() {
-        enemy.updateShootingStatus();
-    }
-
-    @Override
-    public void updateGameState() {
-        if (gameState == GameState.ACTIVE) {
-            gameState = GameState.EATING;
-        } else {
-            gameState = GameState.ACTIVE;
-        }
-
-        enemy.switchGameState();
+    private boolean playerEnemyCollision(double playerX, double playerY) {
+        Rectangle2D restricedArea = enemy.getRestricedArea();
+        return restricedArea.contains(playerX, playerY);
     }
 }

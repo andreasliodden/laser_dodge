@@ -111,15 +111,13 @@ public class Player extends Entity {
         return y + deltaY * 0.001 * playerSpeed;
     }
 
-    void move(int deltaX, int deltaY) {
-        double nextX = getNextX(deltaX);
-        double nextY = getNextY(deltaY);
+    void move(int deltaX, int deltaY, double nextX, double nextY) {
         updatePosition(nextX, nextY);
         updatePlayerState(deltaX, deltaY);
     }
 
     void registerHit(GameState gameState) {
-        if (gameState == GameState.ACTIVE) {
+        if (gameState == GameState.ACTIVE_ENEMY) {
             if (playerHealth > 0) {
                 playerHealth -= 10;
             }

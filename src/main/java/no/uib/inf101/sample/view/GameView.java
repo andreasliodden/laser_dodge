@@ -37,19 +37,17 @@ public class GameView extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        if (gameModel.getCurrentState() == GameState.EATING) {
+        if (gameModel.getCurrentState() == GameState.ACTIVE_FRIENDLY) {
             g2.setColor(new Color(190, 190, 190));
             g2.fill(this.getBounds());
             drawHealthBar(g2, Color.BLACK);
-            drawPlayer(g2);
             drawApples(g2);
-            drawEnemy(g2);
         } else {
             drawHealthBar(g2, Color.WHITE);
-            drawPlayer(g2);
             drawProjectile(g2);
-            drawEnemy(g2);
         }
+        drawPlayer(g2);
+        drawEnemy(g2);
     }
 
     private void drawApples(Graphics2D g2) {
@@ -57,6 +55,7 @@ public class GameView extends JPanel {
             drawImage(g2, APPLE, gameModel.getProjectileX(i), gameModel.getProjectileY(i), 3);
         }
     }
+
 
     private void drawHealthBar(Graphics2D g2, Color textColor) {
         g2.setColor(textColor);
