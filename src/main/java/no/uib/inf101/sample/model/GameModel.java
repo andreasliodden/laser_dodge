@@ -35,12 +35,13 @@ public class GameModel implements ControllableGameModel {
     }
 
     @Override
-    public void movePlayer(int deltaX, int deltaY) {
+    public boolean movePlayer(int deltaX, int deltaY) {
         double nextX = player.getNextX(deltaX);
         double nextY = player.getNextY(deltaY);
         if (!playerEnemyCollision(nextX, nextY)) {
-            player.move(deltaX, deltaY, nextX, nextY);
+            return player.move(deltaX, deltaY, nextX, nextY);
         }
+        return false;
     }
 
     @Override
@@ -144,6 +145,10 @@ public class GameModel implements ControllableGameModel {
 
     public BufferedImage getGappleImage(){
         return goldenApple.getImage();
+    }
+
+    Rectangle2D getRestrictedEnemyArea() {
+        return enemy.getRestricedArea();
     }
 
     private boolean playerProjectileCollision(double projectileX, double projectileY) {

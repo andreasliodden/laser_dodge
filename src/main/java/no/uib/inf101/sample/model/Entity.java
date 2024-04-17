@@ -26,7 +26,7 @@ public class Entity {
             } else {
                 y = 0;
             }
-        } else {
+        } else if (isLegalPosition(x, nextY)) {
             if (nextX > x) {
                 x = 1;
             } else {

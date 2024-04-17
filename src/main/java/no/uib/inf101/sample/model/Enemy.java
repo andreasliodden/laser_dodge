@@ -72,8 +72,8 @@ public class Enemy extends Entity {
             readyToShoot = true;
         } else {
             readyToShoot = false;
-            updateState();
         }
+        updateState();
     }
 
     void switchGameState() {

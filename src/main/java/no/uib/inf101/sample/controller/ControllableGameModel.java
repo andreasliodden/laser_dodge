@@ -3,19 +3,19 @@ package no.uib.inf101.sample.controller;
 import no.uib.inf101.sample.model.GameState;
 
 public interface ControllableGameModel {
-    GameState getCurrentState();
-
-    void movePlayer(int x, int y);
-
-    void updateEnemyImage();
-
-    void clockTick();
+    boolean movePlayer(int x, int y);
 
     void addProjectile();
 
-    void readyToShoot();
+    void addGoldenApple();
+
+    void clockTick();
+
+    void updateEnemyImage();
 
     void updateGameState();
 
-    void addGoldenApple();
+    void readyToShoot();
+
+    GameState getCurrentState();
 }

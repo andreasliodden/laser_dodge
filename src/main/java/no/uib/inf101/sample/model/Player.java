@@ -111,20 +111,26 @@ public class Player extends Entity {
         return y + deltaY * 0.001 * playerSpeed;
     }
 
-    void move(int deltaX, int deltaY, double nextX, double nextY) {
-        updatePosition(nextX, nextY);
+    boolean move(int deltaX, int deltaY, double nextX, double nextY) {
         updatePlayerState(deltaX, deltaY);
+        return updatePosition(nextX, nextY);
     }
 
     void registerHit(GameState gameState) {
         if (gameState == GameState.ACTIVE_ENEMY) {
-            if (playerHealth > 0) {
-                playerHealth -= 10;
+            double hitpoint = 10;
+            if (playerHealth - hitpoint < 0) {
+                playerHealth = 0;
+            } else {
+                playerHealth -= hitpoint;
             }
             updatePlayerState(0, 0);
         } else {
-            if (playerHealth < 50) {
-                playerHealth += 3;
+            double regen = 3;
+            if (playerHealth + regen <= 50) {
+                playerHealth += regen;
+            } else {
+                playerHealth = 50;
             }
         }
     }
