@@ -91,13 +91,13 @@ public class GameController implements KeyListener {
                 gameModel.addGoldenApple();
             }
         } else if (currentGameState == GameState.ACTIVE_FRIENDLY) {
-                if (tickCounter % 200 == 100) {
+                if (tickCounter % 150 == 50) {
                     gameModel.readyToShoot();
                 } 
-                if (tickCounter % 200 == 0) {
+                if (tickCounter % 150 == 0) {
                     gameModel.addProjectile();
                 }
-                if (tickCounter % 1000 == 0) {
+                if (tickCounter % 900 == 0) {
                     gameModel.updateGameState();
                 }
             }

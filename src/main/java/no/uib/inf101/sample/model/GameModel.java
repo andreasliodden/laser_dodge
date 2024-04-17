@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import no.uib.inf101.sample.controller.ControllableGameModel;
+import no.uib.inf101.sample.model.projectile.GoldenApple;
 import no.uib.inf101.sample.model.projectile.Projectile;
 import no.uib.inf101.sample.model.projectile.ProjectileFactory;
 
@@ -70,7 +71,7 @@ public class GameModel implements ControllableGameModel {
     @Override
     public void addProjectile() {
         enemy.updateShootingStatus();
-        activeProjectiles.add(factory.getNext());
+        activeProjectiles.add(factory.getNextProjectile());
     }
 
     public ArrayList<Point2D> getProjectileTrail(int index) {
@@ -160,16 +161,12 @@ public class GameModel implements ControllableGameModel {
     @Override
     public void addGoldenApple() {
         if (!goldenAppleExists) {
-            goldenApple = GoldenApple.createNewApple();
+            goldenApple = factory.getGoldenApple();
             goldenAppleExists = true;
         }
     }
 
     public boolean goldenAppleExists() {
         return goldenAppleExists;
-    }
-
-    public ArrayList<Point2D> getGappleTrail() {
-        return goldenApple.getTrail();
     }
 }
