@@ -28,19 +28,15 @@ public class GameView extends JPanel {
     private ViewableEnemy enemy;
     private ViewablePlayer player;
     private double windowRatio;
-    private Color enemyColor;
-    private Color friendlyColor;
 
     public GameView(ViewableGameModel gameModel){
         this.gameModel = gameModel;
         this.player = gameModel.getViewablePlayer();
         this.enemy = gameModel.getViewableEnemy();
         this.colorTheme = new DefaultColorTheme();
-        this.enemyColor = colorTheme.getEnemyBackgroundColor();
-        this.friendlyColor = colorTheme.getFriendlyBackgroundColor();
         this.setPreferredSize(new Dimension(
                 START_WIDTH, START_HEIGHT));
-        this.setBackground(enemyColor);
+        this.setBackground(colorTheme.getAngryBackground());
         this.isDoubleBuffered();
     }
 
@@ -50,14 +46,14 @@ public class GameView extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
 
         if (gameModel.getCurrentState() == GameState.ACTIVE_FRIENDLY) {
-            if (this.getBackground() == enemyColor) {
-                this.setBackground(friendlyColor);
+            if (this.getBackground() == colorTheme.getAngryBackground()) {
+                this.setBackground(colorTheme.getFriendlyBackground());
             }
             drawHealthBar(g2, Color.BLACK);
             drawApples(g2);
         } else {
-            if (this.getBackground() == friendlyColor) {
-                this.setBackground(enemyColor);
+            if (this.getBackground() == colorTheme.getFriendlyBackground()) {
+                this.setBackground(colorTheme.getAngryBackground());
             } else if (gameModel.goldenAppleExists()) {
                 drawGoldenApple(g2);
             }

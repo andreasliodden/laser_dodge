@@ -8,12 +8,12 @@ public class DefaultColorTheme implements ColorTheme{
     private static final Color HEALTH_BAR = Color.GREEN;
 
     @Override
-    public Color getEnemyBackgroundColor() {
+    public Color getAngryBackground() {
        return ENEMY_BACKGROUND_COLOR;
     }
 
     @Override
-    public Color getFriendlyBackgroundColor() {
+    public Color getFriendlyBackground() {
        return FRIENDLY_BACKGROUND_COLOR;
     }
 

@@ -1,7 +1,9 @@
-package no.uib.inf101.sample.model;
+package no.uib.inf101.sample.model.player;
 
 import java.awt.image.BufferedImage;
 
+import no.uib.inf101.sample.model.Entity;
+import no.uib.inf101.sample.model.GameState;
 import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
 
 public class Player extends Entity implements ViewablePlayer {
@@ -107,15 +109,15 @@ public class Player extends Entity implements ViewablePlayer {
         }
     }
 
-    double getNextX(int deltaX) {
+    public double getNextX(int deltaX) {
         return x + deltaX * 0.001 * playerSpeed;
     }
 
-    double getNextY(int deltaY) {
+    public double getNextY(int deltaY) {
         return y + deltaY * 0.001 * playerSpeed;
     }
 
-    void move(int deltaX, int deltaY) {
+    public void move(int deltaX, int deltaY) {
         updatePlayerState(deltaX, deltaY);
         updatePosition(getNextX(deltaX), getNextY(deltaY));
     }

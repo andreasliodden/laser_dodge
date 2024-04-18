@@ -1,4 +1,4 @@
-package no.uib.inf101.sample.model;
+package no.uib.inf101.sample.model.enemy;
 
 import java.awt.image.BufferedImage;
 

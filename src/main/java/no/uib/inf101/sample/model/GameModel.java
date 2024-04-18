@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import no.uib.inf101.sample.controller.ControllableEnemy;
 import no.uib.inf101.sample.controller.ControllableGameModel;
+import no.uib.inf101.sample.model.player.Player;
 import no.uib.inf101.sample.model.projectile.GoldenApple;
 import no.uib.inf101.sample.model.projectile.Projectile;
 import no.uib.inf101.sample.model.projectile.ProjectileFactory;

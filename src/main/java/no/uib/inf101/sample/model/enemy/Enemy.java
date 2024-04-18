@@ -1,4 +1,4 @@
-package no.uib.inf101.sample.model;
+package no.uib.inf101.sample.model.enemy;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import no.uib.inf101.sample.controller.ControllableEnemy;
-import no.uib.inf101.sample.model.enemy.EnemyState;
+import no.uib.inf101.sample.model.Entity;
 import no.uib.inf101.sample.view.interfaces.ViewableEnemy;
 
 public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
