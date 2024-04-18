@@ -114,7 +114,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
         return projectilePlayerX < collisionRoom && projectilePlayerY < collisionRoom;
     }
 
-    public boolean playerEnemyCollision(double playerX, double playerY) {
+    private boolean playerEnemyCollision(double playerX, double playerY) {
         Rectangle2D restricedArea = enemy.getRestricedArea();
         return restricedArea.contains(playerX, playerY);
     }

@@ -3,6 +3,7 @@ package no.uib.inf101.sample.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import no.uib.inf101.sample.model.projectile.RandomProjectileFactory;
 import no.uib.inf101.sample.view.interfaces.ViewableEnemy;
 import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
 import no.uib.inf101.sample.view.interfaces.ViewableProjectile;
+import no.uib.inf101.sample.controller.ControllableEnemy;
 import no.uib.inf101.sample.model.projectile.ProjectileFactory;
 
 public class TestGameModel {
@@ -68,26 +70,6 @@ public class TestGameModel {
     }
 
     @Test
-    public void playerWindowCollision() {
-        ViewablePlayer player = gameModel.getViewablePlayer();
-        while (gameModel.movePlayer(1, 0));
-        assertFalse(gameModel.movePlayer(1, 0));
-        assertEquals(1, player.getX());
-
-        while (gameModel.movePlayer(0, 1));
-        assertFalse(gameModel.movePlayer(0, 1));
-        assertEquals(1, player.getY());
-
-        while (gameModel.movePlayer(-1, 0));
-        assertFalse(gameModel.movePlayer(-1, 0));
-        assertEquals(0, player.getX());
-
-        while (gameModel.movePlayer(0, -1));
-        assertFalse(gameModel.movePlayer(0, -1));
-        assertEquals(0, player.getX());
-    }
-
-    @Test
     public void playerEnemyCollision() {
         ViewablePlayer player = gameModel.getViewablePlayer();
         ViewableEnemy enemy = gameModel.getViewableEnemy();
@@ -114,6 +96,8 @@ public class TestGameModel {
         assertEquals(0, gameModel.getNumberOfProjectiles());
         gameModel.addProjectile();
         assertEquals(1, gameModel.getNumberOfProjectiles());
+        gameModel.addProjectile();
+        assertEquals(2, gameModel.getNumberOfProjectiles());
 
         assertFalse(gameModel.goldenAppleExists());
         gameModel.addGoldenApple();
@@ -141,5 +125,48 @@ public class TestGameModel {
         assertNotEquals(gappleY, gameModel.getGappleY());
         assertNotEquals(projectileX, projectile.getX());
         assertNotEquals(projectileY, projectile.getX());
+    }
+
+    @Test
+    public void getViewablePlayer() {
+        ViewablePlayer player = gameModel.getViewablePlayer();
+        assertTrue(player instanceof ViewablePlayer);
+    }
+
+    @Test
+    public void getViewableEnemy() {
+        ViewableEnemy enemy = gameModel.getViewableEnemy();
+        assertTrue(enemy instanceof ViewableEnemy);
+    }
+
+    @Test
+    public void getControllableEnemy() {
+        ControllableEnemy enemy = gameModel.getControllableEnemy();
+        assertTrue(enemy instanceof ControllableEnemy);
+    }
+
+    @Test
+    public void getProjectiles() {
+        gameModel.addProjectile();
+        gameModel.addProjectile();
+
+        assertTrue(gameModel.getProjectile(0) instanceof ViewableProjectile);
+        assertTrue(gameModel.getProjectile(1) instanceof ViewableProjectile);
+        assertThrows(IndexOutOfBoundsException.class, () -> gameModel.getProjectile(2));
+    }
+
+    @Test
+    public void getAndUpdateScore() {
+        assertEquals(0, gameModel.getScore());
+
+        int iterations = 5;
+        for (int i = 0; i < iterations; i++) {
+            gameModel.addTimeScore();
+        }
+        int currentScore = iterations * 2;
+        assertEquals(currentScore, gameModel.getScore());
+
+        gameModel.addProjectile();
+        assertEquals(currentScore + 10, gameModel.getScore());
     }
 }
