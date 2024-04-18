@@ -80,6 +80,7 @@ public class GameController implements KeyListener {
 
         if (tickCounter % 30 == 0) {
             enemy.updateState();
+            gameModel.addTimeScore();
         } 
 
         if (currentGameState == GameState.ACTIVE_ENEMY) {

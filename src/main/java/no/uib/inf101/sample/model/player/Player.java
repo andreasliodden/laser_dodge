@@ -9,8 +9,8 @@ import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
 public class Player extends Entity implements ViewablePlayer {
     private static final double START_X = 0.10;
     private static final double START_Y = 0.10;
+    private static final double PLAYER_SPEED = 7;
 
-    private double playerSpeed;
     private int playerHealth;
     private PlayerState playerState;
 
@@ -18,7 +18,6 @@ public class Player extends Entity implements ViewablePlayer {
         this.x = START_X;
         this.y = START_Y;
         this.playerState = PlayerState.FRONT_RIGHT;
-        this.playerSpeed = 7;
         this.playerHealth = 50;
     }
 
@@ -30,10 +29,6 @@ public class Player extends Entity implements ViewablePlayer {
     @Override
     public int getHealth() {
         return this.playerHealth;
-    }
-
-    public double getPlayerSpeed() {
-        return this.playerSpeed;
     }
 
     private void updatePlayerState(int deltaX, int deltaY) {
@@ -110,16 +105,16 @@ public class Player extends Entity implements ViewablePlayer {
     }
 
     public double getNextX(int deltaX) {
-        return x + deltaX * 0.001 * playerSpeed;
+        return x + deltaX * 0.001 * PLAYER_SPEED;
     }
 
     public double getNextY(int deltaY) {
-        return y + deltaY * 0.001 * playerSpeed;
+        return y + deltaY * 0.001 * PLAYER_SPEED;
     }
 
-    public void move(int deltaX, int deltaY) {
+    public boolean move(int deltaX, int deltaY) {
         updatePlayerState(deltaX, deltaY);
-        updatePosition(getNextX(deltaX), getNextY(deltaY));
+        return updatePosition(getNextX(deltaX), getNextY(deltaY));
     }
 
     public void registerHit(GameState gameState) {

@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import no.uib.inf101.sample.controller.ControllableEnemy;
 import no.uib.inf101.sample.controller.ControllableGameModel;
+import no.uib.inf101.sample.model.enemy.Enemy;
 import no.uib.inf101.sample.model.player.Player;
 import no.uib.inf101.sample.model.projectile.GoldenApple;
 import no.uib.inf101.sample.model.projectile.Projectile;
@@ -24,6 +25,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     private GameState gameState;
     private GoldenApple goldenApple;
     private boolean goldenAppleExists;
+    private int gameScore;
 
     public GameModel(ProjectileFactory factory) {
         this.factory = factory;
@@ -31,6 +33,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
         this.player = new Player();
         this.gameState = GameState.ACTIVE_ENEMY;
         this.goldenAppleExists = false;
+        this.gameScore = 0;
     }
 
     @Override
@@ -39,12 +42,13 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public void movePlayer(int deltaX, int deltaY) {
+    public boolean movePlayer(int deltaX, int deltaY) {
         double nextX = player.getNextX(deltaX);
         double nextY = player.getNextY(deltaY);
         if (!playerEnemyCollision(nextX, nextY)) {
-            player.move(deltaX, deltaY);
+            return player.move(deltaX, deltaY);
         }
+        return false;
     }
 
     @Override
@@ -63,6 +67,9 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
             if (playerProjectileCollision(projectile.getX(), projectile.getY())) {
                 player.registerHit(gameState);
                 iterator.remove();
+                if (gameState == GameState.ACTIVE_FRIENDLY) {
+                    gameScore += 10;
+                }
             }
         }
     }
@@ -71,6 +78,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     public void addProjectile() {
         enemy.updateShootingStatus();
         activeProjectiles.add(factory.getNextProjectile());
+        gameScore += 10;
     }
 
     @Override
@@ -81,7 +89,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
             gameState = GameState.ACTIVE_ENEMY;
         }
 
-        enemy.switchGameState();
+        enemy.switchMood();
     }
 
     @Override
@@ -101,7 +109,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     private boolean playerProjectileCollision(double projectileX, double projectileY) {
         double collisionRoom = 0.025;
-        double projectilePlayerX = Math.abs(projectileX- player.getX());
+        double projectilePlayerX = Math.abs(projectileX - player.getX());
         double projectilePlayerY = Math.abs(projectileY - player.getY());
         return projectilePlayerX < collisionRoom && projectilePlayerY < collisionRoom;
     }
@@ -121,7 +129,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     @Override
     public boolean goldenAppleExists() {
-        return goldenAppleExists;
+        return this.goldenAppleExists;
     }
 
     @Override
@@ -141,6 +149,18 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     @Override
     public ControllableEnemy getControllableEnemy() {
-        return enemy;
+        return this.enemy;
     }
+
+    @Override
+    public int getScore() {
+        return this.gameScore;
+    }
+
+    @Override
+    public void addTimeScore() {
+        gameScore += 2;
+    }
+
+
 }

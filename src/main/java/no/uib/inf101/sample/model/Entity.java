@@ -11,12 +11,12 @@ public class Entity implements ViewableEntity {
 
     @Override
     public double getX() {
-        return x;
+        return this.x;
     }
 
     @Override
     public double getY() {
-        return y;
+        return this.y;
     }
 
     public boolean updatePosition(double nextX, double nextY) {

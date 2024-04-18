@@ -84,7 +84,7 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
     }
 
     @Override
-    public void switchGameState() {
+    public void switchMood() {
         if (angryStates.contains(enemyState)) {
             enemyState = EnemyState.FRIENDLY_ONE;
         } else {

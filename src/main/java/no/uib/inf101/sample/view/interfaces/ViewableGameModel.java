@@ -11,4 +11,5 @@ public interface ViewableGameModel {
     double getGappleY();
     GameState getCurrentState();
     int getNumberOfProjectiles();
+    int getScore();
 }

@@ -49,7 +49,7 @@ public class GameView extends JPanel {
             if (this.getBackground() == colorTheme.getAngryBackground()) {
                 this.setBackground(colorTheme.getFriendlyBackground());
             }
-            drawHealthBar(g2, Color.BLACK);
+            drawGameInfo(g2, Color.BLACK);
             drawApples(g2);
         } else {
             if (this.getBackground() == colorTheme.getFriendlyBackground()) {
@@ -57,7 +57,7 @@ public class GameView extends JPanel {
             } else if (gameModel.goldenAppleExists()) {
                 drawGoldenApple(g2);
             }
-            drawHealthBar(g2, Color.WHITE);
+            drawGameInfo(g2, Color.WHITE);
             drawProjectile(g2);
         }
         drawPlayer(g2);
@@ -75,10 +75,11 @@ public class GameView extends JPanel {
         }
     }
 
-    private void drawHealthBar(Graphics2D g2, Color textColor) {
+    private void drawGameInfo(Graphics2D g2, Color textColor) {
         g2.setColor(textColor);
         g2.setFont(getFont(30));
         Inf101Graphics.drawCenteredString(g2, "HEALTH:", 0, 0, this.getWidth(), this.getHeight() * 0.075);
+        Inf101Graphics.drawCenteredString(g2, "SCORE: " + gameModel.getScore(), 0, 0, this.getWidth() / 3, this.getHeight() * 0.075);;
         Rectangle2D healthBar = new Rectangle2D.Double(
                     this.getWidth() * 0.4, this.getHeight() * 0.075,
                     this.getWidth() * 0.2, this.getHeight() * 0.05
