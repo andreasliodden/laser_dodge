@@ -3,7 +3,9 @@ package no.uib.inf101.sample.model.projectile;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class Projectile extends RandomMovingEntity {
+import no.uib.inf101.sample.view.interfaces.ViewableProjectile;
+
+public class Projectile extends RandomMovingEntity implements ViewableProjectile {
     private ArrayList<Point2D> trail = new ArrayList<>();
 
     private Projectile(double velocityX, double velocityY) {
@@ -31,8 +33,9 @@ public class Projectile extends RandomMovingEntity {
         }
     }
 
+    @Override
     public ArrayList<Point2D> getTrail() {
         return this.trail;
-    }    
+    }
 }
 

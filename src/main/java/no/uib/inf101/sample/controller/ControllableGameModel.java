@@ -3,7 +3,7 @@ package no.uib.inf101.sample.controller;
 import no.uib.inf101.sample.model.GameState;
 
 public interface ControllableGameModel {
-    boolean movePlayer(int x, int y);
+    boolean movePlayer(int deltaX, int deltaY);
 
     void addProjectile();
 
@@ -11,11 +11,9 @@ public interface ControllableGameModel {
 
     void clockTick();
 
-    void updateEnemyImage();
-
     void updateGameState();
 
-    void readyToShoot();
-
     GameState getCurrentState();
+
+    ControllableEnemy getControllableEnemy();
 }

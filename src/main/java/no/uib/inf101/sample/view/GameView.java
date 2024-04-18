@@ -11,22 +11,30 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
-import no.uib.inf101.sample.model.GameModel;
 import no.uib.inf101.sample.model.GameState;
+import no.uib.inf101.sample.view.interfaces.ViewableEnemy;
+import no.uib.inf101.sample.view.interfaces.ViewableGameModel;
+import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
+import no.uib.inf101.sample.view.interfaces.ViewableProjectile;
 
 public class GameView extends JPanel {
     private static final int START_WIDTH = 1700;
     private static final int START_HEIGHT = 1000;
     private static final BufferedImage APPLE = Inf101Graphics.loadImageFromResources("apple.png");
+    private static final BufferedImage GOLDEN_APPLE = Inf101Graphics.loadImageFromResources("golden_apple.png");
 
     private ColorTheme colorTheme;
-    private GameModel gameModel;
+    private ViewableGameModel gameModel;
+    private ViewableEnemy enemy;
+    private ViewablePlayer player;
     private double windowRatio;
     private Color enemyColor;
     private Color friendlyColor;
 
-    public GameView(GameModel gameModel){
+    public GameView(ViewableGameModel gameModel){
         this.gameModel = gameModel;
+        this.player = gameModel.getViewablePlayer();
+        this.enemy = gameModel.getViewableEnemy();
         this.colorTheme = new DefaultColorTheme();
         this.enemyColor = colorTheme.getEnemyBackgroundColor();
         this.friendlyColor = colorTheme.getFriendlyBackgroundColor();
@@ -61,12 +69,13 @@ public class GameView extends JPanel {
     }
 
     private void drawGoldenApple(Graphics2D g2) {
-        drawImage(g2, gameModel.getGappleImage(), gameModel.getGappleX(), gameModel.getGappleY(), 3);
+        drawImage(g2, GOLDEN_APPLE, gameModel.getGappleX(), gameModel.getGappleY(), 3);
     }
 
     private void drawApples(Graphics2D g2) {
         for (int i = 0; i < gameModel.getNumberOfProjectiles(); i++) {
-            drawImage(g2, APPLE, gameModel.getProjectileX(i), gameModel.getProjectileY(i), 3);
+            ViewableProjectile projectile = gameModel.getProjectile(i);
+            drawImage(g2, APPLE, projectile.getX(), projectile.getY(), 3);
         }
     }
 
@@ -81,7 +90,7 @@ public class GameView extends JPanel {
         
         Rectangle2D health = new Rectangle2D.Double(
                     this.getWidth() * 0.4, this.getHeight() * 0.075,
-                    (this.getWidth() * 0.2 * gameModel.getPlayerHealth()) / 50,
+                    (this.getWidth() * 0.2 * player.getHealth()) / 50,
                     this.getHeight() * 0.05
                 );
                 
@@ -91,13 +100,13 @@ public class GameView extends JPanel {
         g2.setStroke(new BasicStroke(2));
         g2.draw(healthBar);
         g2.setColor(Color.WHITE);
-        Inf101Graphics.drawCenteredString(g2, "" + gameModel.getPlayerHealth(), healthBar);
+        Inf101Graphics.drawCenteredString(g2, "" + player.getHealth(), healthBar);
 
     }
 
     private Color getHealthColor() {
         int multiplier = 4;
-        int greenValue = gameModel.getPlayerHealth() * multiplier;
+        int greenValue = player.getHealth() * multiplier;
         int maxGreenValue = 255;
         int redValue = maxGreenValue - greenValue;
         return new Color(redValue, greenValue, 0);
@@ -108,11 +117,11 @@ public class GameView extends JPanel {
     }
 
     private void drawPlayer(Graphics2D g2) {
-        drawImage(g2, gameModel.getPlayerImage(), gameModel.getPlayerX(), gameModel.getPlayerY(), 5);
+        drawImage(g2, player.getImage(), player.getX(), player.getY(), 5);
     }
 
     private void drawEnemy(Graphics2D g2) {
-        drawImage(g2, gameModel.getEnemyImage(), gameModel.getEnemyX(), gameModel.getEnemyY(), 6);
+        drawImage(g2, enemy.getImage(), enemy.getX(), enemy.getY(), 6);
     }
 
     private void drawProjectile(Graphics2D g2) {
@@ -123,11 +132,12 @@ public class GameView extends JPanel {
         int colorFactor;
         
         for (int i = 0; i < gameModel.getNumberOfProjectiles(); i++) {
+            ViewableProjectile projectile = gameModel.getProjectile(i);
             colorFactor = 0;
-            ArrayList<Point2D> trail = gameModel.getProjectileTrail(i);
+            ArrayList<Point2D> trail = projectile.getTrail();
             projectileBox = new Rectangle2D.Double(
-                    gameModel.getProjectileX(i) * (this.getWidth() - width), 
-                    gameModel.getProjectileY(i) * (this.getHeight() - height),
+                    projectile.getX() * (this.getWidth() - width), 
+                    projectile.getY() * (this.getHeight() - height),
                     width, height
                 );
             g2.setColor(Color.RED);

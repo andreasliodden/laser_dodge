@@ -5,7 +5,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Enemy extends Entity {
+import no.uib.inf101.sample.controller.ControllableEnemy;
+import no.uib.inf101.sample.view.interfaces.ViewableEnemy;
+
+public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
     private static final double MARGIN_X = 0.05;
     private static final double MARGIN_Y = 0.1;
     private final Rectangle2D restrictedArea;
@@ -14,7 +17,7 @@ public class Enemy extends Entity {
     private ArrayList<EnemyState> angryStates = new ArrayList<>();
     
 
-    Enemy() {
+    public Enemy() {
         this.x = 0.50;
         this.y = 0.50;
         this.enemyState = EnemyState.ANGRY_ONE;
@@ -26,15 +29,17 @@ public class Enemy extends Entity {
         initAngryStates();
     }
 
+    @Override
+    public BufferedImage getImage() {
+        return enemyState.getImage();
+    }
+
     private void initAngryStates() {
         Collections.addAll(angryStates, EnemyState.ANGRY_ONE, EnemyState.ANGRY_TWO, EnemyState.ANGRY_READY);
     }
 
-    BufferedImage getImage() {
-        return enemyState.getImage();
-    }
-
-    void updateState(){
+    @Override
+    public void updateState(){
         if (readyToShoot) {
             if (angryStates.contains(enemyState)) {
                 enemyState = EnemyState.ANGRY_READY;
@@ -63,11 +68,12 @@ public class Enemy extends Entity {
         }
     }
 
-    Rectangle2D getRestricedArea() {
+    public Rectangle2D getRestricedArea() {
         return this.restrictedArea;
     }
 
-    void updateShootingStatus() {
+    @Override
+    public void updateShootingStatus() {
         if (readyToShoot == false) {
             readyToShoot = true;
         } else {
@@ -76,7 +82,8 @@ public class Enemy extends Entity {
         updateState();
     }
 
-    void switchGameState() {
+    @Override
+    public void switchGameState() {
         if (angryStates.contains(enemyState)) {
             enemyState = EnemyState.FRIENDLY_ONE;
         } else {

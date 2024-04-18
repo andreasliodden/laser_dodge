@@ -12,6 +12,7 @@ import no.uib.inf101.sample.view.GameView;
 
 public class GameController implements KeyListener {
     private ControllableGameModel gameModel;
+    private ControllableEnemy enemy;
     private GameView gameView;
     private Timer timer;
     private boolean playerUp, playerDown, playerLeft, playerRight;
@@ -23,6 +24,7 @@ public class GameController implements KeyListener {
 
     public GameController(ControllableGameModel gameModel, GameView gameView) {
         this.gameModel = gameModel;
+        this.enemy = gameModel.getControllableEnemy();
         this.gameView = gameView;
         this.timer = new Timer(timeDelay, e -> clockTick());
         gameView.setFocusable(true);
@@ -77,12 +79,12 @@ public class GameController implements KeyListener {
         previousGameState = currentGameState;
 
         if (tickCounter % 30 == 0) {
-            gameModel.updateEnemyImage();
+            enemy.updateState();
         } 
 
         if (currentGameState == GameState.ACTIVE_ENEMY) {
             if (tickCounter % 500 == 400) {
-                gameModel.readyToShoot();
+                enemy.updateShootingStatus();
             } 
             if (tickCounter % 500 == 0) {
                 gameModel.addProjectile();
@@ -92,7 +94,7 @@ public class GameController implements KeyListener {
             }
         } else if (currentGameState == GameState.ACTIVE_FRIENDLY) {
                 if (tickCounter % 150 == 50) {
-                    gameModel.readyToShoot();
+                    enemy.updateShootingStatus();
                 } 
                 if (tickCounter % 150 == 0) {
                     gameModel.addProjectile();

@@ -1,18 +1,21 @@
 package no.uib.inf101.sample.model;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import java.util.Iterator;
 
+import no.uib.inf101.sample.controller.ControllableEnemy;
 import no.uib.inf101.sample.controller.ControllableGameModel;
 import no.uib.inf101.sample.model.projectile.GoldenApple;
 import no.uib.inf101.sample.model.projectile.Projectile;
 import no.uib.inf101.sample.model.projectile.ProjectileFactory;
+import no.uib.inf101.sample.view.interfaces.ViewableEnemy;
+import no.uib.inf101.sample.view.interfaces.ViewableGameModel;
+import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
+import no.uib.inf101.sample.view.interfaces.ViewableProjectile;
 
-public class GameModel implements ControllableGameModel {
+public class GameModel implements ControllableGameModel, ViewableGameModel {
     private Enemy enemy;
     private Player player;
     private ArrayList<Projectile> activeProjectiles = new ArrayList<>();
@@ -39,15 +42,11 @@ public class GameModel implements ControllableGameModel {
         double nextX = player.getNextX(deltaX);
         double nextY = player.getNextY(deltaY);
         if (!playerEnemyCollision(nextX, nextY)) {
-            return player.move(deltaX, deltaY, nextX, nextY);
+            return player.move(deltaX, deltaY);
         }
         return false;
     }
 
-    @Override
-    public void updateEnemyImage() {
-        enemy.updateState();
-    }
 
     @Override
     public void clockTick() {
@@ -75,15 +74,6 @@ public class GameModel implements ControllableGameModel {
         activeProjectiles.add(factory.getNextProjectile());
     }
 
-    public ArrayList<Point2D> getProjectileTrail(int index) {
-        return activeProjectiles.get(index).getTrail();
-    }
-
-    @Override
-    public void readyToShoot() {
-        enemy.updateShootingStatus();
-    }
-
     @Override
     public void updateGameState() {
         if (gameState == GameState.ACTIVE_ENEMY) {
@@ -95,60 +85,19 @@ public class GameModel implements ControllableGameModel {
         enemy.switchGameState();
     }
 
-    public double getPlayerX() {
-        return player.getX();
-    }
-
-    public double getPlayerY() {
-        return player.getY();
-    }
-
-    public BufferedImage getPlayerImage() {
-        return player.getImage();
-    }
-
-    public int getPlayerHealth() {
-        return player.getPlayerHealth();
-    }
-
-    public double getEnemyX() {
-        return enemy.getX();
-    }
-
-    public double getEnemyY() {
-        return enemy.getY();
-    }
-
-    public BufferedImage getEnemyImage() {
-        return enemy.getImage();
-    }
-
-    public double getProjectileX(int index) {
-        return activeProjectiles.get(index).getX();
-    }
-
-    public double getProjectileY(int index) {
-        return activeProjectiles.get(index).getY();
-    }
-
+    @Override
     public int getNumberOfProjectiles() {
         return activeProjectiles.size();
     }
 
+    @Override
     public double getGappleX(){
         return goldenApple.getX();
     }
 
+    @Override
     public double getGappleY(){
         return goldenApple.getY();
-    }
-
-    public BufferedImage getGappleImage(){
-        return goldenApple.getImage();
-    }
-
-    Rectangle2D getRestrictedEnemyArea() {
-        return enemy.getRestricedArea();
     }
 
     private boolean playerProjectileCollision(double projectileX, double projectileY) {
@@ -158,7 +107,7 @@ public class GameModel implements ControllableGameModel {
         return projectilePlayerX < collisionRoom && projectilePlayerY < collisionRoom;
     }
 
-    private boolean playerEnemyCollision(double playerX, double playerY) {
+    public boolean playerEnemyCollision(double playerX, double playerY) {
         Rectangle2D restricedArea = enemy.getRestricedArea();
         return restricedArea.contains(playerX, playerY);
     }
@@ -171,7 +120,28 @@ public class GameModel implements ControllableGameModel {
         }
     }
 
+    @Override
     public boolean goldenAppleExists() {
         return goldenAppleExists;
+    }
+
+    @Override
+    public ViewablePlayer getViewablePlayer() {
+        return this.player;
+    }
+
+    @Override
+    public ViewableEnemy getViewableEnemy() {
+        return this.enemy;
+    }
+
+    @Override
+    public ViewableProjectile getProjectile(int index) {
+        return activeProjectiles.get(index);
+    }
+
+    @Override
+    public ControllableEnemy getControllableEnemy() {
+        return enemy;
     }
 }

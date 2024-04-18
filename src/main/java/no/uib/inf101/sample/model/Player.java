@@ -2,7 +2,9 @@ package no.uib.inf101.sample.model;
 
 import java.awt.image.BufferedImage;
 
-public class Player extends Entity {
+import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
+
+public class Player extends Entity implements ViewablePlayer {
     private static final double START_X = 0.10;
     private static final double START_Y = 0.10;
 
@@ -10,7 +12,7 @@ public class Player extends Entity {
     private int playerHealth;
     private PlayerState playerState;
 
-    Player() {
+    public Player() {
         this.x = START_X;
         this.y = START_Y;
         this.playerState = PlayerState.FRONT_RIGHT;
@@ -18,16 +20,18 @@ public class Player extends Entity {
         this.playerHealth = 50;
     }
 
-    BufferedImage getImage() {
+    @Override
+    public BufferedImage getImage() {
         return playerState.getImage();
     }
 
-    double getPlayerSpeed() {
-        return this.playerSpeed;
+    @Override
+    public int getHealth() {
+        return this.playerHealth;
     }
 
-    int getPlayerHealth() {
-        return this.playerHealth;
+    public double getPlayerSpeed() {
+        return this.playerSpeed;
     }
 
     private void updatePlayerState(int deltaX, int deltaY) {
@@ -111,12 +115,12 @@ public class Player extends Entity {
         return y + deltaY * 0.001 * playerSpeed;
     }
 
-    boolean move(int deltaX, int deltaY, double nextX, double nextY) {
+    boolean move(int deltaX, int deltaY) {
         updatePlayerState(deltaX, deltaY);
-        return updatePosition(nextX, nextY);
+        return updatePosition(getNextX(deltaX), getNextY(deltaY));
     }
 
-    void registerHit(GameState gameState) {
+    public void registerHit(GameState gameState) {
         if (gameState == GameState.ACTIVE_ENEMY) {
             double hitpoint = 10;
             if (playerHealth - hitpoint < 0) {
