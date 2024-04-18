@@ -17,7 +17,7 @@ public class RandomMovingEntity extends Entity {
     }
 
     @Override
-    protected boolean updatePosition(double nextX, double nextY) {
+    public boolean updatePosition(double nextX, double nextY) {
         if(super.updatePosition(nextX, nextY)) {
             return true;
         }

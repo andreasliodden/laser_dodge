@@ -38,15 +38,13 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public boolean movePlayer(int deltaX, int deltaY) {
+    public void movePlayer(int deltaX, int deltaY) {
         double nextX = player.getNextX(deltaX);
         double nextY = player.getNextY(deltaY);
         if (!playerEnemyCollision(nextX, nextY)) {
-            return player.move(deltaX, deltaY);
+            player.move(deltaX, deltaY);
         }
-        return false;
     }
-
 
     @Override
     public void clockTick() {

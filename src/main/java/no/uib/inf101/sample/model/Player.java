@@ -115,9 +115,9 @@ public class Player extends Entity implements ViewablePlayer {
         return y + deltaY * 0.001 * playerSpeed;
     }
 
-    boolean move(int deltaX, int deltaY) {
+    void move(int deltaX, int deltaY) {
         updatePlayerState(deltaX, deltaY);
-        return updatePosition(getNextX(deltaX), getNextY(deltaY));
+        updatePosition(getNextX(deltaX), getNextY(deltaY));
     }
 
     public void registerHit(GameState gameState) {
