@@ -79,15 +79,27 @@ public class GameView extends JPanel {
         g2.setColor(textColor);
         g2.setFont(getFont(30));
         Inf101Graphics.drawCenteredString(g2, "HEALTH:", 0, 0, this.getWidth(), this.getHeight() * 0.075);
-        Inf101Graphics.drawCenteredString(g2, "SCORE: " + gameModel.getScore(), 0, 0, this.getWidth() / 3, this.getHeight() * 0.075);;
+        Inf101Graphics.drawCenteredString(g2, "SCORE: " + gameModel.getScore(), 0, 0, this.getWidth() * 0.35, this.getHeight() * 0.15);
+
+        String message;
+        if (gameModel.getCurrentState() == GameState.ACTIVE_ENEMY) {
+            if (gameModel.getGappleCountdown() > 0) {
+                message = "GAPPLE SPAWNS IN: " + gameModel.getGappleCountdown();
+            } else {
+                message = "GAPPLE IS SPAWNED";
+            }
+        } else {
+            message = "HEALING FRENZY";
+        }
+        Inf101Graphics.drawCenteredString(g2, message, this.getWidth() * 0.65, 0, this.getWidth() * 0.35 , this.getHeight() * 0.15);
         Rectangle2D healthBar = new Rectangle2D.Double(
-                    this.getWidth() * 0.4, this.getHeight() * 0.075,
-                    this.getWidth() * 0.2, this.getHeight() * 0.05
+                    this.getWidth() * 0.35, this.getHeight() * 0.075,
+                    this.getWidth() * 0.3, this.getHeight() * 0.05
                 );
         
         Rectangle2D health = new Rectangle2D.Double(
-                    this.getWidth() * 0.4, this.getHeight() * 0.075,
-                    (this.getWidth() * 0.2 * player.getHealth()) / 50,
+                    this.getWidth() * 0.35, this.getHeight() * 0.075,
+                    (this.getWidth() * 0.3 * player.getHealth()) / player.getMaxHealth(),
                     this.getHeight() * 0.05
                 );
                 
@@ -102,11 +114,11 @@ public class GameView extends JPanel {
     }
 
     private Color getHealthColor() {
-        int multiplier = 4;
-        int greenValue = player.getHealth() * multiplier;
         int maxGreenValue = 255;
+        double multiplier = maxGreenValue / player.getMaxHealth();
+        int greenValue = player.getHealth() * (int) multiplier;
         int redValue = maxGreenValue - greenValue;
-        return new Color(redValue, greenValue, 0);
+        return new Color(redValue, Math.min(200, greenValue), 0);
     }
 
     public void updateWindowRatio() {

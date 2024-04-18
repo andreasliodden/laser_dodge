@@ -30,6 +30,8 @@ public class GameController implements KeyListener {
         gameView.setFocusable(true);
         gameView.addKeyListener(this);
         timer.start();
+        timer.setDelay(timeDelay);
+        timer.setInitialDelay(timeDelay);
 
         // Hentet fra https://stackoverflow.com/questions/2303305/window-resize-event
         gameView.addComponentListener(new ComponentAdapter() {
@@ -78,12 +80,15 @@ public class GameController implements KeyListener {
         }
         previousGameState = currentGameState;
 
-        if (tickCounter % 30 == 0) {
+        if (tickCounter % 100 == 0) {
             enemy.updateState();
             gameModel.addTimeScore();
         } 
 
         if (currentGameState == GameState.ACTIVE_ENEMY) {
+            if (tickCounter % 100 == 0) {
+                gameModel.updateGappleCountdown();
+            }
             if (tickCounter % 500 == 400) {
                 enemy.updateShootingStatus();
             } 

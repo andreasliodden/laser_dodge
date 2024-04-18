@@ -18,4 +18,6 @@ public interface ControllableGameModel {
     ControllableEnemy getControllableEnemy();
 
     void addTimeScore();
+
+    void updateGappleCountdown();
 }

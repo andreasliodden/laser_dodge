@@ -26,6 +26,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     private GoldenApple goldenApple;
     private boolean goldenAppleExists;
     private int gameScore;
+    private int gappleCountdown;
 
     public GameModel(ProjectileFactory factory) {
         this.factory = factory;
@@ -34,6 +35,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
         this.gameState = GameState.ACTIVE_ENEMY;
         this.goldenAppleExists = false;
         this.gameScore = 0;
+        this.gappleCountdown = 50;
     }
 
     @Override
@@ -87,6 +89,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
             gameState = GameState.ACTIVE_FRIENDLY;
         } else {
             gameState = GameState.ACTIVE_ENEMY;
+            resetGappleCountdown();
         }
 
         enemy.switchMood();
@@ -162,5 +165,19 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
         gameScore += 2;
     }
 
+    @Override
+    public int getGappleCountdown() {
+        return this.gappleCountdown;
+    }
 
+    @Override
+    public void updateGappleCountdown() {
+        if (gappleCountdown > 0) {
+            gappleCountdown -= 1;
+        }
+    }
+
+    private void resetGappleCountdown() {
+        gappleCountdown = 50;
+    }
 }

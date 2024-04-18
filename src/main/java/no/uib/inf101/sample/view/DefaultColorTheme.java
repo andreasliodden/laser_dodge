@@ -2,10 +2,9 @@ package no.uib.inf101.sample.view;
 
 import java.awt.Color;
 
-public class DefaultColorTheme implements ColorTheme{
+public class DefaultColorTheme implements ColorTheme{ 
     private static final Color ENEMY_BACKGROUND_COLOR = new Color(30, 30, 30);
     private static final Color FRIENDLY_BACKGROUND_COLOR = new Color(190, 190, 190);
-    private static final Color HEALTH_BAR = Color.GREEN;
 
     @Override
     public Color getAngryBackground() {
@@ -15,11 +14,5 @@ public class DefaultColorTheme implements ColorTheme{
     @Override
     public Color getFriendlyBackground() {
        return FRIENDLY_BACKGROUND_COLOR;
-    }
-
-    @Override
-    public Color getHealthBarColor() {
-       return HEALTH_BAR;
-    }
-    
+    }   
 }

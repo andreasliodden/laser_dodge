@@ -12,4 +12,5 @@ public interface ViewableGameModel {
     GameState getCurrentState();
     int getNumberOfProjectiles();
     int getScore();
+    int getGappleCountdown();
 }

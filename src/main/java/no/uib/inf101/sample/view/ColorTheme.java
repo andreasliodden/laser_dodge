@@ -6,6 +6,4 @@ public interface ColorTheme {
     Color getAngryBackground();
 
     Color getFriendlyBackground();
-
-    Color getHealthBarColor();
 }

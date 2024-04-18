@@ -10,6 +10,7 @@ public class Player extends Entity implements ViewablePlayer {
     private static final double START_X = 0.10;
     private static final double START_Y = 0.10;
     private static final double PLAYER_SPEED = 7;
+    private static final int MAX_HEALTH = 80;
 
     private int playerHealth;
     private PlayerState playerState;
@@ -18,7 +19,7 @@ public class Player extends Entity implements ViewablePlayer {
         this.x = START_X;
         this.y = START_Y;
         this.playerState = PlayerState.FRONT_RIGHT;
-        this.playerHealth = 50;
+        this.playerHealth = MAX_HEALTH;
     }
 
     @Override
@@ -127,12 +128,16 @@ public class Player extends Entity implements ViewablePlayer {
             }
             updatePlayerState(0, 0);
         } else {
-            double regen = 3;
-            if (playerHealth + regen <= 50) {
-                playerHealth += regen;
+            double healingPoints = 5;
+            if (playerHealth + healingPoints <= MAX_HEALTH) {
+                playerHealth += healingPoints;
             } else {
-                playerHealth = 50;
+                playerHealth = MAX_HEALTH;
             }
         }
+    }
+
+    public int getMaxHealth() {
+        return MAX_HEALTH;
     }
 }

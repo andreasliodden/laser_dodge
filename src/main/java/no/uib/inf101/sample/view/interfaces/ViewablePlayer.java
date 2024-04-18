@@ -5,4 +5,5 @@ import java.awt.image.BufferedImage;
 public interface ViewablePlayer extends ViewableEntity {
     BufferedImage getImage();
     int getHealth();
+    int getMaxHealth();
 }

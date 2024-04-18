@@ -21,8 +21,8 @@ public class Projectile extends RandomMovingEntity implements ViewableProjectile
 
     @Override
     public void move() {
-        super.move();
         addPositionToTrail();
+        super.move();
     }
 
     private void addPositionToTrail() {
