@@ -92,4 +92,9 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
         }
         readyToShoot = false;
     }
+
+    public void reset() {
+        this.enemyState = EnemyState.ANGRY_ONE;
+        this.readyToShoot = false;
+    }
 }

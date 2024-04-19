@@ -140,4 +140,11 @@ public class Player extends Entity implements ViewablePlayer {
     public int getMaxHealth() {
         return MAX_HEALTH;
     }
+
+    public void reset() {
+        this.x = START_X;
+        this.y = START_Y;
+        this.playerHealth = MAX_HEALTH;
+        this.playerState = PlayerState.FRONT_RIGHT;
+    }
 }

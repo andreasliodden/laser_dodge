@@ -28,6 +28,7 @@ public class GameView extends JPanel {
     private ViewableEnemy enemy;
     private ViewablePlayer player;
     private double windowRatio;
+    private boolean enemyIsAngry;
 
     public GameView(ViewableGameModel gameModel){
         this.gameModel = gameModel;
@@ -36,7 +37,8 @@ public class GameView extends JPanel {
         this.colorTheme = new DefaultColorTheme();
         this.setPreferredSize(new Dimension(
                 START_WIDTH, START_HEIGHT));
-        this.setBackground(colorTheme.getDefaultBackground());
+        this.setBackground(colorTheme.getAngryBackground());
+        this.enemyIsAngry = true;
     }
 
     @Override
@@ -49,15 +51,14 @@ public class GameView extends JPanel {
     private void drawGameState(Graphics2D g2) {
         GameState gameState = gameModel.getCurrentState();
 
-        if (gameState == GameState.HOME) {
-            drawHomeScreen(g2);
-        } else if (gameState == GameState.CONTROLS) {
-            drawControls(g2);
-        } else if (gameState == GameState.GAME_OVER) {
-            drawGameOver(g2);
-        } else {
-            drawActiveGame(g2);
+        switch (gameState) {
+            case HOME -> drawHomeScreen(g2);
+            case CONTROLS -> drawControls(g2);
+            case PAUSED -> drawPaused(g2);
+            case GAME_OVER -> drawGameOver(g2);
+            default -> drawActiveGame(g2);
         }
+        drawEnemy(g2);
     }
 
     private void drawHomeScreen(Graphics2D g2) {
@@ -92,8 +93,6 @@ public class GameView extends JPanel {
                 g2, "LASER DODGE", 0, this.getHeight() * 0.05, 
                 this.getWidth(), this.getHeight() * 0.45
             );
-
-        drawEnemy(g2);
     }
 
     private void drawControls(Graphics2D g2) {
@@ -104,7 +103,6 @@ public class GameView extends JPanel {
         g2.setColor(Color.darkGray);
         g2.fill(infoBox);
 
-        drawEnemy(g2);
 
         g2.setFont(getFont(60));
         g2.setColor(Color.WHITE);
@@ -185,26 +183,74 @@ public class GameView extends JPanel {
         );
     }
 
+    private void drawPaused(Graphics2D g2) {
+        drawPlayer(g2);
+
+        if (enemyIsAngry) {
+            g2.setColor(Color.RED);
+        } else {
+            g2.setColor(colorTheme.getFriendlyColor());
+        }
+
+        g2.setFont(getFont(70));
+        Inf101Graphics.drawCenteredString(
+            g2, "GAME PAUSED",
+            0, 0, this.getWidth(), this.getHeight() / 2
+        );
+
+        g2.setColor(Color.WHITE);
+        g2.setFont(getFont(30));
+        Inf101Graphics.drawCenteredString(
+            g2, "PRESS KEY TO UNPAUSE",
+            0, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2
+        );
+    }
+
+    private void drawGameOver(Graphics2D g2) {
+        g2.setColor(Color.RED);
+        g2.setFont(getFont(70));
+        Inf101Graphics.drawCenteredString(
+            g2, "GAME OVER",
+            0, 0, this.getWidth(), this.getHeight() * 0.4
+        );
+
+        g2.setFont(getFont(50));
+        g2.setColor(Color.WHITE);
+
+        Inf101Graphics.drawCenteredString(
+            g2, "FINAL SCORE: " + gameModel.getScore(),
+            0, this.getHeight() * 0.3, this.getWidth(), this.getHeight() * 0.05
+        );
+
+        g2.setFont(getFont(25));
+        Inf101Graphics.drawCenteredString(
+            g2, "PRESS H TO RETURN HOME",
+            0, this.getHeight() * 0.7, this.getWidth(), this.getHeight() * 0.05
+        );
+        Inf101Graphics.drawCenteredString(
+            g2, "PRESS R TO RESTART",
+            0, this.getHeight() * 0.75, this.getWidth(), this.getHeight() * 0.05
+        );
+    }
+
     private void drawActiveGame(Graphics2D g2) {
-        if (gameModel.getCurrentState() == GameState.ACTIVE_FRIENDLY) {
+        GameState gameState = gameModel.getCurrentState();
+
+        if (gameState == GameState.ACTIVE_FRIENDLY) {
             this.setBackground(colorTheme.getFriendlyBackground());
             drawGameInfo(g2, Color.BLACK);
             drawApples(g2);
+            enemyIsAngry = false;
         } else {
-            this.setBackground(colorTheme.getDefaultBackground());
+            this.setBackground(colorTheme.getAngryBackground());
             if (gameModel.goldenAppleExists()) {
                 drawGoldenApple(g2);
             }
             drawGameInfo(g2, Color.WHITE);
             drawProjectile(g2);
+            enemyIsAngry = true;
         }
         drawPlayer(g2);
-        drawEnemy(g2);
-    }
-
-    private void drawGameOver(Graphics2D g2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'drawGameOver'");
     }
 
     private void drawGoldenApple(Graphics2D g2) {
@@ -219,19 +265,20 @@ public class GameView extends JPanel {
     }
 
     private void drawGameInfo(Graphics2D g2, Color textColor) {
+        GameState gameState = gameModel.getCurrentState();
         g2.setColor(textColor);
         g2.setFont(getFont(30));
         Inf101Graphics.drawCenteredString(g2, "HEALTH:", 0, 0, this.getWidth(), this.getHeight() * 0.075);
         Inf101Graphics.drawCenteredString(g2, "SCORE: " + gameModel.getScore(), 0, 0, this.getWidth() * 0.35, this.getHeight() * 0.15);
 
-        String message;
-        if (gameModel.getCurrentState() == GameState.ACTIVE_ENEMY) {
+        String message = "";
+        if (gameState == GameState.ACTIVE_ENEMY) {
             if (gameModel.getGappleCountdown() > 0) {
                 message = "GAPPLE SPAWNS IN: " + gameModel.getGappleCountdown();
             } else {
                 message = "GAPPLE IS SPAWNED";
             }
-        } else {
+        } else if (gameState == GameState.ACTIVE_FRIENDLY) {
             message = "HEALING FRENZY";
         }
 

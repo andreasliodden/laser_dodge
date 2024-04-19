@@ -22,4 +22,6 @@ public interface ControllableGameModel {
     void startNewGame();
 
     void setGameState(GameState nextState);
+
+    void resetGappleCountdown();
 }

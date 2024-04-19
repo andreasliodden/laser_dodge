@@ -33,9 +33,6 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
         this.gameState = GameState.HOME;
         this.enemy = new Enemy();
         this.player = new Player();
-        this.goldenAppleExists = false;
-        this.gameScore = 0;
-        this.gappleCountdown = 50;
     }
 
     @Override
@@ -72,9 +69,16 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
                 iterator.remove();
                 if (gameState == GameState.ACTIVE_FRIENDLY) {
                     gameScore += 10;
-                } 
+                } else if (player.getHealth() == 0) {
+                    gameState = GameState.GAME_OVER;
+                }
             }
         }
+    }
+
+    @Override
+    public void resetGappleCountdown() {
+        gappleCountdown = 50;
     }
 
     @Override
@@ -87,8 +91,8 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     @Override
     public void setGameState(GameState nextState) {
         this.gameState = nextState;
-        if (nextState == GameState.ACTIVE_ENEMY) {
-            resetGappleCountdown();
+        if (nextState == GameState.HOME) {
+            enemy.reset();
         }
     }
 
@@ -188,12 +192,14 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
         }
     }
 
-    private void resetGappleCountdown() {
-        gappleCountdown = 50;
-    }
-
     @Override
     public void startNewGame() {
         this.gameState = GameState.ACTIVE_ENEMY;
+        this.goldenAppleExists = false;
+        this.gameScore = 0;
+        this.gappleCountdown = 50;
+        this.activeProjectiles = new ArrayList<>();
+        player.reset();
+        enemy.reset();
     }
 }
