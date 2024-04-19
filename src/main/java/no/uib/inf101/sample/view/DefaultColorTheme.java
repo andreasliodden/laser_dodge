@@ -7,7 +7,7 @@ public class DefaultColorTheme implements ColorTheme{
     private static final Color FRIENDLY_BACKGROUND_COLOR = new Color(190, 190, 190);
 
     @Override
-    public Color getAngryBackground() {
+    public Color getDefaultBackground() {
        return ENEMY_BACKGROUND_COLOR;
     }
 

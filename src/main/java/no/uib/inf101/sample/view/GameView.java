@@ -36,25 +36,78 @@ public class GameView extends JPanel {
         this.colorTheme = new DefaultColorTheme();
         this.setPreferredSize(new Dimension(
                 START_WIDTH, START_HEIGHT));
-        this.setBackground(colorTheme.getAngryBackground());
-        this.isDoubleBuffered();
+        this.setBackground(colorTheme.getDefaultBackground());
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        drawGameState(g2);
+    }
 
+    private void drawGameState(Graphics2D g2) {
+        GameState gameState = gameModel.getCurrentState();
+
+        if (gameState == GameState.HOME) {
+            drawHomeScreen(g2);
+        } else if (gameState == GameState.CONTROLS) {
+            drawControls(g2);
+        } else if (gameState == GameState.GAME_OVER) {
+            drawGameOver(g2);
+        } else {
+            drawActiveGame(g2);
+        }
+    }
+
+    private void drawHomeScreen(Graphics2D g2) {
+        Rectangle2D infoBox = new Rectangle2D.Double(
+                this.getWidth() * 0.3, this.getHeight() * 0.05, 
+                this.getWidth() * 0.4, this.getHeight() * 0.9
+            );
+        g2.setColor(Color.darkGray);
+        g2.fill(infoBox);
+
+        g2.setFont(getFont(50));
+        g2.setColor(Color.WHITE);
+        Inf101Graphics.drawCenteredString(
+                g2, "WELCOME TO", 0, 
+                infoBox.getMinY(), this.getWidth(), this.getHeight() * 0.25
+            );
+
+        g2.setFont(getFont(25));
+        Inf101Graphics.drawCenteredString(
+                g2, "PRESS S TO START",0, 
+                this.getHeight() * 0.75, this.getWidth(), this.getHeight() * 0.05
+            );
+
+        Inf101Graphics.drawCenteredString(
+                g2, "PRESS C FOR CONTROLS",0, 
+                this.getHeight() * 0.8, this.getWidth(), this.getHeight() * 0.05
+            );
+
+        g2.setFont(getFont(75));
+        g2.setColor(Color.RED);
+        Inf101Graphics.drawCenteredString(g2, "LASER DODGE", 0, infoBox.getMinY(), this.getWidth(), this.getHeight() * 0.45);
+
+        drawEnemy(g2);
+
+
+    }
+
+    private void drawControls(Graphics2D g2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'drawControls'");
+    }
+
+    private void drawActiveGame(Graphics2D g2) {
         if (gameModel.getCurrentState() == GameState.ACTIVE_FRIENDLY) {
-            if (this.getBackground() == colorTheme.getAngryBackground()) {
-                this.setBackground(colorTheme.getFriendlyBackground());
-            }
+            this.setBackground(colorTheme.getFriendlyBackground());
             drawGameInfo(g2, Color.BLACK);
             drawApples(g2);
         } else {
-            if (this.getBackground() == colorTheme.getFriendlyBackground()) {
-                this.setBackground(colorTheme.getAngryBackground());
-            } else if (gameModel.goldenAppleExists()) {
+            this.setBackground(colorTheme.getDefaultBackground());
+            if (gameModel.goldenAppleExists()) {
                 drawGoldenApple(g2);
             }
             drawGameInfo(g2, Color.WHITE);
@@ -62,6 +115,11 @@ public class GameView extends JPanel {
         }
         drawPlayer(g2);
         drawEnemy(g2);
+    }
+
+    private void drawGameOver(Graphics2D g2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'drawGameOver'");
     }
 
     private void drawGoldenApple(Graphics2D g2) {
@@ -91,7 +149,13 @@ public class GameView extends JPanel {
         } else {
             message = "HEALING FRENZY";
         }
+
         Inf101Graphics.drawCenteredString(g2, message, this.getWidth() * 0.65, 0, this.getWidth() * 0.35 , this.getHeight() * 0.15);
+
+        drawHealthBar(g2, textColor);
+    }
+
+    private void drawHealthBar(Graphics2D g2, Color textColor) {
         Rectangle2D healthBar = new Rectangle2D.Double(
                     this.getWidth() * 0.35, this.getHeight() * 0.075,
                     this.getWidth() * 0.3, this.getHeight() * 0.05
@@ -105,12 +169,13 @@ public class GameView extends JPanel {
                 
         g2.setColor(getHealthColor());
         g2.fill(health);
+
         g2.setColor(textColor);
-        g2.setStroke(new BasicStroke(2));
+        g2.setStroke(new BasicStroke(3));
         g2.draw(healthBar);
+
         g2.setColor(Color.WHITE);
         Inf101Graphics.drawCenteredString(g2, "" + player.getHealth(), healthBar);
-
     }
 
     private Color getHealthColor() {

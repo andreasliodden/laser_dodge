@@ -30,9 +30,9 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     public GameModel(ProjectileFactory factory) {
         this.factory = factory;
+        this.gameState = GameState.HOME;
         this.enemy = new Enemy();
         this.player = new Player();
-        this.gameState = GameState.ACTIVE_ENEMY;
         this.goldenAppleExists = false;
         this.gameScore = 0;
         this.gappleCountdown = 50;
@@ -71,7 +71,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
                 iterator.remove();
                 if (gameState == GameState.ACTIVE_FRIENDLY) {
                     gameScore += 10;
-                }
+                } 
             }
         }
     }
@@ -112,9 +112,23 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     private boolean playerProjectileCollision(double projectileX, double projectileY) {
         double collisionRoom = 0.025;
-        double projectilePlayerX = Math.abs(projectileX - player.getX());
-        double projectilePlayerY = Math.abs(projectileY - player.getY());
-        return projectilePlayerX < collisionRoom && projectilePlayerY < collisionRoom;
+        double registeredNearMiss = collisionRoom + 0.01;
+        double projectilePlayerX = getAbsoluteDiff(projectileX, player.getX());
+        double projectilePlayerY = getAbsoluteDiff(projectileY, player.getY());
+
+        boolean result = projectilePlayerX < collisionRoom && projectilePlayerY < collisionRoom;
+
+        if (!result && gameState == GameState.ACTIVE_ENEMY) {
+            if (projectilePlayerX < registeredNearMiss && projectilePlayerY < registeredNearMiss) {
+            }
+        }
+
+        return result;
+    }
+
+
+    private double getAbsoluteDiff(double x1, double x2) {
+        return Math.abs(x1 - x2);
     }
 
     private boolean playerEnemyCollision(double playerX, double playerY) {
@@ -179,5 +193,10 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     private void resetGappleCountdown() {
         gappleCountdown = 50;
+    }
+
+    @Override
+    public void startNewGame() {
+        this.gameState = GameState.ACTIVE_ENEMY;
     }
 }

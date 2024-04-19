@@ -20,4 +20,6 @@ public interface ControllableGameModel {
     void addTimeScore();
 
     void updateGappleCountdown();
+
+    void startNewGame();
 }

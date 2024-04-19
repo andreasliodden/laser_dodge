@@ -29,9 +29,6 @@ public class GameController implements KeyListener {
         this.timer = new Timer(timeDelay, e -> clockTick());
         gameView.setFocusable(true);
         gameView.addKeyListener(this);
-        timer.start();
-        timer.setDelay(timeDelay);
-        timer.setInitialDelay(timeDelay);
 
         // Hentet fra https://stackoverflow.com/questions/2303305/window-resize-event
         gameView.addComponentListener(new ComponentAdapter() {
@@ -44,14 +41,22 @@ public class GameController implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W) {
-            playerUp = true;
-        } else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S) {
-            playerDown = true;
-        } else if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A) {
-            playerLeft = true;
-        } else if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D) {
-            playerRight = true;
+        GameState gameState = gameModel.getCurrentState();
+        if (gameState == GameState.HOME) {
+            if (keyCode == KeyEvent.VK_S) {
+                gameModel.startNewGame();
+                timer.start();
+            }
+        } else if (gameState == GameState.ACTIVE_ENEMY || gameState == GameState.ACTIVE_FRIENDLY) {
+            if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W) {
+                playerUp = true;
+            } else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S) {
+                playerDown = true;
+            } else if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A) {
+                playerLeft = true;
+            } else if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D) {
+                playerRight = true;
+            }
         }
     }
 
@@ -80,10 +85,11 @@ public class GameController implements KeyListener {
         }
         previousGameState = currentGameState;
 
-        if (tickCounter % 100 == 0) {
+        if (tickCounter % 30 == 0) {
             enemy.updateState();
+        } if (tickCounter % 100 == 0) {
             gameModel.addTimeScore();
-        } 
+        }
 
         if (currentGameState == GameState.ACTIVE_ENEMY) {
             if (tickCounter % 100 == 0) {
@@ -105,7 +111,7 @@ public class GameController implements KeyListener {
                 if (tickCounter % 150 == 0) {
                     gameModel.addProjectile();
                 }
-                if (tickCounter % 900 == 0) {
+                if (tickCounter % 750 == 0) {
                     gameModel.updateGameState();
                 }
             }

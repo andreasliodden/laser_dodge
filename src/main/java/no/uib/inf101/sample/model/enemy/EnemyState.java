@@ -8,9 +8,11 @@ public enum EnemyState {
     ANGRY_ONE("enemy/angry_1.png"),
     ANGRY_TWO("enemy/angry_2.png"),
     ANGRY_READY("enemy/angry_ready.png"),
+    ANGRY_PAUSED("enemy/angry_paused.png"),
     FRIENDLY_ONE("enemy/friendly_1.png"),
     FRIENDLY_TWO("enemy/friendly_2.png"),
-    FRIENDLY_READY("enemy/friendly_ready.png");
+    FRIENDLY_READY("enemy/friendly_ready.png"),
+    FRIENDLY_PAUSED("enemy/friendly_paused.png");
 
     private final BufferedImage image;
 
