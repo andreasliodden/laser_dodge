@@ -7,8 +7,8 @@ import no.uib.inf101.sample.model.GameState;
 import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
 
 public class Player extends Entity implements ViewablePlayer {
-    private static final double START_X = 0.10;
-    private static final double START_Y = 0.10;
+    private static final double START_X = 0.20;
+    private static final double START_Y = 0.20;
     private static final double PLAYER_SPEED = 7;
     private static final int MAX_HEALTH = 80;
 

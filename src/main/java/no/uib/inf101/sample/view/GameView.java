@@ -72,7 +72,7 @@ public class GameView extends JPanel {
         g2.setColor(Color.WHITE);
         Inf101Graphics.drawCenteredString(
                 g2, "WELCOME TO", 0, 
-                infoBox.getMinY(), this.getWidth(), this.getHeight() * 0.25
+                this.getHeight() * 0.05, this.getWidth(), this.getHeight() * 0.25
             );
 
         g2.setFont(getFont(25));
@@ -88,16 +88,101 @@ public class GameView extends JPanel {
 
         g2.setFont(getFont(75));
         g2.setColor(Color.RED);
-        Inf101Graphics.drawCenteredString(g2, "LASER DODGE", 0, infoBox.getMinY(), this.getWidth(), this.getHeight() * 0.45);
+        Inf101Graphics.drawCenteredString(
+                g2, "LASER DODGE", 0, this.getHeight() * 0.05, 
+                this.getWidth(), this.getHeight() * 0.45
+            );
 
         drawEnemy(g2);
-
-
     }
 
     private void drawControls(Graphics2D g2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'drawControls'");
+        Rectangle2D infoBox = new Rectangle2D.Double(
+                this.getWidth() * 0.3, this.getHeight() * 0.05, 
+                this.getWidth() * 0.4, this.getHeight() * 0.9
+            );
+        g2.setColor(Color.darkGray);
+        g2.fill(infoBox);
+
+        drawEnemy(g2);
+
+        g2.setFont(getFont(60));
+        g2.setColor(Color.WHITE);
+
+        Inf101Graphics.drawCenteredString(
+            g2, "CONTROLS", 0, this.getHeight() * 0.05,
+            this.getWidth(), this.getHeight() * 0.1
+        );
+
+        g2.setFont(getFont(25));
+        Inf101Graphics.drawCenteredString(
+            g2, "ARROW KEYS "+ "\n" + "OR WASD", 0, this.getHeight() * 0.20,
+            this.getWidth(), this.getHeight() * 0.1
+        );
+
+        g2.setFont(getFont(35));
+        g2.setColor(Color.RED);
+
+        Inf101Graphics.drawCenteredString(
+            g2, "MOVE PLAYER WITH:", 0, this.getHeight() * 0.15,
+            this.getWidth(), this.getHeight() * 0.1
+        );
+
+        Inf101Graphics.drawCenteredString(
+            g2, "PROJECTILES ARE SHOT FROM:", 0, this.getHeight() * 0.3,
+            this.getWidth(), this.getHeight() * 0.1
+        );
+
+        Inf101Graphics.drawCenteredString(
+            g2, "POINT SYSTEM:", infoBox.getMinX(), this.getHeight() * 0.6,
+            infoBox.getWidth() / 2, this.getHeight() * 0.1
+        );
+
+        Inf101Graphics.drawCenteredString(
+            g2, "HITPOINTS:", infoBox.getCenterX(), this.getHeight() * 0.6,
+            infoBox.getWidth() / 2, this.getHeight() * 0.1
+        );
+
+        g2.setColor(Color.WHITE);
+        g2.setFont(getFont(20));
+
+        Inf101Graphics.drawCenteredString(
+            g2, "CLOCK TICK: +2",
+            infoBox.getMinX(), this.getHeight() * 0.65,
+            infoBox.getWidth() / 2, this.getHeight() * 0.1
+        );
+
+        Inf101Graphics.drawCenteredString(
+            g2, "PROJECTILE SPAWN: +10",
+            infoBox.getMinX(), this.getHeight() * 0.7,
+            infoBox.getWidth() / 2, this.getHeight() * 0.1
+        );
+
+        Inf101Graphics.drawCenteredString(
+            g2, "APPLE EATEN: +10",
+            infoBox.getMinX(), this.getHeight() * 0.75,
+            infoBox.getWidth() / 2, this.getHeight() * 0.1
+        );
+
+        Inf101Graphics.drawCenteredString(
+            g2, "PROJECTILE HIT: -10",
+            infoBox.getCenterX(), this.getHeight() * 0.675,
+            infoBox.getWidth() / 2, this.getHeight() * 0.1
+        );
+
+        Inf101Graphics.drawCenteredString(
+            g2, "APPLE EATEN: +5",
+            infoBox.getCenterX(), this.getHeight() * 0.725,
+            infoBox.getWidth() / 2, this.getHeight() * 0.1
+        );
+
+        g2.setFont(getFont(30));
+        g2.setColor(Color.RED);
+        Inf101Graphics.drawCenteredString(
+            g2, "PRESS KEY TO EXIT CONTROLS",
+            0, this.getHeight() * 0.8,
+            this.getWidth(), this.getHeight() * 0.2
+        );
     }
 
     private void drawActiveGame(Graphics2D g2) {

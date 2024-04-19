@@ -25,13 +25,16 @@ public class TestGameModel {
 
     @Test
     public void switchBetweenGameStates() {
+        assertEquals(gameModel.getCurrentState(), GameState.HOME);
+
+        gameModel.setGameState(GameState.ACTIVE_ENEMY);
         assertEquals(gameModel.getCurrentState(), GameState.ACTIVE_ENEMY);
 
-        gameModel.updateGameState();
+        gameModel.setGameState(GameState.ACTIVE_FRIENDLY);
         assertEquals(gameModel.getCurrentState(), GameState.ACTIVE_FRIENDLY);
 
-        gameModel.updateGameState();
-        assertEquals(gameModel.getCurrentState(), GameState.ACTIVE_ENEMY);
+        gameModel.setGameState(GameState.PAUSED);
+        assertEquals(gameModel.getCurrentState(), GameState.PAUSED);
     }
 
     @Test

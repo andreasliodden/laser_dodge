@@ -46,8 +46,15 @@ public class GameController implements KeyListener {
             if (keyCode == KeyEvent.VK_S) {
                 gameModel.startNewGame();
                 timer.start();
+            } else if (keyCode == KeyEvent.VK_C) {
+                gameModel.setGameState(GameState.CONTROLS);
+                gameView.repaint();
             }
-        } else if (gameState == GameState.ACTIVE_ENEMY || gameState == GameState.ACTIVE_FRIENDLY) {
+        } else if (gameState == GameState.CONTROLS) {
+            gameModel.setGameState(GameState.HOME);
+            gameView.repaint();
+        }
+        else if (gameState == GameState.ACTIVE_ENEMY || gameState == GameState.ACTIVE_FRIENDLY) {
             if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W) {
                 playerUp = true;
             } else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S) {
@@ -112,7 +119,8 @@ public class GameController implements KeyListener {
                     gameModel.addProjectile();
                 }
                 if (tickCounter % 750 == 0) {
-                    gameModel.updateGameState();
+                    gameModel.setGameState(GameState.ACTIVE_ENEMY);
+                    enemy.switchMood();
                 }
             }
         gameView.repaint();

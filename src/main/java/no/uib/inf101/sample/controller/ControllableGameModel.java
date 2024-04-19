@@ -11,8 +11,6 @@ public interface ControllableGameModel {
 
     void clockTick();
 
-    void updateGameState();
-
     GameState getCurrentState();
 
     ControllableEnemy getControllableEnemy();
@@ -22,4 +20,6 @@ public interface ControllableGameModel {
     void updateGappleCountdown();
 
     void startNewGame();
+
+    void setGameState(GameState nextState);
 }

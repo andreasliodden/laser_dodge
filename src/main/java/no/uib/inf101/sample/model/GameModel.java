@@ -58,7 +58,8 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
         if (goldenAppleExists) {
             goldenApple.move();
             if (playerProjectileCollision(goldenApple.getX(), goldenApple.getY())) {
-                updateGameState();
+                enemy.switchMood();
+                gameState = GameState.ACTIVE_FRIENDLY;
                 goldenAppleExists = false;
             }
         }
@@ -84,15 +85,11 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public void updateGameState() {
-        if (gameState == GameState.ACTIVE_ENEMY) {
-            gameState = GameState.ACTIVE_FRIENDLY;
-        } else {
-            gameState = GameState.ACTIVE_ENEMY;
+    public void setGameState(GameState nextState) {
+        this.gameState = nextState;
+        if (nextState == GameState.ACTIVE_ENEMY) {
             resetGappleCountdown();
         }
-
-        enemy.switchMood();
     }
 
     @Override
