@@ -119,7 +119,7 @@ public class Player extends Entity implements ViewablePlayer {
     }
 
     public void registerHit(GameState gameState) {
-        if (gameState == GameState.ACTIVE_ENEMY) {
+        if (gameState == GameState.ACTIVE_ANGRY) {
             double hitpoint = 10;
             if (playerHealth - hitpoint < 0) {
                 playerHealth = 0;

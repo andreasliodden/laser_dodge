@@ -6,8 +6,8 @@ package no.uib.inf101.sample.model;
 public enum GameState {
     HOME,
     CONTROLS,
-    ACTIVE_ENEMY,
-    ACTIVE_FRIENDLY,
+    ACTIVE_ANGRY,
+    ACTIVE_HAPPY,
     PAUSED,
     GAME_OVER
 }

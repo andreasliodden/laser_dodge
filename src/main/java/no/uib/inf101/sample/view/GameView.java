@@ -189,7 +189,7 @@ public class GameView extends JPanel {
         if (enemyIsAngry) {
             g2.setColor(Color.RED);
         } else {
-            g2.setColor(colorTheme.getFriendlyColor());
+            g2.setColor(colorTheme.getHappyColor());
         }
 
         g2.setFont(getFont(70));
@@ -236,8 +236,8 @@ public class GameView extends JPanel {
     private void drawActiveGame(Graphics2D g2) {
         GameState gameState = gameModel.getCurrentState();
 
-        if (gameState == GameState.ACTIVE_FRIENDLY) {
-            this.setBackground(colorTheme.getFriendlyBackground());
+        if (gameState == GameState.ACTIVE_HAPPY) {
+            this.setBackground(colorTheme.getHappyBackground());
             drawGameInfo(g2, Color.BLACK);
             drawApples(g2);
             enemyIsAngry = false;
@@ -272,13 +272,13 @@ public class GameView extends JPanel {
         Inf101Graphics.drawCenteredString(g2, "SCORE: " + gameModel.getScore(), 0, 0, this.getWidth() * 0.35, this.getHeight() * 0.15);
 
         String message = "";
-        if (gameState == GameState.ACTIVE_ENEMY) {
+        if (gameState == GameState.ACTIVE_ANGRY) {
             if (gameModel.getGappleCountdown() > 0) {
                 message = "GAPPLE SPAWNS IN: " + gameModel.getGappleCountdown();
             } else {
                 message = "GAPPLE IS SPAWNED";
             }
-        } else if (gameState == GameState.ACTIVE_FRIENDLY) {
+        } else if (gameState == GameState.ACTIVE_HAPPY) {
             message = "HEALING FRENZY";
         }
 
@@ -331,7 +331,7 @@ public class GameView extends JPanel {
     }
 
     private void drawProjectile(Graphics2D g2) {
-        double width = 0.02 * this.getWidth();
+        double width = 0.0225 * this.getWidth();
         double height = width * windowRatio;
         Rectangle2D projectileBox, trailBox;
         double resizingFactor;

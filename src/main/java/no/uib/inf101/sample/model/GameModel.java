@@ -56,7 +56,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
             goldenApple.move();
             if (playerProjectileCollision(goldenApple.getX(), goldenApple.getY())) {
                 enemy.switchMood();
-                gameState = GameState.ACTIVE_FRIENDLY;
+                gameState = GameState.ACTIVE_HAPPY;
                 goldenAppleExists = false;
             }
         }
@@ -67,7 +67,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
             if (playerProjectileCollision(projectile.getX(), projectile.getY())) {
                 player.registerHit(gameState);
                 iterator.remove();
-                if (gameState == GameState.ACTIVE_FRIENDLY) {
+                if (gameState == GameState.ACTIVE_HAPPY) {
                     gameScore += 10;
                 } else if (player.getHealth() == 0) {
                     gameState = GameState.GAME_OVER;
@@ -77,8 +77,9 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public void resetGappleCountdown() {
-        gappleCountdown = 50;
+    public void resetGapple() {
+        this.gappleCountdown = 50;
+        this.goldenAppleExists = false;
     }
 
     @Override
@@ -112,19 +113,11 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     private boolean playerProjectileCollision(double projectileX, double projectileY) {
-        double collisionRoom = 0.025;
-        double registeredNearMiss = collisionRoom + 0.01;
+        double collisionRoom = 0.035;
         double projectilePlayerX = getAbsoluteDiff(projectileX, player.getX());
         double projectilePlayerY = getAbsoluteDiff(projectileY, player.getY());
 
-        boolean result = projectilePlayerX < collisionRoom && projectilePlayerY < collisionRoom;
-
-        if (!result && gameState == GameState.ACTIVE_ENEMY) {
-            if (projectilePlayerX < registeredNearMiss && projectilePlayerY < registeredNearMiss) {
-            }
-        }
-
-        return result;
+        return projectilePlayerX < collisionRoom && projectilePlayerY < collisionRoom;
     }
 
 
@@ -194,11 +187,10 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     @Override
     public void startNewGame() {
-        this.gameState = GameState.ACTIVE_ENEMY;
-        this.goldenAppleExists = false;
+        this.gameState = GameState.ACTIVE_ANGRY;
         this.gameScore = 0;
-        this.gappleCountdown = 50;
         this.activeProjectiles = new ArrayList<>();
+        resetGapple();
         player.reset();
         enemy.reset();
     }

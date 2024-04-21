@@ -45,7 +45,7 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
             if (angryStates.contains(enemyState)) {
                 enemyState = EnemyState.ANGRY_READY;
             } else {
-                enemyState = EnemyState.FRIENDLY_READY;
+                enemyState = EnemyState.HAPPY_READY;
             }
         } else {
             switch(enemyState) {
@@ -56,12 +56,12 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
                 case ANGRY_READY:
                     enemyState = EnemyState.ANGRY_ONE;
                     break;
-                case FRIENDLY_ONE:
-                    enemyState = EnemyState.FRIENDLY_TWO;
+                case HAPPY_ONE:
+                    enemyState = EnemyState.HAPPY_TWO;
                     break;
-                case FRIENDLY_TWO:
-                case FRIENDLY_READY:
-                    enemyState = EnemyState.FRIENDLY_ONE;
+                case HAPPY_TWO:
+                case HAPPY_READY:
+                    enemyState = EnemyState.HAPPY_ONE;
                     break;
                 default: 
                     break;
@@ -86,7 +86,7 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
     @Override
     public void switchMood() {
         if (angryStates.contains(enemyState)) {
-            enemyState = EnemyState.FRIENDLY_ONE;
+            enemyState = EnemyState.HAPPY_ONE;
         } else {
             enemyState = EnemyState.ANGRY_ONE;
         }

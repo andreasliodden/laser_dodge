@@ -21,6 +21,14 @@ public class GameController implements KeyListener {
 
     private int tickCounter = 1;
     private static final int timeDelay = 10;
+    private static final int UPDATE_ENEMY_TICK = 30;
+    private static final int ADD_SCORE_TICK = 100;
+    private static final int GAPPLE_COUNTDOWN_TICK = 100;
+    private static final int ADD_PROJECTILE_TICK = 400;
+    private static final int READY_TO_SHOOT_TICK = ADD_PROJECTILE_TICK - 2 * UPDATE_ENEMY_TICK;
+    private static final int ADD_GAPPLE_TICK = 5000;
+    private static final double RESET_GAME_TICK = 750;
+    private static final int TICK_DIVISOR = 3;
 
     public GameController(ControllableGameModel gameModel, GameView gameView) {
         this.gameModel = gameModel;
@@ -46,13 +54,14 @@ public class GameController implements KeyListener {
             if (keyCode == KeyEvent.VK_S) {
                 gameModel.startNewGame();
                 timer.start();
+                resetTickCounter();
             } else if (keyCode == KeyEvent.VK_C) {
                 gameModel.setGameState(GameState.CONTROLS);
             }
         } else if (gameState == GameState.CONTROLS) {
             gameModel.setGameState(GameState.HOME);
         }
-        else if (gameState == GameState.ACTIVE_ENEMY || gameState == GameState.ACTIVE_FRIENDLY) {
+        else if (gameState == GameState.ACTIVE_ANGRY || gameState == GameState.ACTIVE_HAPPY) {
             if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W) {
                 playerUp = true;
             } else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S) {
@@ -67,10 +76,10 @@ public class GameController implements KeyListener {
                 timer.stop();
             }
         } else if (gameModel.getCurrentState() == GameState.PAUSED) {
-            if (previousGameState == GameState.ACTIVE_ENEMY) {
-                gameModel.setGameState(GameState.ACTIVE_ENEMY);
+            if (previousGameState == GameState.ACTIVE_ANGRY) {
+                gameModel.setGameState(GameState.ACTIVE_ANGRY);
             } else {
-                gameModel.setGameState(GameState.ACTIVE_FRIENDLY);
+                gameModel.setGameState(GameState.ACTIVE_HAPPY);
             }
             timer.start();
         } else if (gameModel.getCurrentState() == GameState.GAME_OVER) {
@@ -78,6 +87,8 @@ public class GameController implements KeyListener {
                 gameModel.setGameState(GameState.HOME);
             } else if (keyCode == KeyEvent.VK_R) {
                 gameModel.startNewGame();
+                timer.restart();
+                resetTickCounter();
             }
         }
         gameView.repaint();
@@ -103,41 +114,42 @@ public class GameController implements KeyListener {
 
     private void clockTick() {
         currentGameState = gameModel.getCurrentState();
-        if (currentGameState == GameState.ACTIVE_ENEMY || currentGameState == GameState.ACTIVE_FRIENDLY) {
+        if (currentGameState == GameState.ACTIVE_ANGRY || currentGameState == GameState.ACTIVE_HAPPY) {
             if (previousGameState != null && currentGameState != previousGameState) {
-                tickCounter = 1;
+                resetTickCounter();
             }
             previousGameState = currentGameState;
 
-            if (tickCounter % 30 == 0) {
+            if (tickCounter % UPDATE_ENEMY_TICK == 0) {
                 enemy.updateState();
-            } if (tickCounter % 100 == 0) {
+            } if (tickCounter % ADD_SCORE_TICK == 0) {
                 gameModel.addTimeScore();
             }
 
-            if (currentGameState == GameState.ACTIVE_ENEMY) {
-                if (tickCounter % 100 == 0) {
+            if (currentGameState == GameState.ACTIVE_ANGRY) {
+                if (tickCounter % GAPPLE_COUNTDOWN_TICK == 0) {
                     gameModel.updateGappleCountdown();
                 }
-                if (tickCounter % 400 == 300) {
+                if (tickCounter % ADD_PROJECTILE_TICK == READY_TO_SHOOT_TICK) {
                     enemy.updateShootingStatus();
                 } 
-                if (tickCounter % 400 == 0) {
+                if (tickCounter % ADD_PROJECTILE_TICK == 0) {
                     gameModel.addProjectile();
                 }
-                if (tickCounter % 5000 == 0) {
+                if (tickCounter % ADD_GAPPLE_TICK == 0) {
                     gameModel.addGoldenApple();
                 }
-            } else if (currentGameState == GameState.ACTIVE_FRIENDLY) {
-                    if (tickCounter % 150 == 50) {
+
+            } else if (currentGameState == GameState.ACTIVE_HAPPY) {
+                    if (tickCounter % (ADD_PROJECTILE_TICK / TICK_DIVISOR) == READY_TO_SHOOT_TICK / TICK_DIVISOR) {
                         enemy.updateShootingStatus();
                     } 
-                    if (tickCounter % 150 == 0) {
+                    if (tickCounter % (ADD_PROJECTILE_TICK / TICK_DIVISOR) == 0) {
                         gameModel.addProjectile();
                     }
-                    if (tickCounter % 750 == 0) {
-                        gameModel.setGameState(GameState.ACTIVE_ENEMY);
-                        gameModel.resetGappleCountdown();
+                    if (tickCounter % RESET_GAME_TICK == 0) {
+                        gameModel.setGameState(GameState.ACTIVE_ANGRY);
+                        gameModel.resetGapple();
                         enemy.switchMood();
                     }
                 }
@@ -164,5 +176,9 @@ public class GameController implements KeyListener {
         if (playerRight) {
             gameModel.movePlayer(1, 0);
         }
+    }
+
+    private void resetTickCounter() {
+        tickCounter = 1;
     }
 }

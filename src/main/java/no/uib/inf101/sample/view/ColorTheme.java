@@ -5,7 +5,7 @@ import java.awt.Color;
 public interface ColorTheme {
     Color getAngryBackground();
 
-    Color getFriendlyBackground();
+    Color getHappyBackground();
 
-    Color getFriendlyColor();
+    Color getHappyColor();
 }
