@@ -9,7 +9,7 @@ import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
 public class Player extends Entity implements ViewablePlayer {
     private static final double START_X = 0.20;
     private static final double START_Y = 0.20;
-    private static final double PLAYER_SPEED = 7;
+    private static final double PLAYER_SPEED = 0.007;
     private static final int MAX_HEALTH = 80;
 
     private int playerHealth;
@@ -106,16 +106,16 @@ public class Player extends Entity implements ViewablePlayer {
     }
 
     public double getNextX(int deltaX) {
-        return x + deltaX * 0.001 * PLAYER_SPEED;
+        return x + deltaX * PLAYER_SPEED;
     }
 
     public double getNextY(int deltaY) {
-        return y + deltaY * 0.001 * PLAYER_SPEED;
+        return y + deltaY * PLAYER_SPEED;
     }
 
     public boolean move(int deltaX, int deltaY) {
         updatePlayerState(deltaX, deltaY);
-        return updatePosition(getNextX(deltaX), getNextY(deltaY));
+        return checkAndUpdatePosition(getNextX(deltaX), getNextY(deltaY));
     }
 
     public void registerHit(GameState gameState) {
@@ -128,11 +128,11 @@ public class Player extends Entity implements ViewablePlayer {
             }
             updatePlayerState(0, 0);
         } else {
-            double healingPoints = 5;
-            if (playerHealth + healingPoints <= MAX_HEALTH) {
-                playerHealth += healingPoints;
-            } else {
+            double healthPoints = 2;
+            if (playerHealth + healthPoints > MAX_HEALTH) {
                 playerHealth = MAX_HEALTH;
+            } else {
+                playerHealth += healthPoints;
             }
         }
     }

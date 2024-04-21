@@ -16,7 +16,7 @@ public enum PlayerState {
 
     private final BufferedImage image;
 
-    PlayerState(String imagePath) {
+    private PlayerState(String imagePath) {
         this.image = Inf101Graphics.loadImageFromResources(imagePath);
     }
 

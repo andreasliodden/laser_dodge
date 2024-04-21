@@ -3,11 +3,11 @@ package no.uib.inf101.sample.model;
 import no.uib.inf101.sample.view.interfaces.ViewableEntity;
 
 public class Entity implements ViewableEntity {
-    public double x;
-    public double y;
+    protected double x;
+    protected double y;
     
-    private static final double MIN_LIMIT = 0;
-    private static final double MAX_LIMIT = 1;
+    protected static final double MIN_LIMIT = 0;
+    protected static final double MAX_LIMIT = 1;
 
     @Override
     public double getX() {
@@ -19,7 +19,7 @@ public class Entity implements ViewableEntity {
         return this.y;
     }
 
-    public boolean updatePosition(double nextX, double nextY) {
+    public boolean checkAndUpdatePosition(double nextX, double nextY) {
         if (isLegalPosition(nextX, nextY)) {
             x = nextX;
             y = nextY;

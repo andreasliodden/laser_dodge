@@ -16,7 +16,7 @@ public enum EnemyState {
 
     private final BufferedImage image;
 
-    EnemyState(String imagePath) {
+    private EnemyState(String imagePath) {
         this.image = Inf101Graphics.loadImageFromResources(imagePath);
     }
     

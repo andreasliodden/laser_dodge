@@ -3,9 +3,6 @@ package no.uib.inf101.sample.model.projectile;
 import no.uib.inf101.sample.model.Entity;
 
 public class RandomMovingEntity extends Entity {
-    protected static final double MIN_POSITION = 0;
-    protected static final double MAX_POSITION = 1;
-
     protected double velocityX;
     protected double velocityY;
     
@@ -13,27 +10,26 @@ public class RandomMovingEntity extends Entity {
         double nextX = x + velocityX;
         double nextY = y + velocityY;
 
-        updatePosition(nextX, nextY);
+        checkAndUpdatePosition(nextX, nextY);
     }
 
     @Override
-    public boolean updatePosition(double nextX, double nextY) {
-        if(super.updatePosition(nextX, nextY)) {
+    public boolean checkAndUpdatePosition(double nextX, double nextY) {
+        if(super.checkAndUpdatePosition(nextX, nextY)) {
             return true;
         }
         else {
-            if (nextX < MIN_POSITION) {
+            if (nextX < MIN_LIMIT) {
                 velocityX = -velocityX;
-            } else if (nextX > MAX_POSITION) {
+            } else if (nextX > MAX_LIMIT) {
                 velocityX = -velocityX;
-            } else if (nextY < MIN_POSITION) {
+            } else if (nextY < MIN_LIMIT) {
                 velocityY = -velocityY;
-            } else if (nextY > MAX_POSITION) {
+            } else if (nextY > MAX_LIMIT) {
                 velocityY = -velocityY;
             }
-        return false;
+            
+            return false;
         }
     }
-
-
 }

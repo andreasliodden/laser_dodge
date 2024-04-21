@@ -5,23 +5,23 @@ import no.uib.inf101.sample.model.GameState;
 public interface ControllableGameModel {
     boolean movePlayer(int deltaX, int deltaY);
 
+    void clockTick();
+
     void addProjectile();
 
     void addGoldenApple();
-
-    void clockTick();
-
-    GameState getCurrentState();
-
-    ControllableEnemy getControllableEnemy();
 
     void addTimeScore();
 
     void updateGappleCountdown();
 
+    void resetGapple();
+
     void startNewGame();
 
     void setGameState(GameState nextState);
 
-    void resetGapple();
+    GameState getCurrentState();
+
+    ControllableEnemy getControllableEnemy();
 }

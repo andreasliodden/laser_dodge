@@ -28,6 +28,9 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     private int gameScore;
     private int gappleCountdown;
 
+    private static final int GAPPLE_COOLDOWN = 45;
+    private static final int TIME_POINTS = 2;
+
     public GameModel(ProjectileFactory factory) {
         this.factory = factory;
         this.gameState = GameState.HOME;
@@ -78,7 +81,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     @Override
     public void resetGapple() {
-        this.gappleCountdown = 50;
+        this.gappleCountdown = GAPPLE_COOLDOWN;
         this.goldenAppleExists = false;
     }
 
@@ -170,7 +173,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     @Override
     public void addTimeScore() {
-        gameScore += 2;
+        gameScore += TIME_POINTS;
     }
 
     @Override
