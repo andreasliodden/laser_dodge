@@ -9,7 +9,7 @@ import no.uib.inf101.sample.model.projectile.ProjectileFactory;
 import no.uib.inf101.sample.view.GameView;
 
 public class Main {
-    private static final String WINDOW_TITLE = "Dodge the Projectiles";
+    private static final String WINDOW_TITLE = "Laser Dodge";
     private static final int FRAME_X = 110;
     private static final int FRAME_Y = 40;
     public static void main(String[] args) {

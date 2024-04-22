@@ -12,10 +12,10 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import no.uib.inf101.sample.model.GameState;
-import no.uib.inf101.sample.view.interfaces.ViewableEnemy;
-import no.uib.inf101.sample.view.interfaces.ViewableGameModel;
-import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
-import no.uib.inf101.sample.view.interfaces.ViewableProjectile;
+import no.uib.inf101.sample.view.viewables.ViewableEnemy;
+import no.uib.inf101.sample.view.viewables.ViewableGameModel;
+import no.uib.inf101.sample.view.viewables.ViewablePlayer;
+import no.uib.inf101.sample.view.viewables.ViewableProjectile;
 
 public class GameView extends JPanel {
     private static final int START_WIDTH = 1700;
@@ -23,11 +23,15 @@ public class GameView extends JPanel {
     private static final double WINDOW_RATIO = (double) (START_WIDTH / START_HEIGHT);
     private static final BufferedImage APPLE = Inf101Graphics.loadImageFromResources("apple.png");
     private static final BufferedImage GOLDEN_APPLE = Inf101Graphics.loadImageFromResources("golden_apple.png");
+    private static final double PROJECTILE_WIDTH = 0.0225;
+    private static final double TRAIL_REDUCER = 0.05;
+    private static final int MAX_RGB = 255;
 
     private ColorTheme colorTheme;
     private ViewableGameModel gameModel;
     private ViewableEnemy enemy;
     private ViewablePlayer player;
+    private GameState gameState;
     private boolean enemyIsAngry;
     private double stringHeight;
 
@@ -51,7 +55,7 @@ public class GameView extends JPanel {
     }
 
     private void drawGameState(Graphics2D g2) {
-        GameState gameState = gameModel.getCurrentState();
+        gameState = gameModel.getCurrentState();
         stringHeight = this.getHeight() * 0.05;
 
         switch (gameState) {
@@ -100,8 +104,8 @@ public class GameView extends JPanel {
 
     private void drawControls(Graphics2D g2) {
         Rectangle2D infoBox = new Rectangle2D.Double(
-                this.getWidth() * 0.3, stringHeight, 
-                this.getWidth() * 0.4, this.getHeight() * 0.9
+                this.getWidth() * 0.3, 0, 
+                this.getWidth() * 0.4, this.getHeight()
             );
         g2.setColor(Color.darkGray);
         g2.fill(infoBox);
@@ -110,37 +114,48 @@ public class GameView extends JPanel {
         g2.setColor(Color.WHITE);
 
         Inf101Graphics.drawCenteredString(
-            g2, "CONTROLS", 0, stringHeight,
+            g2, "CONTROLS", 0, 0,
             this.getWidth(), this.getHeight() * 0.1
         );
 
-        g2.setFont(getFont(25));
+        g2.setFont(getFont(30));
         Inf101Graphics.drawCenteredString(
-            g2, "ARROW KEYS "+ "\n" + "OR WASD", 0, this.getHeight() * 0.20,
-            this.getWidth(), this.getHeight() * 0.1
+            g2, "ARROW KEYS OR WASD", 0, this.getHeight() * 0.15,
+            this.getWidth(), stringHeight
         );
+
+        Inf101Graphics.drawCenteredString(
+            g2, "ESCAPE OR P", 0, this.getHeight() * 0.275,
+            this.getWidth(), stringHeight
+        );
+        
 
         g2.setFont(getFont(35));
         g2.setColor(Color.RED);
 
         Inf101Graphics.drawCenteredString(
-            g2, "MOVE PLAYER WITH:", 0, this.getHeight() * 0.15,
-            this.getWidth(), this.getHeight() * 0.1
+            g2, "MOVE PLAYER:", 0, this.getHeight() * 0.1,
+            this.getWidth(), stringHeight
         );
 
         Inf101Graphics.drawCenteredString(
-            g2, "PROJECTILES ARE SHOT FROM:", 0, this.getHeight() * 0.3,
-            this.getWidth(), this.getHeight() * 0.1
+            g2, "PAUSE GAME:", 0, this.getHeight() * 0.225,
+            this.getWidth(), stringHeight
         );
 
         Inf101Graphics.drawCenteredString(
-            g2, "POINT SYSTEM:", infoBox.getMinX(), this.getHeight() * 0.6,
-            infoBox.getWidth() / 2, this.getHeight() * 0.1
+            g2, "PROJECTILES ARE SHOT FROM:", 0, this.getHeight() / 3,
+            this.getWidth(), stringHeight
         );
 
         Inf101Graphics.drawCenteredString(
-            g2, "HITPOINTS:", infoBox.getCenterX(), this.getHeight() * 0.6,
-            infoBox.getWidth() / 2, this.getHeight() * 0.1
+            g2, "POINT SYSTEM:", infoBox.getMinX(), this.getHeight() * 0.65,
+            infoBox.getWidth() / 2, stringHeight
+        );
+
+        Inf101Graphics.drawCenteredString(
+            g2, "HITPOINTS:", infoBox.getCenterX(), this.getHeight() * 0.65,
+            infoBox.getWidth() / 2, stringHeight
         );
 
         g2.setColor(Color.WHITE);
@@ -148,40 +163,40 @@ public class GameView extends JPanel {
 
         Inf101Graphics.drawCenteredString(
             g2, "CLOCK TICK: +2",
-            infoBox.getMinX(), this.getHeight() * 0.65,
-            infoBox.getWidth() / 2, this.getHeight() * 0.1
+            infoBox.getMinX(), this.getHeight() * 0.7,
+            infoBox.getWidth() / 2, stringHeight
         );
 
         Inf101Graphics.drawCenteredString(
             g2, "PROJECTILE SPAWN: +10",
-            infoBox.getMinX(), this.getHeight() * 0.7,
-            infoBox.getWidth() / 2, this.getHeight() * 0.1
+            infoBox.getMinX(), this.getHeight() * 0.75,
+            infoBox.getWidth() / 2, stringHeight
         );
 
         Inf101Graphics.drawCenteredString(
             g2, "APPLE EATEN: +10",
-            infoBox.getMinX(), this.getHeight() * 0.75,
-            infoBox.getWidth() / 2, this.getHeight() * 0.1
+            infoBox.getMinX(), this.getHeight() * 0.8,
+            infoBox.getWidth() / 2, stringHeight
         );
 
         Inf101Graphics.drawCenteredString(
             g2, "PROJECTILE HIT: -10",
-            infoBox.getCenterX(), this.getHeight() * 0.675,
-            infoBox.getWidth() / 2, this.getHeight() * 0.1
+            infoBox.getCenterX(), this.getHeight() * 0.725,
+            infoBox.getWidth() / 2, stringHeight
         );
 
         Inf101Graphics.drawCenteredString(
-            g2, "APPLE EATEN: +5",
-            infoBox.getCenterX(), this.getHeight() * 0.725,
-            infoBox.getWidth() / 2, this.getHeight() * 0.1
+            g2, "APPLE EATEN: +3",
+            infoBox.getCenterX(), this.getHeight() * 0.775,
+            infoBox.getWidth() / 2, stringHeight
         );
 
         g2.setFont(getFont(30));
         g2.setColor(Color.RED);
         Inf101Graphics.drawCenteredString(
             g2, "PRESS KEY TO EXIT CONTROLS",
-            0, this.getHeight() * 0.8,
-            this.getWidth(), this.getHeight() * 0.2
+            0, this.getHeight() * 0.9,
+            this.getWidth(), stringHeight
         );
     }
 
@@ -236,8 +251,6 @@ public class GameView extends JPanel {
     }
 
     private void drawActiveGame(Graphics2D g2) {
-        GameState gameState = gameModel.getCurrentState();
-
         if (gameState == GameState.ACTIVE_HAPPY) {
             this.setBackground(colorTheme.getHappyBackground());
             drawGameInfo(g2, Color.BLACK);
@@ -267,7 +280,6 @@ public class GameView extends JPanel {
     }
 
     private void drawGameInfo(Graphics2D g2, Color textColor) {
-        GameState gameState = gameModel.getCurrentState();
         g2.setColor(textColor);
         g2.setFont(getFont(30));
         Inf101Graphics.drawCenteredString(g2, "HEALTH", 0, 0, this.getWidth(), this.getHeight() * 0.075);
@@ -316,10 +328,9 @@ public class GameView extends JPanel {
     }
 
     private Color getHealthColor() {
-        int maxGreenValue = 255;
-        double multiplier = maxGreenValue / player.getMaxHealth();
+        double multiplier = MAX_RGB / player.getMaxHealth();
         int greenValue = player.getHealth() * (int) multiplier;
-        int redValue = maxGreenValue - greenValue;
+        int redValue = MAX_RGB - greenValue;
         return new Color(redValue, Math.min(200, greenValue), 0);
     }
 
@@ -332,15 +343,16 @@ public class GameView extends JPanel {
     }
 
     private void drawProjectile(Graphics2D g2) {
-        double width = 0.0225 * this.getWidth();
+        double width = PROJECTILE_WIDTH * this.getWidth();
         double height = width * WINDOW_RATIO;
         Rectangle2D projectileBox, trailBox;
         double resizingFactor;
         int colorFactor;
         
         for (int i = 0; i < gameModel.getNumberOfProjectiles(); i++) {
-            ViewableProjectile projectile = gameModel.getProjectile(i);
             colorFactor = 0;
+            resizingFactor = 1;
+            ViewableProjectile projectile = gameModel.getProjectile(i);
             ArrayList<Point2D> trail = projectile.getTrail();
             projectileBox = new Rectangle2D.Double(
                     projectile.getX() * (this.getWidth() - width), 
@@ -351,7 +363,6 @@ public class GameView extends JPanel {
             g2.fill(projectileBox);
 
             for (int j = trail.size() - 1; j >= 0; j--) {
-                resizingFactor = 1 - ((trail.size() - 1) - j) * 0.04;
                 Point2D point = trail.get(j);
                 trailBox = new Rectangle2D.Double(
                     point.getX() * (this.getWidth() - width * resizingFactor),
@@ -360,14 +371,15 @@ public class GameView extends JPanel {
                 );
                 g2.setColor(new Color(Math.max(0, 255 - colorFactor), 0, 0));
                 g2.fill(trailBox);
-                colorFactor += 20;
+                colorFactor += MAX_RGB / 10;
+                resizingFactor -= 1.0 / trail.size();
             }
             
         }
     }
 
     private Font getFont(int fontSize) {
-        fontSize *= Math.min(this.getWidth(), this.getHeight()) * 0.001;
+        fontSize *= Math.min(this.getWidth(), this.getHeight()) / 1000;
         return new Font("Monospaced", Font.BOLD, fontSize);
     }
 

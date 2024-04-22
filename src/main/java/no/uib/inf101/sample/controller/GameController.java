@@ -21,7 +21,7 @@ public class GameController implements KeyListener {
     private static final int UPDATE_ENEMY_TICK = 30;
     private static final int ADD_SCORE_TICK = 100;
     private static final int GAPPLE_COUNTDOWN_TICK = 100;
-    private static final int ADD_PROJECTILE_TICK = 300;
+    private static final int ADD_PROJECTILE_TICK = 360;
     private static final int SHOT_READY_TICK = ADD_PROJECTILE_TICK - 2 * UPDATE_ENEMY_TICK;
     private static final int ADD_GAPPLE_TICK = 4000;
     private static final double RESET_GAME_TICK = 750;
@@ -61,11 +61,11 @@ public class GameController implements KeyListener {
                 playerLeft = true;
             } else if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D) {
                 playerRight = true;
-            } else if (keyCode == KeyEvent.VK_P) {
-                previousGameState = currentGameState;
-                enemy.setToPaused(previousGameState);
+            } else if (keyCode == KeyEvent.VK_P || keyCode == KeyEvent.VK_ESCAPE) {
+                enemy.pause(currentGameState);
                 gameModel.setGameState(GameState.PAUSED);
                 timer.stop();
+                
             }
         } else if (currentGameState == GameState.PAUSED) {
             if (previousGameState == GameState.ACTIVE_ANGRY) {

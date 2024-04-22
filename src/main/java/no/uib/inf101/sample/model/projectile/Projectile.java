@@ -3,7 +3,7 @@ package no.uib.inf101.sample.model.projectile;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import no.uib.inf101.sample.view.interfaces.ViewableProjectile;
+import no.uib.inf101.sample.view.viewables.ViewableProjectile;
 
 public class Projectile extends RandomMovingEntity implements ViewableProjectile {
     private static final int TRAIL_SIZE = 20;

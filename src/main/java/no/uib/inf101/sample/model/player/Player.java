@@ -4,13 +4,15 @@ import java.awt.image.BufferedImage;
 
 import no.uib.inf101.sample.model.Entity;
 import no.uib.inf101.sample.model.GameState;
-import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
+import no.uib.inf101.sample.view.viewables.ViewablePlayer;
 
 public class Player extends Entity implements ViewablePlayer {
     private static final double START_X = 0.20;
     private static final double START_Y = 0.20;
     private static final double PLAYER_SPEED = 0.007;
     private static final int MAX_HEALTH = 80;
+    private static final int HEALTHPOINT = 3;
+    private static final int HITPOINT = 10;
 
     private int playerHealth;
     private PlayerState playerState;
@@ -30,6 +32,11 @@ public class Player extends Entity implements ViewablePlayer {
     @Override
     public int getHealth() {
         return this.playerHealth;
+    }
+
+    @Override
+    public int getMaxHealth() {
+        return MAX_HEALTH;
     }
 
     private void updatePlayerState(int deltaX, int deltaY) {
@@ -120,25 +127,19 @@ public class Player extends Entity implements ViewablePlayer {
 
     public void registerHit(GameState gameState) {
         if (gameState == GameState.ACTIVE_ANGRY) {
-            double hitpoint = 10;
-            if (playerHealth - hitpoint < 0) {
+            if (playerHealth - HITPOINT < 0) {
                 playerHealth = 0;
             } else {
-                playerHealth -= hitpoint;
+                playerHealth -= HITPOINT;
             }
             updatePlayerState(0, 0);
         } else {
-            double healthPoints = 2;
-            if (playerHealth + healthPoints > MAX_HEALTH) {
+            if (playerHealth + HEALTHPOINT > MAX_HEALTH) {
                 playerHealth = MAX_HEALTH;
             } else {
-                playerHealth += healthPoints;
+                playerHealth += HEALTHPOINT;
             }
         }
-    }
-
-    public int getMaxHealth() {
-        return MAX_HEALTH;
     }
 
     public void reset() {

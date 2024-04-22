@@ -1,6 +1,6 @@
 package no.uib.inf101.sample.model;
 
-import no.uib.inf101.sample.view.interfaces.ViewableEntity;
+import no.uib.inf101.sample.view.viewables.ViewableEntity;
 
 public class Entity implements ViewableEntity {
     protected double x;

@@ -8,7 +8,7 @@ import java.util.Collections;
 import no.uib.inf101.sample.controller.ControllableEnemy;
 import no.uib.inf101.sample.model.Entity;
 import no.uib.inf101.sample.model.GameState;
-import no.uib.inf101.sample.view.interfaces.ViewableEnemy;
+import no.uib.inf101.sample.view.viewables.ViewableEnemy;
 
 public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
     private static final double MARGIN_X = 0.05;
@@ -102,7 +102,7 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
     }
 
     @Override
-    public void setToPaused(GameState gameState) {
+    public void pause(GameState gameState) {
         this.previousState = currentState;
         if (gameState == GameState.ACTIVE_ANGRY) {
             currentState = EnemyState.ANGRY_PAUSED;

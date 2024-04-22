@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import no.uib.inf101.sample.model.projectile.RandomProjectileFactory;
-import no.uib.inf101.sample.view.interfaces.ViewableEnemy;
-import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
-import no.uib.inf101.sample.view.interfaces.ViewableProjectile;
+import no.uib.inf101.sample.view.viewables.ViewableEnemy;
+import no.uib.inf101.sample.view.viewables.ViewablePlayer;
+import no.uib.inf101.sample.view.viewables.ViewableProjectile;
 import no.uib.inf101.sample.controller.ControllableEnemy;
 import no.uib.inf101.sample.model.projectile.ProjectileFactory;
 

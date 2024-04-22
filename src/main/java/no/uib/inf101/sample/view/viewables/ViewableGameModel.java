@@ -1,4 +1,4 @@
-package no.uib.inf101.sample.view.interfaces;
+package no.uib.inf101.sample.view.viewables;
 
 import no.uib.inf101.sample.model.GameState;
 

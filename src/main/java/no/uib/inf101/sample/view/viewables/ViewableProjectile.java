@@ -1,4 +1,4 @@
-package no.uib.inf101.sample.view.interfaces;
+package no.uib.inf101.sample.view.viewables;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

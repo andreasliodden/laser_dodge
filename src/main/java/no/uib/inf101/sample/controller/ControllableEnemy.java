@@ -6,6 +6,6 @@ public interface ControllableEnemy {
     void updateState();
     void switchMood();
     void updateShootingStatus();
-    void setToPaused(GameState gameState);
+    void pause(GameState gameState);
     void resume();
 }

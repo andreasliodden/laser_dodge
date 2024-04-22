@@ -12,10 +12,10 @@ import no.uib.inf101.sample.model.player.Player;
 import no.uib.inf101.sample.model.projectile.GoldenApple;
 import no.uib.inf101.sample.model.projectile.Projectile;
 import no.uib.inf101.sample.model.projectile.ProjectileFactory;
-import no.uib.inf101.sample.view.interfaces.ViewableEnemy;
-import no.uib.inf101.sample.view.interfaces.ViewableGameModel;
-import no.uib.inf101.sample.view.interfaces.ViewablePlayer;
-import no.uib.inf101.sample.view.interfaces.ViewableProjectile;
+import no.uib.inf101.sample.view.viewables.ViewableEnemy;
+import no.uib.inf101.sample.view.viewables.ViewableGameModel;
+import no.uib.inf101.sample.view.viewables.ViewablePlayer;
+import no.uib.inf101.sample.view.viewables.ViewableProjectile;
 
 public class GameModel implements ControllableGameModel, ViewableGameModel {
     private Enemy enemy;
