@@ -1,7 +1,5 @@
 package no.uib.inf101.sample.controller;
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -37,13 +35,6 @@ public class GameController implements KeyListener {
         this.tickCounter = 1;
         gameView.setFocusable(true);
         gameView.addKeyListener(this);
-
-        // Hentet fra https://stackoverflow.com/questions/2303305/window-resize-event
-        gameView.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent componentEvent) {
-                gameView.updateWindowRatio();
-            }
-        });
     }
 
     @Override

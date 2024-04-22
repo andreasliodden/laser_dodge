@@ -20,6 +20,7 @@ import no.uib.inf101.sample.view.interfaces.ViewableProjectile;
 public class GameView extends JPanel {
     private static final int START_WIDTH = 1700;
     private static final int START_HEIGHT = 1000;
+    private static final double WINDOW_RATIO = (double) (START_WIDTH / START_HEIGHT);
     private static final BufferedImage APPLE = Inf101Graphics.loadImageFromResources("apple.png");
     private static final BufferedImage GOLDEN_APPLE = Inf101Graphics.loadImageFromResources("golden_apple.png");
 
@@ -27,7 +28,6 @@ public class GameView extends JPanel {
     private ViewableGameModel gameModel;
     private ViewableEnemy enemy;
     private ViewablePlayer player;
-    private double windowRatio;
     private boolean enemyIsAngry;
     private double stringHeight;
 
@@ -52,6 +52,7 @@ public class GameView extends JPanel {
 
     private void drawGameState(Graphics2D g2) {
         GameState gameState = gameModel.getCurrentState();
+        stringHeight = this.getHeight() * 0.05;
 
         switch (gameState) {
             case HOME -> drawHomeScreen(g2);
@@ -322,11 +323,6 @@ public class GameView extends JPanel {
         return new Color(redValue, Math.min(200, greenValue), 0);
     }
 
-    public void updateWindowRatio() {
-        windowRatio = this.getWidth() / this.getHeight();
-        stringHeight = this.getHeight() * 0.05;
-    }
-
     private void drawPlayer(Graphics2D g2) {
         drawImage(g2, player.getImage(), player.getX(), player.getY(), 5);
     }
@@ -337,7 +333,7 @@ public class GameView extends JPanel {
 
     private void drawProjectile(Graphics2D g2) {
         double width = 0.0225 * this.getWidth();
-        double height = width * windowRatio;
+        double height = width * WINDOW_RATIO;
         Rectangle2D projectileBox, trailBox;
         double resizingFactor;
         int colorFactor;
@@ -377,7 +373,7 @@ public class GameView extends JPanel {
 
     private void drawImage(Graphics2D g2, BufferedImage image, double entityX, double entityY, int imageScale) {
         int imageWidth = (int) (image.getWidth() * this.getWidth() * imageScale) / START_WIDTH;
-        int imageHeight = (int) (imageWidth * windowRatio);
+        int imageHeight = (int) (imageWidth * WINDOW_RATIO); 
         int x = (int) (entityX * (this.getWidth() - imageWidth));
         int y = (int) (entityY * (this.getHeight() - imageHeight));
         g2.drawImage(image, x, y, imageWidth, imageHeight, null);
