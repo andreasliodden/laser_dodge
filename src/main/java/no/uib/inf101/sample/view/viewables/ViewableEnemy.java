@@ -1,7 +1,7 @@
 package no.uib.inf101.sample.view.viewables;
 
-import java.awt.image.BufferedImage;
+import no.uib.inf101.sample.model.enemy.EnemyState;
 
 public interface ViewableEnemy extends ViewableEntity {
-    BufferedImage getImage();
+    EnemyState getCurrentState();
 }

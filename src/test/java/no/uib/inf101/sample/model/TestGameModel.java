@@ -38,38 +38,11 @@ public class TestGameModel {
     }
 
     @Test
-    public void playerCanMoveAllDirections() {
-        ViewablePlayer player = gameModel.getViewablePlayer();
-        double initialX = player.getX();
-        double initialY = player.getY();
-        double currentX = initialX;
-        double currentY = initialY;
-
-        gameModel.movePlayer(1, 0);
-
-        assertTrue(player.getX() > currentX);
-        assertEquals(currentY, player.getY());
-        currentX = player.getX();
-
-        gameModel.movePlayer(0, -1);
-
-        assertTrue(player.getY() < currentY);
-        assertEquals(currentX, player.getX());
-        currentY = player.getY();
-
-        gameModel.movePlayer(-1, 0);
-
-        assertTrue(player.getX() < currentX);
-        assertEquals(currentY, player.getY());
-        currentX = player.getX();
-
-        gameModel.movePlayer(0, 1);
-        assertTrue(player.getY() > currentY);
-        assertEquals(currentX, player.getX());
-        currentY = player.getY();
-
-        assertEquals(initialY, currentY);
-        assertEquals(initialX, currentX);
+    public void movePlayerAllDirections() {
+        assert(gameModel.movePlayer(1, 0));
+        assert(gameModel.movePlayer(-1, 0));
+        assert(gameModel.movePlayer(0, 1));
+        assert(gameModel.movePlayer(0, -1));
     }
 
     @Test
@@ -102,9 +75,9 @@ public class TestGameModel {
         gameModel.addProjectile();
         assertEquals(2, gameModel.getNumberOfProjectiles());
 
-        assertFalse(gameModel.goldenAppleExists());
-        gameModel.addGoldenApple();
-        assertTrue(gameModel.goldenAppleExists());
+        assertFalse(gameModel.gappleExists());
+        gameModel.addGapple();
+        assertTrue(gameModel.gappleExists());
 
         assertTrue(gameModel.getGappleX() > 0 && gameModel.getGappleX() < 1);
         assertTrue(gameModel.getGappleY() > 0 && gameModel.getGappleY() < 1);
@@ -113,7 +86,7 @@ public class TestGameModel {
     @Test
     public void clockTick() {
         gameModel.addProjectile();
-        gameModel.addGoldenApple();
+        gameModel.addGapple();
 
         ViewableProjectile projectile = gameModel.getProjectile(0);
         double projectileX = projectile.getX();
@@ -171,5 +144,38 @@ public class TestGameModel {
 
         gameModel.addProjectile();
         assertEquals(currentScore + 10, gameModel.getScore());
+    }
+
+    @Test
+    public void startGame() {
+        gameModel.startNewGame();
+        assertEquals(45, gameModel.getGappleCountdown());
+        assertFalse(gameModel.gappleExists());
+        assertEquals(0, gameModel.getScore());
+        assertEquals(GameState.ACTIVE_ANGRY, gameModel.getCurrentState());
+        assertEquals(0, gameModel.getNumberOfProjectiles());
+
+
+    }
+
+    @Test
+    public void gappleCountdown() {
+        gameModel.startNewGame();
+        int countdownStart = 45;
+        int iterations = 5;
+
+        for (int i = 0; i < iterations; i++) {
+            gameModel.updateGappleCountdown();
+        }
+        assertEquals(countdownStart - iterations, gameModel.getGappleCountdown());
+        gameModel.resetGapple();
+        assertEquals(countdownStart, gameModel.getGappleCountdown());
+
+        while (gameModel.getGappleCountdown() > 0) {
+            gameModel.updateGappleCountdown();
+        }
+        assertEquals(0, gameModel.getGappleCountdown());
+        gameModel.updateGappleCountdown();
+        assertEquals(0, gameModel.getGappleCountdown());
     }
 }

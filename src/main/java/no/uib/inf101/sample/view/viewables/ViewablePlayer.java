@@ -1,9 +1,10 @@
 package no.uib.inf101.sample.view.viewables;
 
-import java.awt.image.BufferedImage;
+import no.uib.inf101.sample.model.player.PlayerState;
 
 public interface ViewablePlayer extends ViewableEntity {
-    BufferedImage getImage();
+    PlayerState getState();
     int getHealth();
     int getMaxHealth();
+
 }

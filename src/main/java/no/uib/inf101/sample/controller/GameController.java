@@ -23,7 +23,7 @@ public class GameController implements KeyListener {
     private static final int GAPPLE_COUNTDOWN_TICK = 100;
     private static final int ADD_PROJECTILE_TICK = 360;
     private static final int SHOT_READY_TICK = ADD_PROJECTILE_TICK - 2 * UPDATE_ENEMY_TICK;
-    private static final int ADD_GAPPLE_TICK = 4000;
+    private static final int ADD_GAPPLE_TICK = 4500;
     private static final double RESET_GAME_TICK = 750;
     private static final int TICK_DIVISOR = 3;
 
@@ -62,7 +62,7 @@ public class GameController implements KeyListener {
             } else if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D) {
                 playerRight = true;
             } else if (keyCode == KeyEvent.VK_P || keyCode == KeyEvent.VK_ESCAPE) {
-                enemy.pause(currentGameState);
+                enemy.updatePause();
                 gameModel.setGameState(GameState.PAUSED);
                 timer.stop();
                 
@@ -74,7 +74,7 @@ public class GameController implements KeyListener {
                 gameModel.setGameState(GameState.ACTIVE_HAPPY);
             }
             timer.start();
-            enemy.resume();
+            enemy.updatePause();
             clockTick();
         } else if (currentGameState == GameState.GAME_OVER) {
             if (keyCode == KeyEvent.VK_H) {
@@ -132,7 +132,7 @@ public class GameController implements KeyListener {
                 gameModel.addProjectile();
             }
             if (tickCounter == ADD_GAPPLE_TICK) {
-                gameModel.addGoldenApple();
+                gameModel.addGapple();
             }
         } else if (currentGameState == GameState.ACTIVE_HAPPY) {
             int newProjectileTick = ADD_PROJECTILE_TICK / TICK_DIVISOR;

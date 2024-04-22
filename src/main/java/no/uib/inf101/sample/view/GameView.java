@@ -12,6 +12,8 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import no.uib.inf101.sample.model.GameState;
+import no.uib.inf101.sample.model.enemy.EnemyState;
+import no.uib.inf101.sample.model.player.PlayerState;
 import no.uib.inf101.sample.view.viewables.ViewableEnemy;
 import no.uib.inf101.sample.view.viewables.ViewableGameModel;
 import no.uib.inf101.sample.view.viewables.ViewablePlayer;
@@ -23,8 +25,28 @@ public class GameView extends JPanel {
     private static final double PROJECTILE_WIDTH = 0.0225;
     private static final int MAX_RGB = 255;
     private static final double WINDOW_RATIO = (double) (START_WIDTH / START_HEIGHT);
+
+
     private static final BufferedImage APPLE = Inf101Graphics.loadImageFromResources("apple.png");
     private static final BufferedImage GOLDEN_APPLE = Inf101Graphics.loadImageFromResources("golden_apple.png");
+
+    private static final BufferedImage ENEMY_ANGRY_ONE  = Inf101Graphics.loadImageFromResources("enemy/angry_1.png");
+    private static final BufferedImage ENEMY_ANGRY_TWO = Inf101Graphics.loadImageFromResources("enemy/angry_2.png");
+    private static final BufferedImage ENEMY_ANGRY_READY = Inf101Graphics.loadImageFromResources("enemy/angry_ready.png");
+    private static final BufferedImage ENEMY_ANGRY_PAUSED = Inf101Graphics.loadImageFromResources("enemy/angry_paused.png");
+    private static final BufferedImage ENEMY_HAPPY_ONE  = Inf101Graphics.loadImageFromResources("enemy/happy_1.png");
+    private static final BufferedImage ENEMY_HAPPY_TWO = Inf101Graphics.loadImageFromResources("enemy/happy_2.png");
+    private static final BufferedImage ENEMY_HAPPY_READY = Inf101Graphics.loadImageFromResources("enemy/happy_ready.png");
+    private static final BufferedImage ENEMY_HAPPY_PAUSED = Inf101Graphics.loadImageFromResources("enemy/happy_paused.png");
+    
+    private static final BufferedImage FRONT_LEFT = Inf101Graphics.loadImageFromResources("player/front_left.png");
+    private static final BufferedImage FRONT_RIGHT = Inf101Graphics.loadImageFromResources("player/front_right.png");
+    private static final BufferedImage BACK_LEFT = Inf101Graphics.loadImageFromResources("player/back_left.png");
+    private static final BufferedImage BACK_RIGHT = Inf101Graphics.loadImageFromResources("player/back_right.png");
+    private static final BufferedImage HURT_FRONT_LEFT = Inf101Graphics.loadImageFromResources("player/hurt_front_left.png");
+    private static final BufferedImage HURT_FRONT_RIGHT = Inf101Graphics.loadImageFromResources("player/hurt_front_right.png");
+    private static final BufferedImage HURT_BACK_LEFT = Inf101Graphics.loadImageFromResources("player/hurt_back_left.png");
+    private static final BufferedImage HURT_BACK_RIGHT = Inf101Graphics.loadImageFromResources("player/hurt_back_right.png");
 
     private ColorTheme colorTheme;
     private ViewableGameModel gameModel;
@@ -257,7 +279,7 @@ public class GameView extends JPanel {
             enemyIsAngry = false;
         } else {
             this.setBackground(colorTheme.getAngryBackground());
-            if (gameModel.goldenAppleExists()) {
+            if (gameModel.gappleExists()) {
                 drawGoldenApple(g2);
             }
             drawGameInfo(g2, Color.WHITE);
@@ -334,11 +356,11 @@ public class GameView extends JPanel {
     }
 
     private void drawPlayer(Graphics2D g2) {
-        drawImage(g2, player.getImage(), player.getX(), player.getY(), 5);
+        drawImage(g2, getPlayerImage(player.getState()), player.getX(), player.getY(), 5);
     }
 
     private void drawEnemy(Graphics2D g2) {
-        drawImage(g2, enemy.getImage(), enemy.getX(), enemy.getY(), 6);
+        drawImage(g2, getEnemyImage(enemy.getCurrentState()), enemy.getX(), enemy.getY(), 6);
     }
 
     private void drawProjectile(Graphics2D g2) {
@@ -388,6 +410,39 @@ public class GameView extends JPanel {
         int x = (int) (entityX * (this.getWidth() - imageWidth));
         int y = (int) (entityY * (this.getHeight() - imageHeight));
         g2.drawImage(image, x, y, imageWidth, imageHeight, null);
+    }
+
+    private BufferedImage getPlayerImage(PlayerState playerState) {
+        BufferedImage playerImage;
+        switch (playerState) {
+            case FRONT_LEFT -> playerImage = FRONT_LEFT;
+            case FRONT_RIGHT -> playerImage = FRONT_RIGHT;
+            case BACK_LEFT -> playerImage = BACK_LEFT;
+            case BACK_RIGHT -> playerImage = BACK_RIGHT;
+            case HURT_FRONT_LEFT -> playerImage = HURT_FRONT_LEFT;
+            case HURT_FRONT_RIGHT -> playerImage = HURT_FRONT_RIGHT;
+            case HURT_BACK_LEFT -> playerImage = HURT_BACK_LEFT;
+            case HURT_BACK_RIGHT -> playerImage = HURT_BACK_RIGHT;
+            default -> throw new IllegalArgumentException("'" + playerState + "' is not a player state.");
+        }
+        return playerImage;
+    }
+
+    private BufferedImage getEnemyImage(EnemyState enemyState) {
+        BufferedImage enemyImage;
+        switch (enemyState) {
+            case ANGRY_ONE -> enemyImage = ENEMY_ANGRY_ONE;
+            case ANGRY_TWO -> enemyImage = ENEMY_ANGRY_TWO;
+            case ANGRY_READY -> enemyImage = ENEMY_ANGRY_READY;
+            case ANGRY_PAUSED -> enemyImage = ENEMY_ANGRY_PAUSED;
+            case HAPPY_ONE -> enemyImage = ENEMY_HAPPY_ONE;
+            case HAPPY_TWO -> enemyImage = ENEMY_HAPPY_TWO;
+            case HAPPY_READY -> enemyImage = ENEMY_HAPPY_READY;
+            case HAPPY_PAUSED -> enemyImage = ENEMY_HAPPY_PAUSED;
+            default -> throw new IllegalArgumentException("'" + enemyState + "' is not a player state.");
+        }
+        return enemyImage;
+        
     }
 }
 

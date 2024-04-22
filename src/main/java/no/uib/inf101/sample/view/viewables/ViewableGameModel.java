@@ -6,7 +6,7 @@ public interface ViewableGameModel {
     ViewablePlayer getViewablePlayer();
     ViewableEnemy getViewableEnemy();
     ViewableProjectile getProjectile(int index);
-    boolean goldenAppleExists();
+    boolean gappleExists();
     double getGappleX();
     double getGappleY();
     GameState getCurrentState();

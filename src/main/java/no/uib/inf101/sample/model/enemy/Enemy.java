@@ -1,13 +1,11 @@
 package no.uib.inf101.sample.model.enemy;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import no.uib.inf101.sample.controller.ControllableEnemy;
 import no.uib.inf101.sample.model.Entity;
-import no.uib.inf101.sample.model.GameState;
 import no.uib.inf101.sample.view.viewables.ViewableEnemy;
 
 public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
@@ -17,7 +15,7 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
     private static final double Y_POS = 0.5;
     private final Rectangle2D restrictedArea;
     private EnemyState currentState, previousState;
-    private boolean readyToShoot;
+    private boolean readyToShoot, isPaused;
     private ArrayList<EnemyState> listOfAngryStates = new ArrayList<>();
     
 
@@ -30,12 +28,13 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
             MARGIN_X * 2, MARGIN_Y * 2
         );
         this.readyToShoot = false;
+        this.isPaused = false;
         initAngryStates();
     }
 
     @Override
-    public BufferedImage getImage() {
-        return currentState.getImage();
+    public EnemyState getCurrentState() {
+        return this.currentState;
     }
 
     private void initAngryStates() {
@@ -102,17 +101,18 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
     }
 
     @Override
-    public void pause(GameState gameState) {
-        this.previousState = currentState;
-        if (gameState == GameState.ACTIVE_ANGRY) {
-            currentState = EnemyState.ANGRY_PAUSED;
+    public void updatePause() {
+        if (isPaused) {
+            this.currentState = previousState;
+            isPaused = false;
         } else {
-            currentState = EnemyState.HAPPY_PAUSED;
+            this.previousState = currentState;
+            if (listOfAngryStates.contains(currentState)) {
+                currentState = EnemyState.ANGRY_PAUSED;
+            } else {
+                currentState = EnemyState.HAPPY_PAUSED;
+            }
+            isPaused = true;
         }
-    }
-
-    @Override
-    public void resume() {
-        this.currentState = previousState;
     }
 }

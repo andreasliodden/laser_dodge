@@ -9,7 +9,7 @@ public interface ControllableGameModel {
 
     void addProjectile();
 
-    void addGoldenApple();
+    void addGapple();
 
     void addTimeScore();
 

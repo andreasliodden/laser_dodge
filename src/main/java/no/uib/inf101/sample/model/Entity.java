@@ -19,7 +19,7 @@ public class Entity implements ViewableEntity {
         return this.y;
     }
 
-    public boolean checkAndUpdatePosition(double nextX, double nextY) {
+    protected boolean checkAndUpdatePosition(double nextX, double nextY) {
         if (isLegalPosition(nextX, nextY)) {
             x = nextX;
             y = nextY;

@@ -23,12 +23,12 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     private ArrayList<Projectile> activeProjectiles = new ArrayList<>();
     private ProjectileFactory factory;
     private GameState gameState;
-    private GoldenApple goldenApple;
-    private boolean goldenAppleExists;
+    private GoldenApple gapple;
+    private boolean gappleExists;
     private int gameScore;
     private int gappleCountdown;
 
-    private static final int GAPPLE_COOLDOWN = 40;
+    private static final int GAPPLE_COOLDOWN = 45;
     private static final int TIME_POINTS = 2;
     private static final int PROJECTILE_POINTS = 10;
     private static final double COLLISION_ROOM = 0.035;
@@ -57,12 +57,12 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     @Override
     public void clockTick() {
-        if (goldenAppleExists) {
-            goldenApple.move();
-            if (playerProjectileCollision(goldenApple.getX(), goldenApple.getY())) {
+        if (gappleExists) {
+            gapple.move();
+            if (playerProjectileCollision(gapple.getX(), gapple.getY())) {
                 enemy.switchMood();
                 gameState = GameState.ACTIVE_HAPPY;
-                goldenAppleExists = false;
+                gappleExists = false;
             }
         }
         Iterator<Projectile> iterator = activeProjectiles.iterator();
@@ -84,7 +84,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     @Override
     public void resetGapple() {
         this.gappleCountdown = GAPPLE_COOLDOWN;
-        this.goldenAppleExists = false;
+        this.gappleExists = false;
     }
 
     @Override
@@ -109,12 +109,12 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     @Override
     public double getGappleX(){
-        return goldenApple.getX();
+        return gapple.getX();
     }
 
     @Override
     public double getGappleY(){
-        return goldenApple.getY();
+        return gapple.getY();
     }
 
     private boolean playerProjectileCollision(double projectileX, double projectileY) {
@@ -136,16 +136,16 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public void addGoldenApple() {
-        if (!goldenAppleExists) {
-            goldenApple = factory.getGoldenApple();
-            goldenAppleExists = true;
+    public void addGapple() {
+        if (!gappleExists) {
+            gapple = factory.getGoldenApple();
+            gappleExists = true;
         }
     }
 
     @Override
-    public boolean goldenAppleExists() {
-        return this.goldenAppleExists;
+    public boolean gappleExists() {
+        return this.gappleExists;
     }
 
     @Override
