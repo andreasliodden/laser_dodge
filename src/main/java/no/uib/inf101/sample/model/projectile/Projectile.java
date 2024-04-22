@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import no.uib.inf101.sample.view.interfaces.ViewableProjectile;
 
 public class Projectile extends RandomMovingEntity implements ViewableProjectile {
+    private static final int TRAIL_SIZE = 20;
     private ArrayList<Point2D> trail = new ArrayList<>();
 
     private Projectile(double velocityX, double velocityY) {
@@ -28,7 +29,7 @@ public class Projectile extends RandomMovingEntity implements ViewableProjectile
     private void addPositionToTrail() {
         trail.add(new Point2D.Double(x, y));
     
-        if (trail.size() > 25) {
+        if (trail.size() > TRAIL_SIZE) {
             trail.remove(0);
         }
     }

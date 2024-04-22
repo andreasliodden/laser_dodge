@@ -40,6 +40,7 @@ public class GameView extends JPanel {
                 START_WIDTH, START_HEIGHT));
         this.setBackground(colorTheme.getAngryBackground());
         this.enemyIsAngry = true;
+        this.setDoubleBuffered(true);
     }
 
     @Override

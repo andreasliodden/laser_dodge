@@ -28,8 +28,10 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     private int gameScore;
     private int gappleCountdown;
 
-    private static final int GAPPLE_COOLDOWN = 45;
+    private static final int GAPPLE_COOLDOWN = 40;
     private static final int TIME_POINTS = 2;
+    private static final int PROJECTILE_POINTS = 10;
+    private static final double COLLISION_ROOM = 0.035;
 
     public GameModel(ProjectileFactory factory) {
         this.factory = factory;
@@ -71,7 +73,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
                 player.registerHit(gameState);
                 iterator.remove();
                 if (gameState == GameState.ACTIVE_HAPPY) {
-                    gameScore += 10;
+                    gameScore += PROJECTILE_POINTS;
                 } else if (player.getHealth() == 0) {
                     gameState = GameState.GAME_OVER;
                 }
@@ -89,7 +91,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     public void addProjectile() {
         enemy.updateShootingStatus();
         activeProjectiles.add(factory.getNextProjectile());
-        gameScore += 10;
+        gameScore += PROJECTILE_POINTS;
     }
 
     @Override
@@ -116,7 +118,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     private boolean playerProjectileCollision(double projectileX, double projectileY) {
-        double collisionRoom = 0.035;
+        double collisionRoom = COLLISION_ROOM;
         double projectilePlayerX = getAbsoluteDiff(projectileX, player.getX());
         double projectilePlayerY = getAbsoluteDiff(projectileY, player.getY());
 
