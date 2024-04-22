@@ -20,12 +20,11 @@ import no.uib.inf101.sample.view.viewables.ViewableProjectile;
 public class GameView extends JPanel {
     private static final int START_WIDTH = 1700;
     private static final int START_HEIGHT = 1000;
+    private static final double PROJECTILE_WIDTH = 0.0225;
+    private static final int MAX_RGB = 255;
     private static final double WINDOW_RATIO = (double) (START_WIDTH / START_HEIGHT);
     private static final BufferedImage APPLE = Inf101Graphics.loadImageFromResources("apple.png");
     private static final BufferedImage GOLDEN_APPLE = Inf101Graphics.loadImageFromResources("golden_apple.png");
-    private static final double PROJECTILE_WIDTH = 0.0225;
-    private static final double TRAIL_REDUCER = 0.05;
-    private static final int MAX_RGB = 255;
 
     private ColorTheme colorTheme;
     private ViewableGameModel gameModel;
@@ -379,7 +378,7 @@ public class GameView extends JPanel {
     }
 
     private Font getFont(int fontSize) {
-        fontSize *= Math.min(this.getWidth(), this.getHeight()) / 1000;
+        fontSize *= Math.min(this.getWidth(), this.getHeight()) * 0.001;
         return new Font("Monospaced", Font.BOLD, fontSize);
     }
 
