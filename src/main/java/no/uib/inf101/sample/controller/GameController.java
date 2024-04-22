@@ -39,54 +39,67 @@ public class GameController implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        GameState gameState = gameModel.getCurrentState();
         int keyCode = e.getKeyCode();
-        currentGameState = gameModel.getCurrentState();
-        if (currentGameState == GameState.HOME) {
-            if (keyCode == KeyEvent.VK_S) {
-                gameModel.startNewGame();
-                timer.start();
-                resetTickCounter();
-            } else if (keyCode == KeyEvent.VK_C) {
-                gameModel.setGameState(GameState.CONTROLS);
-            }
-        } else if (currentGameState == GameState.CONTROLS) {
-            gameModel.setGameState(GameState.HOME);
-        }
-        else if (currentGameState == GameState.ACTIVE_ANGRY || currentGameState == GameState.ACTIVE_HAPPY) {
-            if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W) {
-                playerUp = true;
-            } else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S) {
-                playerDown = true;
-            } else if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A) {
-                playerLeft = true;
-            } else if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D) {
-                playerRight = true;
-            } else if (keyCode == KeyEvent.VK_P || keyCode == KeyEvent.VK_ESCAPE) {
-                enemy.updatePause();
-                gameModel.setGameState(GameState.PAUSED);
-                timer.stop();
-                
-            }
-        } else if (currentGameState == GameState.PAUSED) {
-            if (previousGameState == GameState.ACTIVE_ANGRY) {
-                gameModel.setGameState(GameState.ACTIVE_ANGRY);
-            } else {
-                gameModel.setGameState(GameState.ACTIVE_HAPPY);
-            }
-            timer.start();
-            enemy.updatePause();
-            clockTick();
-        } else if (currentGameState == GameState.GAME_OVER) {
-            if (keyCode == KeyEvent.VK_H) {
-                gameModel.setGameState(GameState.HOME);
-            } else if (keyCode == KeyEvent.VK_R) {
-                gameModel.startNewGame();
-                timer.restart();
-                resetTickCounter();
-            }
+        switch (gameState) {
+            case HOME -> handleHomeState(keyCode);
+            case CONTROLS -> gameModel.setGameState(GameState.HOME);
+            case ACTIVE_ANGRY -> handleActiveState(keyCode);
+            case ACTIVE_HAPPY -> handleActiveState(keyCode);
+            case PAUSED -> handlePauseState(keyCode);
+            case GAME_OVER -> handleGameOver(keyCode);
+            default -> throw new IllegalArgumentException("'" + gameState + "' is not a known game state.");
         }
         gameView.repaint();
     }
+
+    private void handleHomeState(int keyCode) {
+        if (keyCode == KeyEvent.VK_S) {
+                gameModel.startNewGame();
+                timer.start();
+                resetTickCounter();
+        } else if (keyCode == KeyEvent.VK_C) {
+            gameModel.setGameState(GameState.CONTROLS);
+        }
+    }
+    
+    private void handleActiveState(int keyCode) {
+        if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W) {
+            playerUp = true;
+        } else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S) {
+            playerDown = true;
+        } else if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A) {
+            playerLeft = true;
+        } else if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D) {
+            playerRight = true;
+        } else if (keyCode == KeyEvent.VK_P || keyCode == KeyEvent.VK_ESCAPE) {
+            enemy.updatePause();
+            gameModel.setGameState(GameState.PAUSED);
+            timer.stop();    
+        }
+    }
+
+    private void handleGameOver(int keyCode) {
+        if (keyCode == KeyEvent.VK_H) {
+            gameModel.setGameState(GameState.HOME);
+        } else if (keyCode == KeyEvent.VK_R) {
+            gameModel.startNewGame();
+            timer.restart();
+            resetTickCounter();
+        }
+    }
+
+    private void handlePauseState(int keyCode) {
+        if (previousGameState == GameState.ACTIVE_ANGRY) {
+            gameModel.setGameState(GameState.ACTIVE_ANGRY);
+        } else {
+            gameModel.setGameState(GameState.ACTIVE_HAPPY);
+        }
+        timer.start();
+        enemy.updatePause();
+        clockTick();
+    }
+    
 
     @Override
     public void keyTyped(KeyEvent e) {
