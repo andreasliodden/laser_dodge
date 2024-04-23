@@ -1,7 +1,7 @@
 package no.uib.inf101.sample.model.player;
 
-import no.uib.inf101.sample.model.Entity;
 import no.uib.inf101.sample.model.GameState;
+import no.uib.inf101.sample.model.entity.Entity;
 import no.uib.inf101.sample.view.viewables.ViewablePlayer;
 
 public class Player extends Entity implements ViewablePlayer {

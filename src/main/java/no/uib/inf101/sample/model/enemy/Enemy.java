@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import no.uib.inf101.sample.controller.ControllableEnemy;
-import no.uib.inf101.sample.model.Entity;
+import no.uib.inf101.sample.model.entity.Entity;
 import no.uib.inf101.sample.view.viewables.ViewableEnemy;
 
 public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {

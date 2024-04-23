@@ -1,6 +1,4 @@
-package no.uib.inf101.sample.model.projectile;
-
-import no.uib.inf101.sample.model.Entity;
+package no.uib.inf101.sample.model.entity;
 
 public class RandomMovingEntity extends Entity {
     protected double velocityX;
@@ -14,7 +12,7 @@ public class RandomMovingEntity extends Entity {
     }
 
     @Override
-    public boolean checkAndUpdatePosition(double nextX, double nextY) {
+    protected boolean checkAndUpdatePosition(double nextX, double nextY) {
         if(super.checkAndUpdatePosition(nextX, nextY)) {
             return true;
         }

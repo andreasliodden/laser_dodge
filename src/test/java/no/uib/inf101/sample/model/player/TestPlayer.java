@@ -10,7 +10,7 @@ import no.uib.inf101.sample.model.GameState;
 public class TestPlayer {
     private Player player;
     @BeforeEach
-    void initGameModel() {
+    private void initGameModel() {
         player = new Player();
     }
 

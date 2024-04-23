@@ -1,4 +1,4 @@
-package no.uib.inf101.sample.model;
+package no.uib.inf101.sample.model.entity;
 
 import no.uib.inf101.sample.view.viewables.ViewableEntity;
 
@@ -30,7 +30,7 @@ public class Entity implements ViewableEntity {
             } else {
                 y = 0;
             }
-        } else if (isLegalPosition(x, nextY)) {
+        } else {
             if (nextX > x) {
                 x = 1;
             } else {

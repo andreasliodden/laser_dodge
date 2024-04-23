@@ -1,7 +1,8 @@
 package no.uib.inf101.sample.model.projectile;
 
-public class GoldenApple extends RandomMovingEntity {
+import no.uib.inf101.sample.model.entity.RandomMovingEntity;
 
+public class GoldenApple extends RandomMovingEntity {
     private GoldenApple(double x, double y, double velocityX, double velocityY) {
         this.x = x;
         this.y = y;
