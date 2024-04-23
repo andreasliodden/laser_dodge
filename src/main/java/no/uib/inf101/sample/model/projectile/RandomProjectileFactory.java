@@ -2,6 +2,12 @@ package no.uib.inf101.sample.model.projectile;
 
 import java.util.Random;
 
+/**
+ * Generates random projectiles in the game.
+ * Implements the ProjectileFactory interface, 
+ * which provides methods to generate new projetiles.
+ */
+
 public class RandomProjectileFactory implements ProjectileFactory {
     private Random random = new Random();
     private double speed, angle;

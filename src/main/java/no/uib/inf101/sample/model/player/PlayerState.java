@@ -1,5 +1,8 @@
 package no.uib.inf101.sample.model.player;
 
+/**
+ * Defines the different possible states of the player.
+ */
 public enum PlayerState {
     FRONT_LEFT,
     FRONT_RIGHT,

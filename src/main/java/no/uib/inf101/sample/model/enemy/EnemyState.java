@@ -1,5 +1,8 @@
 package no.uib.inf101.sample.model.enemy;
 
+/**
+ * Defines the different possible states of the enemy.
+ */
 public enum EnemyState {
     ANGRY_ONE,
     ANGRY_TWO,

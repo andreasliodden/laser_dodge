@@ -17,6 +17,10 @@ import no.uib.inf101.sample.view.viewable.ViewableGameModel;
 import no.uib.inf101.sample.view.viewable.ViewablePlayer;
 import no.uib.inf101.sample.view.viewable.ViewableProjectile;
 
+/**
+ * Represents the main game model that connects the logic of each game component.
+ * It handles interactions between each component, such as collisions and scoring.
+ */
 public class GameModel implements ControllableGameModel, ViewableGameModel {
     private Enemy enemy;
     private Player player;

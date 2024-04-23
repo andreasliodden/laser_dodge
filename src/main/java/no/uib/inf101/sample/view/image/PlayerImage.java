@@ -5,6 +5,10 @@ import java.awt.image.BufferedImage;
 import no.uib.inf101.sample.model.player.PlayerState;
 import no.uib.inf101.sample.view.Inf101Graphics;
 
+/**
+ * Defines the different images that represents the player.
+ */
+
 public enum PlayerImage {
     FRONT_LEFT("player/front_left.png"),
     FRONT_RIGHT("player/front_right.png"),
@@ -21,6 +25,9 @@ public enum PlayerImage {
         this.image = Inf101Graphics.loadImageFromResources(imagePath);
     }
 
+    /**
+     * Gets an image that represents the given player state.
+     */
     public static BufferedImage get(PlayerState playerState) {
         PlayerImage player = PlayerImage.valueOf(playerState.name());
         return player.image;

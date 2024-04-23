@@ -20,6 +20,11 @@ import no.uib.inf101.sample.view.viewable.ViewableGameModel;
 import no.uib.inf101.sample.view.viewable.ViewablePlayer;
 import no.uib.inf101.sample.view.viewable.ViewableProjectile;
 
+/**
+ * Represents a view of the game.
+ * The view is a JPanel that displays the game window and its components.
+ */
+
 public class GameView extends JPanel {
     private static final int START_WIDTH = 1700;
     private static final int START_HEIGHT = 1000;
@@ -184,50 +189,6 @@ public class GameView extends JPanel {
                 this.getWidth(), stringHeight);
     }
 
-    private void drawPaused(Graphics2D g2) {
-        drawPlayer(g2);
-
-        if (enemyIsAngry) {
-            g2.setColor(Color.RED);
-        } else {
-            g2.setColor(colorTheme.getHappyColor());
-        }
-
-        g2.setFont(getFont(70));
-        Inf101Graphics.drawCenteredString(
-                g2, "GAME PAUSED",
-                0, 0, this.getWidth(), this.getHeight() / 2);
-
-        g2.setColor(Color.WHITE);
-        g2.setFont(getFont(30));
-        Inf101Graphics.drawCenteredString(
-                g2, "PRESS KEY TO UNPAUSE",
-                0, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2);
-    }
-
-    private void drawGameOver(Graphics2D g2) {
-        g2.setColor(Color.RED);
-        g2.setFont(getFont(70));
-        Inf101Graphics.drawCenteredString(
-                g2, "GAME OVER",
-                0, 0, this.getWidth(), this.getHeight() * 0.4);
-
-        g2.setFont(getFont(50));
-        g2.setColor(Color.WHITE);
-
-        Inf101Graphics.drawCenteredString(
-                g2, "FINAL SCORE: " + gameModel.getScore(),
-                0, this.getHeight() * 0.3, this.getWidth(), stringHeight);
-
-        g2.setFont(getFont(25));
-        Inf101Graphics.drawCenteredString(
-                g2, "PRESS H TO RETURN HOME",
-                0, this.getHeight() * 0.7, this.getWidth(), stringHeight);
-        Inf101Graphics.drawCenteredString(
-                g2, "PRESS R TO RESTART",
-                0, this.getHeight() * 0.75, this.getWidth(), stringHeight);
-    }
-
     private void drawActiveGame(Graphics2D g2) {
         if (gameState == GameState.ACTIVE_HAPPY) {
             this.setBackground(colorTheme.getHappyBackground());
@@ -282,7 +243,7 @@ public class GameView extends JPanel {
                 message = "GAPPLE IS SPAWNED";
             }
         } else if (gameState == GameState.ACTIVE_HAPPY) {
-            g2.setColor(colorTheme.getHappyColor());
+            g2.setColor(colorTheme.getHappyGreenColor());
             g2.setFont(getFont(35));
             message = "HEALING FRENZY";
         }
@@ -367,6 +328,50 @@ public class GameView extends JPanel {
             }
 
         }
+    }
+
+    private void drawPaused(Graphics2D g2) {
+        drawPlayer(g2);
+
+        if (enemyIsAngry) {
+            g2.setColor(Color.RED);
+        } else {
+            g2.setColor(colorTheme.getHappyGreenColor());
+        }
+
+        g2.setFont(getFont(70));
+        Inf101Graphics.drawCenteredString(
+                g2, "GAME PAUSED",
+                0, 0, this.getWidth(), this.getHeight() / 2);
+
+        g2.setColor(Color.WHITE);
+        g2.setFont(getFont(30));
+        Inf101Graphics.drawCenteredString(
+                g2, "PRESS KEY TO UNPAUSE",
+                0, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2);
+    }
+
+    private void drawGameOver(Graphics2D g2) {
+        g2.setColor(Color.RED);
+        g2.setFont(getFont(70));
+        Inf101Graphics.drawCenteredString(
+                g2, "GAME OVER",
+                0, 0, this.getWidth(), this.getHeight() * 0.4);
+
+        g2.setFont(getFont(50));
+        g2.setColor(Color.WHITE);
+
+        Inf101Graphics.drawCenteredString(
+                g2, "FINAL SCORE: " + gameModel.getScore(),
+                0, this.getHeight() * 0.3, this.getWidth(), stringHeight);
+
+        g2.setFont(getFont(25));
+        Inf101Graphics.drawCenteredString(
+                g2, "PRESS H TO RETURN HOME",
+                0, this.getHeight() * 0.7, this.getWidth(), stringHeight);
+        Inf101Graphics.drawCenteredString(
+                g2, "PRESS R TO RESTART",
+                0, this.getHeight() * 0.75, this.getWidth(), stringHeight);
     }
 
     private Font getFont(int fontSize) {

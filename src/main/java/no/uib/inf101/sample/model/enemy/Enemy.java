@@ -8,6 +8,12 @@ import no.uib.inf101.sample.controller.ControllableEnemy;
 import no.uib.inf101.sample.model.entity.Entity;
 import no.uib.inf101.sample.view.viewable.ViewableEnemy;
 
+
+/**
+ * Represents the enemy in the game. 
+ * It extends the Entity class and implements the ViewableEnemy and ControllableEnemy interfaces.
+ */
+
 public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
     private static final double MARGIN_X = 0.05;
     private static final double MARGIN_Y = 0.1;
@@ -71,6 +77,13 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
         }
     }
 
+
+    /**
+     * Gets the restricted area surrounding the enemy.
+     * The player has no access to this area. 
+     * 
+     * @return a Rectangle2D-object representing the restricted area
+     */
     public Rectangle2D getRestricedArea() {
         return this.restrictedArea;
     }

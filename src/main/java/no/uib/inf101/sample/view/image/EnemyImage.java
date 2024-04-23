@@ -5,6 +5,10 @@ import java.awt.image.BufferedImage;
 import no.uib.inf101.sample.model.enemy.EnemyState;
 import no.uib.inf101.sample.view.Inf101Graphics;
 
+/**
+ * Defines the different images that represents the enemy.
+ */
+
 public enum EnemyImage {
     ANGRY_ONE("enemy/angry_1.png"),
     ANGRY_TWO("enemy/angry_2.png"),
@@ -21,6 +25,9 @@ public enum EnemyImage {
         this.image = Inf101Graphics.loadImageFromResources(imagePath);
     }
 
+    /**
+     * Gets an image that represents the given enemy state.
+     */
     public static BufferedImage get(EnemyState enemyState) {
         EnemyImage enemy = EnemyImage.valueOf(enemyState.name());
         return enemy.image;

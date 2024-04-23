@@ -8,10 +8,24 @@ import no.uib.inf101.sample.model.projectile.RandomProjectileFactory;
 import no.uib.inf101.sample.model.projectile.ProjectileFactory;
 import no.uib.inf101.sample.view.GameView;
 
+/**
+ * The entry point for the game.
+ * Initializes the game, with its main components:
+ * model, view and controller
+ */
+
 public class Main {
     private static final String WINDOW_TITLE = "Laser Dodge";
     private static final int FRAME_X = 110;
     private static final int FRAME_Y = 40;
+
+    /**
+   * The main method that initializes the game.
+   * Creates a new game and application window.
+   * 
+   * @param args command-line arguments (not used)
+   */
+
     public static void main(String[] args) {
         ProjectileFactory factory = new RandomProjectileFactory();
         GameModel gameModel = new GameModel(factory);

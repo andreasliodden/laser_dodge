@@ -8,6 +8,12 @@ import javax.swing.Timer;
 import no.uib.inf101.sample.model.GameState;
 import no.uib.inf101.sample.view.GameView;
 
+/**
+ * Responsible for managing user input and
+ * game logic in the game.
+ * Implements the KeyListener interface to handle keyboard events.
+ */
+
 public class GameController implements KeyListener {
     private ControllableGameModel gameModel;
     private ControllableEnemy enemy;

@@ -2,6 +2,11 @@ package no.uib.inf101.sample.model.projectile;
 
 import no.uib.inf101.sample.model.entity.RandomMovingEntity;
 
+/**
+ * Represents the golden apple power-up spawning in the game.
+ * It extends the RandomMovingEntity class, 
+ * which means it has a position and velocity, and moves in random directions.
+ */
 public class GoldenApple extends RandomMovingEntity {
     private GoldenApple(double x, double y, double velocityX, double velocityY) {
         this.x = x;
