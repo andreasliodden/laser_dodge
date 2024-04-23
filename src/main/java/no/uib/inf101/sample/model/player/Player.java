@@ -2,7 +2,7 @@ package no.uib.inf101.sample.model.player;
 
 import no.uib.inf101.sample.model.GameState;
 import no.uib.inf101.sample.model.entity.Entity;
-import no.uib.inf101.sample.view.viewables.ViewablePlayer;
+import no.uib.inf101.sample.view.viewable.ViewablePlayer;
 
 public class Player extends Entity implements ViewablePlayer {
     private static final double START_X = 0.20;

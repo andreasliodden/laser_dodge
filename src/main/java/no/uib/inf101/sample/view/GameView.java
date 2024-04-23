@@ -14,10 +14,10 @@ import javax.swing.JPanel;
 import no.uib.inf101.sample.model.GameState;
 import no.uib.inf101.sample.model.enemy.EnemyState;
 import no.uib.inf101.sample.model.player.PlayerState;
-import no.uib.inf101.sample.view.viewables.ViewableEnemy;
-import no.uib.inf101.sample.view.viewables.ViewableGameModel;
-import no.uib.inf101.sample.view.viewables.ViewablePlayer;
-import no.uib.inf101.sample.view.viewables.ViewableProjectile;
+import no.uib.inf101.sample.view.viewable.ViewableEnemy;
+import no.uib.inf101.sample.view.viewable.ViewableGameModel;
+import no.uib.inf101.sample.view.viewable.ViewablePlayer;
+import no.uib.inf101.sample.view.viewable.ViewableProjectile;
 
 public class GameView extends JPanel {
     private static final int START_WIDTH = 1700;
@@ -183,7 +183,7 @@ public class GameView extends JPanel {
         g2.setFont(getFont(20));
 
         Inf101Graphics.drawCenteredString(
-            g2, "CLOCK TICK: +2",
+            g2, "CLOCK TICK: +{LEVEL}",
             infoBox.getMinX(), this.getHeight() * 0.7,
             infoBox.getWidth() / 2, stringHeight
         );
@@ -303,8 +303,22 @@ public class GameView extends JPanel {
     private void drawGameInfo(Graphics2D g2, Color textColor) {
         g2.setColor(textColor);
         g2.setFont(getFont(30));
-        Inf101Graphics.drawCenteredString(g2, "HEALTH", 0, 0, this.getWidth(), this.getHeight() * 0.075);
-        Inf101Graphics.drawCenteredString(g2, "SCORE: " + gameModel.getScore(), 0, 0, this.getWidth() * 0.35, this.getHeight() * 0.15);
+        Inf101Graphics.drawCenteredString(
+                g2, "HEALTH", 0, 0, 
+                this.getWidth(), this.getHeight() * 0.075
+            );
+
+        Inf101Graphics.drawCenteredString(
+                g2, "SCORE: " + gameModel.getScore(), 
+                0, stringHeight / 2, this.getWidth() * 0.35, 
+                stringHeight
+            );
+
+        Inf101Graphics.drawCenteredString(
+                g2, "ACTIVE PROJECTILES: " + gameModel.getNumberOfProjectiles(),
+                 0, this.getHeight() * 0.075, this.getWidth() * 0.35, 
+                 stringHeight
+            );
 
         String message = "";
         if (gameState == GameState.ACTIVE_ANGRY) {
@@ -319,7 +333,10 @@ public class GameView extends JPanel {
             message = "HEALING FRENZY";
         }
 
-        Inf101Graphics.drawCenteredString(g2, message, this.getWidth() * 0.65, 0, this.getWidth() * 0.35 , this.getHeight() * 0.15);
+        Inf101Graphics.drawCenteredString(
+                g2, message, this.getWidth() * 0.65, 0, 
+                this.getWidth() * 0.35 , this.getHeight() * 0.15
+            );
 
         drawHealthBar(g2, textColor);
     }
@@ -356,11 +373,17 @@ public class GameView extends JPanel {
     }
 
     private void drawPlayer(Graphics2D g2) {
-        drawImage(g2, getPlayerImage(player.getState()), player.getX(), player.getY(), 5);
+        drawImage(
+            g2, getPlayerImage(player.getState()), 
+            player.getX(), player.getY(), 5
+        );
     }
 
     private void drawEnemy(Graphics2D g2) {
-        drawImage(g2, getEnemyImage(enemy.getCurrentState()), enemy.getX(), enemy.getY(), 6);
+        drawImage(
+            g2, getEnemyImage(enemy.getCurrentState()), 
+            enemy.getX(), enemy.getY(), 6
+        );
     }
 
     private void drawProjectile(Graphics2D g2) {

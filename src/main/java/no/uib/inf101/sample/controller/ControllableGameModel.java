@@ -13,6 +13,8 @@ public interface ControllableGameModel {
 
     void addTimeScore();
 
+    int getGappleCooldown();
+
     void updateGappleCountdown();
 
     void resetGapple();

@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import no.uib.inf101.sample.model.projectile.RandomProjectileFactory;
-import no.uib.inf101.sample.view.viewables.ViewableEnemy;
-import no.uib.inf101.sample.view.viewables.ViewablePlayer;
-import no.uib.inf101.sample.view.viewables.ViewableProjectile;
+import no.uib.inf101.sample.view.viewable.ViewableEnemy;
+import no.uib.inf101.sample.view.viewable.ViewablePlayer;
+import no.uib.inf101.sample.view.viewable.ViewableProjectile;
 import no.uib.inf101.sample.controller.ControllableEnemy;
 import no.uib.inf101.sample.model.projectile.ProjectileFactory;
 
@@ -133,23 +133,34 @@ public class TestGameModel {
 
     @Test
     public void getAndUpdateScore() {
-        assertEquals(0, gameModel.getScore());
+        gameModel.addTimeScore();
+        gameModel.addTimeScore();
+
+        int currentScore = 2;
+        assertEquals(currentScore, gameModel.getScore());
 
         int iterations = 5;
+        int projectileScore = 10;
+
+        for (int i = 0; i < iterations; i++) {
+            gameModel.addProjectile();
+        }
+
+        currentScore += iterations * projectileScore;
+        assertEquals(currentScore, gameModel.getScore());
+
         for (int i = 0; i < iterations; i++) {
             gameModel.addTimeScore();
         }
-        int currentScore = iterations * 2;
-        assertEquals(currentScore, gameModel.getScore());
 
-        gameModel.addProjectile();
-        assertEquals(currentScore + 10, gameModel.getScore());
+        currentScore += iterations * iterations;
+        assertEquals(currentScore, gameModel.getScore());
     }
 
     @Test
     public void startGame() {
         gameModel.startNewGame();
-        assertEquals(45, gameModel.getGappleCountdown());
+        assertEquals(40, gameModel.getGappleCountdown());
         assertFalse(gameModel.gappleExists());
         assertEquals(0, gameModel.getScore());
         assertEquals(GameState.ACTIVE_ANGRY, gameModel.getCurrentState());
@@ -161,7 +172,10 @@ public class TestGameModel {
     @Test
     public void gappleCountdown() {
         gameModel.startNewGame();
-        int countdownStart = 45;
+        
+        int countdownStart = gameModel.getGappleCooldown();
+        assertEquals(40, countdownStart);
+
         int iterations = 5;
 
         for (int i = 0; i < iterations; i++) {

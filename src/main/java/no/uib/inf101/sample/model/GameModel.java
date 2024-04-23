@@ -12,10 +12,10 @@ import no.uib.inf101.sample.model.player.Player;
 import no.uib.inf101.sample.model.projectile.GoldenApple;
 import no.uib.inf101.sample.model.projectile.Projectile;
 import no.uib.inf101.sample.model.projectile.ProjectileFactory;
-import no.uib.inf101.sample.view.viewables.ViewableEnemy;
-import no.uib.inf101.sample.view.viewables.ViewableGameModel;
-import no.uib.inf101.sample.view.viewables.ViewablePlayer;
-import no.uib.inf101.sample.view.viewables.ViewableProjectile;
+import no.uib.inf101.sample.view.viewable.ViewableEnemy;
+import no.uib.inf101.sample.view.viewable.ViewableGameModel;
+import no.uib.inf101.sample.view.viewable.ViewablePlayer;
+import no.uib.inf101.sample.view.viewable.ViewableProjectile;
 
 public class GameModel implements ControllableGameModel, ViewableGameModel {
     private Enemy enemy;
@@ -28,8 +28,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     private int gameScore;
     private int gappleCountdown;
 
-    private static final int GAPPLE_COOLDOWN = 45;
-    private static final int TIME_POINTS = 2;
+    private static final int GAPPLE_COOLDOWN = 40;
     private static final int PROJECTILE_POINTS = 10;
     private static final double COLLISION_ROOM = 0.035;
 
@@ -175,7 +174,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     @Override
     public void addTimeScore() {
-        gameScore += TIME_POINTS;
+        gameScore += Math.max(1, activeProjectiles.size());
     }
 
     @Override
@@ -198,5 +197,10 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
         resetGapple();
         player.reset();
         enemy.reset();
+    }
+
+    @Override
+    public int getGappleCooldown() {
+        return GAPPLE_COOLDOWN;
     }
 }

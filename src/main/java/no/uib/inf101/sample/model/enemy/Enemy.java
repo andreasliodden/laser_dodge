@@ -6,7 +6,7 @@ import java.util.Collections;
 
 import no.uib.inf101.sample.controller.ControllableEnemy;
 import no.uib.inf101.sample.model.entity.Entity;
-import no.uib.inf101.sample.view.viewables.ViewableEnemy;
+import no.uib.inf101.sample.view.viewable.ViewableEnemy;
 
 public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
     private static final double MARGIN_X = 0.05;

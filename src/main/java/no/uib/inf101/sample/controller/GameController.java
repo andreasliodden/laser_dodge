@@ -21,9 +21,8 @@ public class GameController implements KeyListener {
     private static final int UPDATE_ENEMY_TICK = 30;
     private static final int ADD_SCORE_TICK = 100;
     private static final int GAPPLE_COUNTDOWN_TICK = 100;
-    private static final int ADD_PROJECTILE_TICK = 360;
+    private static final int ADD_PROJECTILE_TICK = 480;
     private static final int SHOT_READY_TICK = ADD_PROJECTILE_TICK - 2 * UPDATE_ENEMY_TICK;
-    private static final int ADD_GAPPLE_TICK = 4500;
     private static final double RESET_GAME_TICK = 750;
     private static final int TICK_DIVISOR = 3;
 
@@ -144,7 +143,7 @@ public class GameController implements KeyListener {
             } else if (tickCounter % ADD_PROJECTILE_TICK == 0) {
                 gameModel.addProjectile();
             }
-            if (tickCounter == ADD_GAPPLE_TICK) {
+            if (tickCounter == gameModel.getGappleCooldown() * 100) {
                 gameModel.addGapple();
             }
         } else if (currentGameState == GameState.ACTIVE_HAPPY) {
