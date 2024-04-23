@@ -1,4 +1,5 @@
 package no.uib.inf101.sample.view;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,8 +13,6 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import no.uib.inf101.sample.model.GameState;
-import no.uib.inf101.sample.model.enemy.EnemyState;
-import no.uib.inf101.sample.model.player.PlayerState;
 import no.uib.inf101.sample.view.viewable.ViewableEnemy;
 import no.uib.inf101.sample.view.viewable.ViewableGameModel;
 import no.uib.inf101.sample.view.viewable.ViewablePlayer;
@@ -26,27 +25,10 @@ public class GameView extends JPanel {
     private static final int MAX_RGB = 255;
     private static final double WINDOW_RATIO = (double) (START_WIDTH / START_HEIGHT);
 
-
-    private static final BufferedImage APPLE = Inf101Graphics.loadImageFromResources("apple.png");
-    private static final BufferedImage GOLDEN_APPLE = Inf101Graphics.loadImageFromResources("golden_apple.png");
-
-    private static final BufferedImage ENEMY_ANGRY_ONE  = Inf101Graphics.loadImageFromResources("enemy/angry_1.png");
-    private static final BufferedImage ENEMY_ANGRY_TWO = Inf101Graphics.loadImageFromResources("enemy/angry_2.png");
-    private static final BufferedImage ENEMY_ANGRY_READY = Inf101Graphics.loadImageFromResources("enemy/angry_ready.png");
-    private static final BufferedImage ENEMY_ANGRY_PAUSED = Inf101Graphics.loadImageFromResources("enemy/angry_paused.png");
-    private static final BufferedImage ENEMY_HAPPY_ONE  = Inf101Graphics.loadImageFromResources("enemy/happy_1.png");
-    private static final BufferedImage ENEMY_HAPPY_TWO = Inf101Graphics.loadImageFromResources("enemy/happy_2.png");
-    private static final BufferedImage ENEMY_HAPPY_READY = Inf101Graphics.loadImageFromResources("enemy/happy_ready.png");
-    private static final BufferedImage ENEMY_HAPPY_PAUSED = Inf101Graphics.loadImageFromResources("enemy/happy_paused.png");
-    
-    private static final BufferedImage FRONT_LEFT = Inf101Graphics.loadImageFromResources("player/front_left.png");
-    private static final BufferedImage FRONT_RIGHT = Inf101Graphics.loadImageFromResources("player/front_right.png");
-    private static final BufferedImage BACK_LEFT = Inf101Graphics.loadImageFromResources("player/back_left.png");
-    private static final BufferedImage BACK_RIGHT = Inf101Graphics.loadImageFromResources("player/back_right.png");
-    private static final BufferedImage HURT_FRONT_LEFT = Inf101Graphics.loadImageFromResources("player/hurt_front_left.png");
-    private static final BufferedImage HURT_FRONT_RIGHT = Inf101Graphics.loadImageFromResources("player/hurt_front_right.png");
-    private static final BufferedImage HURT_BACK_LEFT = Inf101Graphics.loadImageFromResources("player/hurt_back_left.png");
-    private static final BufferedImage HURT_BACK_RIGHT = Inf101Graphics.loadImageFromResources("player/hurt_back_right.png");
+    private static final BufferedImage APPLE = Inf101Graphics
+            .loadImageFromResources("apple.png");
+    private static final BufferedImage GOLDEN_APPLE = Inf101Graphics
+            .loadImageFromResources("golden_apple.png");
 
     private ColorTheme colorTheme;
     private ViewableGameModel gameModel;
@@ -56,7 +38,7 @@ public class GameView extends JPanel {
     private boolean enemyIsAngry;
     private double stringHeight;
 
-    public GameView(ViewableGameModel gameModel){
+    public GameView(ViewableGameModel gameModel) {
         this.gameModel = gameModel;
         this.player = gameModel.getViewablePlayer();
         this.enemy = gameModel.getViewableEnemy();
@@ -91,43 +73,37 @@ public class GameView extends JPanel {
 
     private void drawHomeScreen(Graphics2D g2) {
         Rectangle2D infoBox = new Rectangle2D.Double(
-                this.getWidth() * 0.3, stringHeight, 
-                this.getWidth() * 0.4, this.getHeight() * 0.9
-            );
+                this.getWidth() * 0.3, stringHeight,
+                this.getWidth() * 0.4, this.getHeight() * 0.9);
         g2.setColor(Color.darkGray);
         g2.fill(infoBox);
 
         g2.setFont(getFont(50));
         g2.setColor(Color.WHITE);
         Inf101Graphics.drawCenteredString(
-                g2, "WELCOME TO", 0, 
-                stringHeight, this.getWidth(), this.getHeight() * 0.25
-            );
+                g2, "WELCOME TO", 0,
+                stringHeight, this.getWidth(), this.getHeight() * 0.25);
 
         g2.setFont(getFont(25));
         Inf101Graphics.drawCenteredString(
-                g2, "PRESS S TO START",0, 
-                this.getHeight() * 0.75, this.getWidth(), stringHeight
-            );
+                g2, "PRESS S TO START", 0,
+                this.getHeight() * 0.75, this.getWidth(), stringHeight);
 
         Inf101Graphics.drawCenteredString(
-                g2, "PRESS C FOR CONTROLS",0, 
-                this.getHeight() * 0.8, this.getWidth(), stringHeight
-            );
+                g2, "PRESS C FOR CONTROLS", 0,
+                this.getHeight() * 0.8, this.getWidth(), stringHeight);
 
         g2.setFont(getFont(75));
         g2.setColor(Color.RED);
         Inf101Graphics.drawCenteredString(
-                g2, "LASER DODGE", 0, stringHeight, 
-                this.getWidth(), this.getHeight() * 0.45
-            );
+                g2, "LASER DODGE", 0, stringHeight,
+                this.getWidth(), this.getHeight() * 0.45);
     }
 
     private void drawControls(Graphics2D g2) {
         Rectangle2D infoBox = new Rectangle2D.Double(
-                this.getWidth() * 0.3, 0, 
-                this.getWidth() * 0.4, this.getHeight()
-            );
+                this.getWidth() * 0.3, 0,
+                this.getWidth() * 0.4, this.getHeight());
         g2.setColor(Color.darkGray);
         g2.fill(infoBox);
 
@@ -135,90 +111,75 @@ public class GameView extends JPanel {
         g2.setColor(Color.WHITE);
 
         Inf101Graphics.drawCenteredString(
-            g2, "CONTROLS", 0, 0,
-            this.getWidth(), this.getHeight() * 0.1
-        );
+                g2, "CONTROLS", 0, 0,
+                this.getWidth(), this.getHeight() * 0.1);
 
         g2.setFont(getFont(25));
         Inf101Graphics.drawCenteredString(
-            g2, "ARROW KEYS OR WASD", 0, this.getHeight() * 0.15,
-            this.getWidth(), stringHeight
-        );
+                g2, "ARROW KEYS OR WASD", 0, this.getHeight() * 0.15,
+                this.getWidth(), stringHeight);
 
         Inf101Graphics.drawCenteredString(
-            g2, "ESCAPE OR P", 0, this.getHeight() * 0.275,
-            this.getWidth(), stringHeight
-        );
-        
+                g2, "ESCAPE OR P", 0, this.getHeight() * 0.275,
+                this.getWidth(), stringHeight);
 
         g2.setFont(getFont(30));
         g2.setColor(Color.RED);
 
         Inf101Graphics.drawCenteredString(
-            g2, "MOVE PLAYER:", 0, this.getHeight() * 0.1,
-            this.getWidth(), stringHeight
-        );
+                g2, "MOVE PLAYER:", 0, this.getHeight() * 0.1,
+                this.getWidth(), stringHeight);
 
         Inf101Graphics.drawCenteredString(
-            g2, "PAUSE GAME:", 0, this.getHeight() * 0.225,
-            this.getWidth(), stringHeight
-        );
+                g2, "PAUSE GAME:", 0, this.getHeight() * 0.225,
+                this.getWidth(), stringHeight);
 
         Inf101Graphics.drawCenteredString(
-            g2, "PROJECTILES ARE SHOT FROM:", 0, this.getHeight() / 3,
-            this.getWidth(), stringHeight
-        );
+                g2, "PROJECTILES ARE SHOT FROM:", 0, this.getHeight() / 3,
+                this.getWidth(), stringHeight);
 
         Inf101Graphics.drawCenteredString(
-            g2, "POINT SYSTEM:", infoBox.getMinX(), this.getHeight() * 0.65,
-            infoBox.getWidth() / 2, stringHeight
-        );
+                g2, "POINT SYSTEM:", infoBox.getMinX(), this.getHeight() * 0.65,
+                infoBox.getWidth() / 2, stringHeight);
 
         Inf101Graphics.drawCenteredString(
-            g2, "HITPOINTS:", infoBox.getCenterX(), this.getHeight() * 0.65,
-            infoBox.getWidth() / 2, stringHeight
-        );
+                g2, "HITPOINTS:", infoBox.getCenterX(), this.getHeight() * 0.65,
+                infoBox.getWidth() / 2, stringHeight);
 
         g2.setColor(Color.WHITE);
         g2.setFont(getFont(20));
 
         Inf101Graphics.drawCenteredString(
-            g2, "CLOCK TICK: +{LEVEL}",
-            infoBox.getMinX(), this.getHeight() * 0.7,
-            infoBox.getWidth() / 2, stringHeight
-        );
+                g2, "CLOCK TICK: +{LEVEL}",
+                infoBox.getMinX(), this.getHeight() * 0.7,
+                infoBox.getWidth() / 2, stringHeight);
 
         Inf101Graphics.drawCenteredString(
-            g2, "PROJECTILE SPAWN: +10",
-            infoBox.getMinX(), this.getHeight() * 0.75,
-            infoBox.getWidth() / 2, stringHeight
-        );
+                g2, "PROJECTILE SPAWN: +10",
+                infoBox.getMinX(), this.getHeight() * 0.75,
+                infoBox.getWidth() / 2, stringHeight);
 
         Inf101Graphics.drawCenteredString(
-            g2, "APPLE EATEN: +10",
-            infoBox.getMinX(), this.getHeight() * 0.8,
-            infoBox.getWidth() / 2, stringHeight
-        );
+                g2, "APPLE EATEN: +10",
+                infoBox.getMinX(), this.getHeight() * 0.8,
+                infoBox.getWidth() / 2, stringHeight);
 
         Inf101Graphics.drawCenteredString(
-            g2, "PROJECTILE HIT: -10",
-            infoBox.getCenterX(), this.getHeight() * 0.725,
-            infoBox.getWidth() / 2, stringHeight
-        );
+                g2, "PROJECTILE HIT: -10",
+                infoBox.getCenterX(), this.getHeight() * 0.725,
+                infoBox.getWidth() / 2, stringHeight);
 
         Inf101Graphics.drawCenteredString(
-            g2, "APPLE EATEN: +3",
-            infoBox.getCenterX(), this.getHeight() * 0.775,
-            infoBox.getWidth() / 2, stringHeight
-        );
+                g2, "APPLE EATEN: +3",
+                infoBox.getCenterX(), this.getHeight() * 0.775,
+                infoBox.getWidth() / 2, stringHeight);
 
         g2.setFont(getFont(30));
         g2.setColor(Color.RED);
         Inf101Graphics.drawCenteredString(
-            g2, "PRESS KEY TO EXIT CONTROLS",
-            0, this.getHeight() * 0.9,
-            this.getWidth(), stringHeight
-        );
+                g2, "PRESS KEY TO EXIT CONTROLS",
+                0, this.getHeight() * 0.9,
+                this.getWidth(), stringHeight);
     }
 
     private void drawPaused(Graphics2D g2) {
@@ -232,43 +193,37 @@ public class GameView extends JPanel {
 
         g2.setFont(getFont(70));
         Inf101Graphics.drawCenteredString(
-            g2, "GAME PAUSED",
-            0, 0, this.getWidth(), this.getHeight() / 2
-        );
+                g2, "GAME PAUSED",
+                0, 0, this.getWidth(), this.getHeight() / 2);
 
         g2.setColor(Color.WHITE);
         g2.setFont(getFont(30));
         Inf101Graphics.drawCenteredString(
-            g2, "PRESS KEY TO UNPAUSE",
-            0, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2
-        );
+                g2, "PRESS KEY TO UNPAUSE",
+                0, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2);
     }
 
     private void drawGameOver(Graphics2D g2) {
         g2.setColor(Color.RED);
         g2.setFont(getFont(70));
         Inf101Graphics.drawCenteredString(
-            g2, "GAME OVER",
-            0, 0, this.getWidth(), this.getHeight() * 0.4
-        );
+                g2, "GAME OVER",
+                0, 0, this.getWidth(), this.getHeight() * 0.4);
 
         g2.setFont(getFont(50));
         g2.setColor(Color.WHITE);
 
         Inf101Graphics.drawCenteredString(
-            g2, "FINAL SCORE: " + gameModel.getScore(),
-            0, this.getHeight() * 0.3, this.getWidth(), stringHeight
-        );
+                g2, "FINAL SCORE: " + gameModel.getScore(),
+                0, this.getHeight() * 0.3, this.getWidth(), stringHeight);
 
         g2.setFont(getFont(25));
         Inf101Graphics.drawCenteredString(
-            g2, "PRESS H TO RETURN HOME",
-            0, this.getHeight() * 0.7, this.getWidth(), stringHeight
-        );
+                g2, "PRESS H TO RETURN HOME",
+                0, this.getHeight() * 0.7, this.getWidth(), stringHeight);
         Inf101Graphics.drawCenteredString(
-            g2, "PRESS R TO RESTART",
-            0, this.getHeight() * 0.75, this.getWidth(), stringHeight
-        );
+                g2, "PRESS R TO RESTART",
+                0, this.getHeight() * 0.75, this.getWidth(), stringHeight);
     }
 
     private void drawActiveGame(Graphics2D g2) {
@@ -304,21 +259,18 @@ public class GameView extends JPanel {
         g2.setColor(textColor);
         g2.setFont(getFont(30));
         Inf101Graphics.drawCenteredString(
-                g2, "HEALTH", 0, 0, 
-                this.getWidth(), this.getHeight() * 0.075
-            );
+                g2, "HEALTH", 0, 0,
+                this.getWidth(), this.getHeight() * 0.075);
 
         Inf101Graphics.drawCenteredString(
-                g2, "SCORE: " + gameModel.getScore(), 
-                0, stringHeight / 2, this.getWidth() * 0.35, 
-                stringHeight
-            );
+                g2, "SCORE: " + gameModel.getScore(),
+                0, stringHeight / 2, this.getWidth() * 0.35,
+                stringHeight);
 
         Inf101Graphics.drawCenteredString(
                 g2, "ACTIVE PROJECTILES: " + gameModel.getNumberOfProjectiles(),
-                 0, this.getHeight() * 0.075, this.getWidth() * 0.35, 
-                 stringHeight
-            );
+                0, this.getHeight() * 0.075, this.getWidth() * 0.35,
+                stringHeight);
 
         String message = "";
         if (gameState == GameState.ACTIVE_ANGRY) {
@@ -334,25 +286,22 @@ public class GameView extends JPanel {
         }
 
         Inf101Graphics.drawCenteredString(
-                g2, message, this.getWidth() * 0.65, 0, 
-                this.getWidth() * 0.35 , this.getHeight() * 0.15
-            );
+                g2, message, this.getWidth() * 0.65, 0,
+                this.getWidth() * 0.35, this.getHeight() * 0.15);
 
         drawHealthBar(g2, textColor);
     }
 
     private void drawHealthBar(Graphics2D g2, Color textColor) {
         Rectangle2D healthBar = new Rectangle2D.Double(
-                    this.getWidth() * 0.35, this.getHeight() * 0.075,
-                    this.getWidth() * 0.3, stringHeight
-                );
-        
+                this.getWidth() * 0.35, this.getHeight() * 0.075,
+                this.getWidth() * 0.3, stringHeight);
+
         Rectangle2D health = new Rectangle2D.Double(
-                    this.getWidth() * 0.35, this.getHeight() * 0.075,
-                    (this.getWidth() * 0.3 * player.getHealth()) / player.getMaxHealth(),
-                    stringHeight
-                );
-                
+                this.getWidth() * 0.35, this.getHeight() * 0.075,
+                (this.getWidth() * 0.3 * player.getHealth()) / player.getMaxHealth(),
+                stringHeight);
+
         g2.setColor(getHealthColor());
         g2.fill(health);
 
@@ -374,16 +323,14 @@ public class GameView extends JPanel {
 
     private void drawPlayer(Graphics2D g2) {
         drawImage(
-            g2, getPlayerImage(player.getState()), 
-            player.getX(), player.getY(), 5
-        );
+                g2, PlayerImage.get(player.getCurrentState()),
+                player.getX(), player.getY(), 5);
     }
 
     private void drawEnemy(Graphics2D g2) {
         drawImage(
-            g2, getEnemyImage(enemy.getCurrentState()), 
-            enemy.getX(), enemy.getY(), 6
-        );
+                g2, EnemyImage.get(enemy.getCurrentState()),
+                enemy.getX(), enemy.getY(), 6);
     }
 
     private void drawProjectile(Graphics2D g2) {
@@ -392,33 +339,31 @@ public class GameView extends JPanel {
         Rectangle2D projectileBox, trailBox;
         double resizingFactor;
         int colorFactor;
-        
+
         for (int i = 0; i < gameModel.getNumberOfProjectiles(); i++) {
             colorFactor = 0;
             resizingFactor = 1;
             ViewableProjectile projectile = gameModel.getProjectile(i);
             ArrayList<Point2D> trail = projectile.getTrail();
             projectileBox = new Rectangle2D.Double(
-                    projectile.getX() * (this.getWidth() - width), 
+                    projectile.getX() * (this.getWidth() - width),
                     projectile.getY() * (this.getHeight() - height),
-                    width, height
-                );
+                    width, height);
             g2.setColor(Color.RED);
             g2.fill(projectileBox);
 
             for (int j = trail.size() - 1; j >= 0; j--) {
                 Point2D point = trail.get(j);
                 trailBox = new Rectangle2D.Double(
-                    point.getX() * (this.getWidth() - width * resizingFactor),
-                    point.getY() * (this.getHeight() - height * resizingFactor),
-                    width * resizingFactor, height * resizingFactor
-                );
+                        point.getX() * (this.getWidth() - width * resizingFactor),
+                        point.getY() * (this.getHeight() - height * resizingFactor),
+                        width * resizingFactor, height * resizingFactor);
                 g2.setColor(new Color(Math.max(0, 255 - colorFactor), 0, 0));
                 g2.fill(trailBox);
                 colorFactor += MAX_RGB / 10;
                 resizingFactor -= 1.0 / trail.size();
             }
-            
+
         }
     }
 
@@ -429,47 +374,9 @@ public class GameView extends JPanel {
 
     private void drawImage(Graphics2D g2, BufferedImage image, double entityX, double entityY, int imageScale) {
         int imageWidth = (int) (image.getWidth() * this.getWidth() * imageScale) / START_WIDTH;
-        int imageHeight = (int) (imageWidth * WINDOW_RATIO); 
+        int imageHeight = (int) (imageWidth * WINDOW_RATIO);
         int x = (int) (entityX * (this.getWidth() - imageWidth));
         int y = (int) (entityY * (this.getHeight() - imageHeight));
         g2.drawImage(image, x, y, imageWidth, imageHeight, null);
     }
-
-    private BufferedImage getPlayerImage(PlayerState playerState) {
-        BufferedImage playerImage;
-        switch (playerState) {
-            case FRONT_LEFT -> playerImage = FRONT_LEFT;
-            case FRONT_RIGHT -> playerImage = FRONT_RIGHT;
-            case BACK_LEFT -> playerImage = BACK_LEFT;
-            case BACK_RIGHT -> playerImage = BACK_RIGHT;
-            case HURT_FRONT_LEFT -> playerImage = HURT_FRONT_LEFT;
-            case HURT_FRONT_RIGHT -> playerImage = HURT_FRONT_RIGHT;
-            case HURT_BACK_LEFT -> playerImage = HURT_BACK_LEFT;
-            case HURT_BACK_RIGHT -> playerImage = HURT_BACK_RIGHT;
-            default -> throw new IllegalArgumentException("'" + playerState + "' is not a player state.");
-        }
-        return playerImage;
-    }
-
-    private BufferedImage getEnemyImage(EnemyState enemyState) {
-        BufferedImage enemyImage;
-        switch (enemyState) {
-            case ANGRY_ONE -> enemyImage = ENEMY_ANGRY_ONE;
-            case ANGRY_TWO -> enemyImage = ENEMY_ANGRY_TWO;
-            case ANGRY_READY -> enemyImage = ENEMY_ANGRY_READY;
-            case ANGRY_PAUSED -> enemyImage = ENEMY_ANGRY_PAUSED;
-            case HAPPY_ONE -> enemyImage = ENEMY_HAPPY_ONE;
-            case HAPPY_TWO -> enemyImage = ENEMY_HAPPY_TWO;
-            case HAPPY_READY -> enemyImage = ENEMY_HAPPY_READY;
-            case HAPPY_PAUSED -> enemyImage = ENEMY_HAPPY_PAUSED;
-            default -> throw new IllegalArgumentException("'" + enemyState + "' is not a player state.");
-        }
-        return enemyImage;
-        
-    }
 }
-
-
-
-
-

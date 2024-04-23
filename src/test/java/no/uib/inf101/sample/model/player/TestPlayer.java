@@ -19,7 +19,7 @@ public class TestPlayer {
         double initPosition = 0.2;
         assertEquals(initPosition, player.getX());
         assertEquals(initPosition, player.getY());
-        assertEquals(PlayerState.FRONT_RIGHT, player.getState());
+        assertEquals(PlayerState.FRONT_RIGHT, player.getCurrentState());
     } 
 
     @Test
@@ -57,24 +57,24 @@ public class TestPlayer {
     @Test
     public void updateStateAfterMove() {
         player.move(1, 0);
-        assertEquals(PlayerState.FRONT_RIGHT, player.getState());
+        assertEquals(PlayerState.FRONT_RIGHT, player.getCurrentState());
 
         player.move(-1, 0);
-        assertEquals(PlayerState.FRONT_LEFT, player.getState());
+        assertEquals(PlayerState.FRONT_LEFT, player.getCurrentState());
 
         player.move(0, 1);
-        assertEquals(PlayerState.FRONT_LEFT, player.getState());
+        assertEquals(PlayerState.FRONT_LEFT, player.getCurrentState());
 
         player.move(0, -1);
-        assertEquals(PlayerState.BACK_LEFT, player.getState());
+        assertEquals(PlayerState.BACK_LEFT, player.getCurrentState());
 
         player.move(1, 0);
 
         player.move(0, 1);
-        assertEquals(PlayerState.FRONT_RIGHT, player.getState());
+        assertEquals(PlayerState.FRONT_RIGHT, player.getCurrentState());
 
         player.move(0, -1);
-        assertEquals(PlayerState.BACK_RIGHT, player.getState());
+        assertEquals(PlayerState.BACK_RIGHT, player.getCurrentState());
     }
 
     @Test
