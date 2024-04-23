@@ -139,7 +139,7 @@ public class GameView extends JPanel {
             this.getWidth(), this.getHeight() * 0.1
         );
 
-        g2.setFont(getFont(30));
+        g2.setFont(getFont(25));
         Inf101Graphics.drawCenteredString(
             g2, "ARROW KEYS OR WASD", 0, this.getHeight() * 0.15,
             this.getWidth(), stringHeight
@@ -151,7 +151,7 @@ public class GameView extends JPanel {
         );
         
 
-        g2.setFont(getFont(35));
+        g2.setFont(getFont(30));
         g2.setColor(Color.RED);
 
         Inf101Graphics.drawCenteredString(
