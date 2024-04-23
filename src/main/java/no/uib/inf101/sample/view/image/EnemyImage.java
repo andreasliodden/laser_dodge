@@ -1,8 +1,9 @@
-package no.uib.inf101.sample.view;
+package no.uib.inf101.sample.view.image;
 
 import java.awt.image.BufferedImage;
 
 import no.uib.inf101.sample.model.enemy.EnemyState;
+import no.uib.inf101.sample.view.Inf101Graphics;
 
 public enum EnemyImage {
     ANGRY_ONE("enemy/angry_1.png"),
@@ -20,7 +21,7 @@ public enum EnemyImage {
         this.image = Inf101Graphics.loadImageFromResources(imagePath);
     }
 
-    static BufferedImage get(EnemyState enemyState) {
+    public static BufferedImage get(EnemyState enemyState) {
         EnemyImage enemy = EnemyImage.valueOf(enemyState.name());
         return enemy.image;
     }

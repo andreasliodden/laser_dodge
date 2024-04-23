@@ -1,8 +1,9 @@
-package no.uib.inf101.sample.view;
+package no.uib.inf101.sample.view.image;
 
 import java.awt.image.BufferedImage;
 
 import no.uib.inf101.sample.model.player.PlayerState;
+import no.uib.inf101.sample.view.Inf101Graphics;
 
 public enum PlayerImage {
     FRONT_LEFT("player/front_left.png"),
@@ -20,7 +21,7 @@ public enum PlayerImage {
         this.image = Inf101Graphics.loadImageFromResources(imagePath);
     }
 
-    static BufferedImage get(PlayerState playerState) {
+    public static BufferedImage get(PlayerState playerState) {
         PlayerImage player = PlayerImage.valueOf(playerState.name());
         return player.image;
     }

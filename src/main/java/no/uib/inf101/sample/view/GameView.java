@@ -13,6 +13,8 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 import no.uib.inf101.sample.model.GameState;
+import no.uib.inf101.sample.view.image.EnemyImage;
+import no.uib.inf101.sample.view.image.PlayerImage;
 import no.uib.inf101.sample.view.viewable.ViewableEnemy;
 import no.uib.inf101.sample.view.viewable.ViewableGameModel;
 import no.uib.inf101.sample.view.viewable.ViewablePlayer;
