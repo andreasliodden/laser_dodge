@@ -19,6 +19,7 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
     private static final double MARGIN_Y = 0.1;
     private static final double X_POS = 0.5;
     private static final double Y_POS = 0.5;
+
     private final Rectangle2D restrictedArea;
     private EnemyState currentState, previousState;
     private boolean readyToShoot, isPaused;
@@ -77,7 +78,6 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
         }
     }
 
-
     /**
      * Gets the restricted area surrounding the enemy.
      * The player has no access to this area. 
@@ -90,11 +90,7 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
 
     @Override
     public void updateShootingStatus() {
-        if (!readyToShoot) {
-            readyToShoot = true;
-        } else {
-            readyToShoot = false;
-        }
+        readyToShoot = !readyToShoot;
         updateState();
     }
 
@@ -106,11 +102,6 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
             currentState = EnemyState.ANGRY_ONE;
         }
         readyToShoot = false;
-    }
-
-    public void reset() {
-        this.currentState = EnemyState.ANGRY_ONE;
-        this.readyToShoot = false;
     }
 
     @Override
@@ -127,5 +118,10 @@ public class Enemy extends Entity implements ViewableEnemy, ControllableEnemy {
             }
             isPaused = true;
         }
+    }
+
+    public void reset() {
+        this.currentState = EnemyState.ANGRY_ONE;
+        this.readyToShoot = false;
     }
 }

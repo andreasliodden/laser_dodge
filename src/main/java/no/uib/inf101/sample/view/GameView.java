@@ -33,9 +33,9 @@ public class GameView extends JPanel {
     private static final double WINDOW_RATIO = (double) (START_WIDTH / START_HEIGHT);
 
     private static final BufferedImage APPLE = Inf101Graphics
-            .loadImageFromResources("apple.png");
+                .loadImageFromResources("apple.png");
     private static final BufferedImage GOLDEN_APPLE = Inf101Graphics
-            .loadImageFromResources("golden_apple.png");
+                .loadImageFromResources("golden_apple.png");
 
     private ColorTheme colorTheme;
     private ViewableGameModel gameModel;

@@ -8,7 +8,6 @@ import no.uib.inf101.sample.view.Inf101Graphics;
 /**
  * Defines the different images that represents the enemy.
  */
-
 public enum EnemyImage {
     ANGRY_ONE("enemy/angry_1.png"),
     ANGRY_TWO("enemy/angry_2.png"),

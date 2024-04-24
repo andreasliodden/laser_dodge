@@ -22,6 +22,10 @@ import no.uib.inf101.sample.view.viewable.ViewableProjectile;
  * It handles interactions between each component, such as collisions and scoring.
  */
 public class GameModel implements ControllableGameModel, ViewableGameModel {
+    private static final int GAPPLE_COOLDOWN = 40;
+    private static final int PROJECTILE_POINTS = 10;
+    private static final double COLLISION_ROOM = 0.035;
+
     private Enemy enemy;
     private Player player;
     private ArrayList<Projectile> activeProjectiles = new ArrayList<>();
@@ -32,30 +36,11 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     private int gameScore;
     private int gappleCountdown;
 
-    private static final int GAPPLE_COOLDOWN = 40;
-    private static final int PROJECTILE_POINTS = 10;
-    private static final double COLLISION_ROOM = 0.035;
-
     public GameModel(ProjectileFactory factory) {
         this.factory = factory;
         this.gameState = GameState.HOME;
         this.enemy = new Enemy();
         this.player = new Player();
-    }
-
-    @Override
-    public GameState getCurrentState() {
-        return this.gameState;
-    }
-
-    @Override
-    public boolean movePlayer(int deltaX, int deltaY) {
-        double nextX = player.getNextX(deltaX);
-        double nextY = player.getNextY(deltaY);
-        if (!playerEnemyCollision(nextX, nextY)) {
-            return player.move(deltaX, deltaY);
-        }
-        return false;
     }
 
     @Override
@@ -85,9 +70,25 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public void resetGapple() {
-        this.gappleCountdown = GAPPLE_COOLDOWN;
-        this.gappleExists = false;
+    public boolean movePlayer(int deltaX, int deltaY) {
+        double nextX = player.getNextX(deltaX);
+        double nextY = player.getNextY(deltaY);
+        if (!playerEnemyCollision(nextX, nextY)) {
+            return player.move(deltaX, deltaY);
+        }
+        return false;
+    }
+
+    private boolean playerProjectileCollision(double projectileX, double projectileY) {
+        double projectilePlayerX = Math.abs(projectileX - player.getX());
+        double projectilePlayerY = Math.abs(projectileY - player.getY());
+
+        return projectilePlayerX < COLLISION_ROOM && projectilePlayerY < COLLISION_ROOM;
+    }
+
+    private boolean playerEnemyCollision(double playerX, double playerY) {
+        Rectangle2D restricedArea = enemy.getRestricedArea();
+        return restricedArea.contains(playerX, playerY);
     }
 
     @Override
@@ -98,44 +99,13 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public void setGameState(GameState nextState) {
-        this.gameState = nextState;
-        if (nextState == GameState.HOME) {
-            enemy.reset();
-        }
+    public ViewableProjectile getProjectile(int index) {
+        return activeProjectiles.get(index);
     }
 
     @Override
     public int getNumberOfProjectiles() {
         return activeProjectiles.size();
-    }
-
-    @Override
-    public double getGappleX(){
-        return gapple.getX();
-    }
-
-    @Override
-    public double getGappleY(){
-        return gapple.getY();
-    }
-
-    private boolean playerProjectileCollision(double projectileX, double projectileY) {
-        double collisionRoom = COLLISION_ROOM;
-        double projectilePlayerX = getAbsoluteDiff(projectileX, player.getX());
-        double projectilePlayerY = getAbsoluteDiff(projectileY, player.getY());
-
-        return projectilePlayerX < collisionRoom && projectilePlayerY < collisionRoom;
-    }
-
-
-    private double getAbsoluteDiff(double x1, double x2) {
-        return Math.abs(x1 - x2);
-    }
-
-    private boolean playerEnemyCollision(double playerX, double playerY) {
-        Rectangle2D restricedArea = enemy.getRestricedArea();
-        return restricedArea.contains(playerX, playerY);
     }
 
     @Override
@@ -152,33 +122,13 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public ViewablePlayer getViewablePlayer() {
-        return this.player;
+    public double getGappleX(){
+        return gapple.getX();
     }
 
     @Override
-    public ViewableEnemy getViewableEnemy() {
-        return this.enemy;
-    }
-
-    @Override
-    public ViewableProjectile getProjectile(int index) {
-        return activeProjectiles.get(index);
-    }
-
-    @Override
-    public ControllableEnemy getControllableEnemy() {
-        return this.enemy;
-    }
-
-    @Override
-    public int getScore() {
-        return this.gameScore;
-    }
-
-    @Override
-    public void addTimeScore() {
-        gameScore += Math.max(1, activeProjectiles.size());
+    public double getGappleY(){
+        return gapple.getY();
     }
 
     @Override
@@ -194,6 +144,40 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
+    public int getGappleCooldown() {
+        return GAPPLE_COOLDOWN;
+    }
+
+    @Override
+    public void resetGapple() {
+        this.gappleCountdown = GAPPLE_COOLDOWN;
+        this.gappleExists = false;
+    }
+
+    @Override
+    public void setGameState(GameState nextState) {
+        this.gameState = nextState;
+        if (nextState == GameState.HOME) {
+            enemy.reset();
+        }
+    }
+
+    @Override
+    public GameState getCurrentState() {
+        return this.gameState;
+    }
+
+    @Override
+    public int getScore() {
+        return this.gameScore;
+    }
+
+    @Override
+    public void addTimeScore() {
+        gameScore += Math.max(1, activeProjectiles.size());
+    }
+
+    @Override
     public void startNewGame() {
         this.gameState = GameState.ACTIVE_ANGRY;
         this.gameScore = 0;
@@ -204,7 +188,17 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public int getGappleCooldown() {
-        return GAPPLE_COOLDOWN;
+    public ViewablePlayer getViewablePlayer() {
+        return this.player;
+    }
+
+    @Override
+    public ViewableEnemy getViewableEnemy() {
+        return this.enemy;
+    }
+
+    @Override
+    public ControllableEnemy getControllableEnemy() {
+        return this.enemy;
     }
 }

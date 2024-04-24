@@ -158,7 +158,7 @@ public class TestGameModel {
     }
 
     @Test
-    public void startGame() {
+    public void initiateNewGame() {
         gameModel.startNewGame();
         assertEquals(40, gameModel.getGappleCountdown());
         assertFalse(gameModel.gappleExists());

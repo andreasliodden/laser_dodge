@@ -8,7 +8,6 @@ import no.uib.inf101.sample.view.Inf101Graphics;
 /**
  * Defines the different images that represents the player.
  */
-
 public enum PlayerImage {
     FRONT_LEFT("player/front_left.png"),
     FRONT_RIGHT("player/front_right.png"),

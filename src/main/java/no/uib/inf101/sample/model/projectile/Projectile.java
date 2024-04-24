@@ -13,6 +13,7 @@ import no.uib.inf101.sample.view.viewable.ViewableProjectile;
  */
 public class Projectile extends RandomMovingEntity implements ViewableProjectile {
     private static final int TRAIL_SIZE = 20;
+    
     private ArrayList<Point2D> trail = new ArrayList<>();
 
     private Projectile(double velocityX, double velocityY) {
@@ -42,7 +43,7 @@ public class Projectile extends RandomMovingEntity implements ViewableProjectile
 
     @Override
     public ArrayList<Point2D> getTrail() {
-        return this.trail;
+        return new ArrayList<>(this.trail);
     }
 }
 

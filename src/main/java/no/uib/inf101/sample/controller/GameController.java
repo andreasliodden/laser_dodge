@@ -15,6 +15,15 @@ import no.uib.inf101.sample.view.GameView;
  */
 
 public class GameController implements KeyListener {
+    private static final int timeDelay = 10;
+    private static final int UPDATE_ENEMY_TICK = 30;
+    private static final int ADD_SCORE_TICK = 100;
+    private static final int GAPPLE_COUNTDOWN_TICK = 100;
+    private static final int ADD_PROJECTILE_TICK = 480;
+    private static final int SHOT_READY_TICK = ADD_PROJECTILE_TICK - 2 * UPDATE_ENEMY_TICK;
+    private static final double RESET_GAME_TICK = 600;
+    private static final int TICK_DIVISOR = 3;
+
     private ControllableGameModel gameModel;
     private ControllableEnemy enemy;
     private GameView gameView;
@@ -23,18 +32,9 @@ public class GameController implements KeyListener {
     private GameState currentGameState, previousGameState;
     private int tickCounter;
 
-    private static final int timeDelay = 10;
-    private static final int UPDATE_ENEMY_TICK = 30;
-    private static final int ADD_SCORE_TICK = 100;
-    private static final int GAPPLE_COUNTDOWN_TICK = 100;
-    private static final int ADD_PROJECTILE_TICK = 480;
-    private static final int SHOT_READY_TICK = ADD_PROJECTILE_TICK - 2 * UPDATE_ENEMY_TICK;
-    private static final double RESET_GAME_TICK = 750;
-    private static final int TICK_DIVISOR = 3;
-
     public GameController(ControllableGameModel gameModel, GameView gameView) {
         this.gameModel = gameModel;
-        this.enemy = gameModel.getControllableEnemy();
+        this.enemy = gameModel.getControllableEnemy(); 
         this.gameView = gameView;
         this.timer = new Timer(timeDelay, e -> clockTick());
         this.tickCounter = 1;
@@ -49,8 +49,7 @@ public class GameController implements KeyListener {
         switch (gameState) {
             case HOME -> handleHomeState(keyCode);
             case CONTROLS -> gameModel.setGameState(GameState.HOME);
-            case ACTIVE_ANGRY -> handleActiveState(keyCode);
-            case ACTIVE_HAPPY -> handleActiveState(keyCode);
+            case ACTIVE_ANGRY, ACTIVE_HAPPY -> handleActiveState(keyCode);
             case PAUSED -> handlePauseState(keyCode);
             case GAME_OVER -> handleGameOver(keyCode);
             default -> throw new IllegalArgumentException("'" + gameState + "' is not a known game state.");
@@ -126,9 +125,11 @@ public class GameController implements KeyListener {
 
     private void clockTick() {
         currentGameState = gameModel.getCurrentState();
+
         if (currentGameState == GameState.GAME_OVER) {
             timer.stop();
         }
+        // The game state has been switched
         if (previousGameState != null && currentGameState != previousGameState) {
             resetTickCounter();
         }

@@ -8,11 +8,11 @@ import no.uib.inf101.sample.view.viewable.ViewableEntity;
  */
 
 public class Entity implements ViewableEntity {
-    protected double x;
-    protected double y;
-    
     protected static final double MIN_LIMIT = 0;
     protected static final double MAX_LIMIT = 1;
+
+    protected double x;
+    protected double y;
 
     @Override
     public double getX() {

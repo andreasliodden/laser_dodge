@@ -1,6 +1,7 @@
 package no.uib.inf101.sample.model.player;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -109,5 +110,27 @@ public class TestPlayer {
         // Control that player health cant exceed max health
         player.registerHit(gameState);
         assertEquals(player.getMaxHealth(), player.getHealth());
+    }
+
+    @Test
+    public void resetPlayer() {
+        double initialPosition = player.getX();
+        PlayerState initialState = PlayerState.FRONT_RIGHT;
+        int iterations = 5;
+
+        for (int i = 0; i < iterations; i++) {
+            player.move(-1, 0);
+            player.move(0, 1);
+        }
+
+        assertNotEquals(initialPosition, player.getX());
+        assertNotEquals(initialPosition, player.getY());
+        assertNotEquals(initialState, player.getCurrentState());
+
+        player.reset();
+
+        assertEquals(initialPosition, player.getX());
+        assertEquals(initialPosition, player.getY());
+        assertEquals(initialState, player.getCurrentState());
     }
 }
