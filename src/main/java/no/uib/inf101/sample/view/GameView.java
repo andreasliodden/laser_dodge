@@ -243,7 +243,7 @@ public class GameView extends JPanel {
                 message = "GAPPLE IS SPAWNED";
             }
         } else if (gameState == GameState.ACTIVE_HAPPY) {
-            g2.setColor(colorTheme.getHappyGreenColor());
+            g2.setColor(colorTheme.getHappyTextColor());
             g2.setFont(getFont(35));
             message = "HEALING FRENZY";
         }
@@ -336,7 +336,7 @@ public class GameView extends JPanel {
         if (enemyIsAngry) {
             g2.setColor(Color.RED);
         } else {
-            g2.setColor(colorTheme.getHappyGreenColor());
+            g2.setColor(colorTheme.getHappyTextColor());
         }
 
         g2.setFont(getFont(70));

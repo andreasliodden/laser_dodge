@@ -24,5 +24,5 @@ public interface ColorTheme {
      * 
      * @return the default green color when the enemy is happy.
      */
-    Color getHappyGreenColor();
+    Color getHappyTextColor();
 }

@@ -24,7 +24,7 @@ public class DefaultColorTheme implements ColorTheme {
     }
 
    @Override
-   public Color getHappyGreenColor() {
+   public Color getHappyTextColor() {
       return HAPPY_COLOR;
    }
 }
