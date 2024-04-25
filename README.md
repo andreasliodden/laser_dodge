@@ -12,17 +12,17 @@ Laser Dodge er et spennende og utfordrende spill der du som spiller skal unngå 
 
 ## Bruk
 
-- Bruk C for å se reglene og kontrollene i spillet, og S for å starte.
-- Bruk W, A, S, D eller piltastene for å bevege spilleren.
-- Bruk P eller ESC for å sette spillet på pause.
-
-- Etter spillet er over kan du enten bruke H for å returnere til hjemskjermen, eller R for å starte på nytt.
-
 ### Komme i gang
 
 1. Klon repositoriet
 2. Åpne prosjektet i din foretrukne IDE.
 3. Kjør 'Main' klassen for å starte spillet.
+
+- Bruk C for å se reglene og kontrollene i spillet, og S for å starte.
+- Bruk W, A, S, D eller piltastene for å bevege spilleren.
+- Bruk P eller ESC for å sette spillet på pause.
+
+- Etter spillet er over kan du enten bruke H for å returnere til hjemskjermen, eller R for å starte på nytt.
 
 
 ## Kontakt
