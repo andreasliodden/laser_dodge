@@ -5,12 +5,14 @@ import no.uib.inf101.sample.model.GameState;
 public interface ViewableGameModel {
     /**
      * Gets a viewable representation of the player.
+     * 
      * @return a viewable representasion of the player.
      */
     ViewablePlayer getViewablePlayer();
 
     /**
      * Gets a viewable representation of the enemy.
+     * 
      * @return a viewable representasion of the enemy.
      */
     ViewableEnemy getViewableEnemy();
@@ -25,6 +27,7 @@ public interface ViewableGameModel {
 
     /**
      * Checks if a golden apple exists in the game.
+     * 
      * @return true if a golden apple exists, false otherwise.
      */
     boolean gappleExists();
@@ -45,24 +48,28 @@ public interface ViewableGameModel {
 
     /**
      * Gets the current state of the game.
+     * 
      * @return the current state of the game.
      */
-    GameState getCurrentState();
+    GameState getGameState();
 
     /**
      * Gets the number of active projectiles in the game.
+     * 
      * @return the number of active projectiles.
      */
     int getNumberOfProjectiles();
 
     /**
      * Gets the total game score.
+     * 
      * @return the total game score.
      */
     int getScore();
 
     /**
      * Gets the remaining time before a new golden apple spawns.
+     * 
      * @return the time before a new golden apple spawns.
      */
     int getGappleCountdown();

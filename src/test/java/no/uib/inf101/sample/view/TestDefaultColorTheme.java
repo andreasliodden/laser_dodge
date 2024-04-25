@@ -26,8 +26,7 @@ public class TestDefaultColorTheme {
 
     @Test
     public void getHappyTextColor() {
-        Color happyColor = new Color(0, 150, 0);
-
-        assertEquals(happyColor, colorTheme.getHappyTextColor());
+        Color textColor = new Color(0, 150, 0);
+        assertEquals(textColor, colorTheme.getHappyTextColor());
     }
 }

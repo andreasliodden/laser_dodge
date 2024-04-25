@@ -10,7 +10,7 @@ public class TestRandomProjectileFactory {
     private ProjectileFactory factory;
 
     @BeforeEach
-    private void initFactory() {
+    private void initiateFactory() {
         factory = new RandomProjectileFactory();
     }
 
@@ -21,7 +21,7 @@ public class TestRandomProjectileFactory {
         assertEquals(startPos, projectile.getX());
         assertEquals(startPos, projectile.getY());
         assertEquals(0, projectile.getTrail().size());
-        
+
     }
 
     @Test

@@ -50,10 +50,10 @@ public class GameView extends JPanel {
         this.player = gameModel.getViewablePlayer();
         this.enemy = gameModel.getViewableEnemy();
         this.colorTheme = new DefaultColorTheme();
+        this.enemyIsAngry = true;
         this.setPreferredSize(new Dimension(
                 START_WIDTH, START_HEIGHT));
         this.setBackground(colorTheme.getAngryBackground());
-        this.enemyIsAngry = true;
         this.setDoubleBuffered(true);
     }
 
@@ -65,15 +65,18 @@ public class GameView extends JPanel {
     }
 
     private void drawGameState(Graphics2D g2) {
-        gameState = gameModel.getCurrentState();
+        gameState = gameModel.getGameState();
         stringHeight = this.getHeight() * 0.05;
 
         switch (gameState) {
             case HOME -> drawHomeScreen(g2);
             case CONTROLS -> drawControls(g2);
+            case ACTIVE_ANGRY, ACTIVE_HAPPY -> drawActiveGame(g2);
             case PAUSED -> drawPaused(g2);
             case GAME_OVER -> drawGameOver(g2);
-            default -> drawActiveGame(g2);
+            default -> throw new IllegalArgumentException(
+                        "'" + gameState +"' is not a game state."
+                );
         }
         drawEnemy(g2);
     }
@@ -286,13 +289,13 @@ public class GameView extends JPanel {
 
     private void drawPlayer(Graphics2D g2) {
         drawImage(
-                g2, PlayerImage.get(player.getCurrentState()),
+                g2, PlayerImage.get(player.getPlayerState()),
                 player.getX(), player.getY(), 5);
     }
 
     private void drawEnemy(Graphics2D g2) {
         drawImage(
-                g2, EnemyImage.get(enemy.getCurrentState()),
+                g2, EnemyImage.get(enemy.getEnemyState()),
                 enemy.getX(), enemy.getY(), 6);
     }
 

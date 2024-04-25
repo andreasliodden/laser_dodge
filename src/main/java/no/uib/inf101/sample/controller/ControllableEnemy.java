@@ -3,13 +3,13 @@ package no.uib.inf101.sample.controller;
 import no.uib.inf101.sample.model.enemy.EnemyState;
 
 public interface ControllableEnemy {
-    
+
     /**
      * Gets the current state of the enemy.
      * 
      * @return the current enemy state
      */
-    EnemyState getCurrentState();
+    EnemyState getEnemyState();
 
     /**
      * Updates the current state of the enemy.
@@ -29,7 +29,7 @@ public interface ControllableEnemy {
 
     /**
      * Updates the pause status of the enemy.
-     * Used to switch between active and paused state. 
+     * Used to switch between active and paused state.
      */
     void updatePause();
 }

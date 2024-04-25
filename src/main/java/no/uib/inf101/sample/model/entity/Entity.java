@@ -3,7 +3,7 @@ package no.uib.inf101.sample.model.entity;
 import no.uib.inf101.sample.view.viewable.ViewableEntity;
 
 /**
- * Represents an entity of the game. 
+ * Represents an entity of the game.
  * Has a floating x- and y-coordinate between 0 and 1.
  */
 
@@ -25,8 +25,10 @@ public class Entity implements ViewableEntity {
     }
 
     /**
-     * Checks if the next x and y-coordinates are legal, 
+     * Checks if the next x and y-coordinates are legal,
      * and updates them accordingly.
+     * If only one of the coordinates is in bounds,
+     * the exceeding coordinate is updated to the boundary edge.
      * 
      * @param nextX the next x-coordinate
      * @param nextY the next y-coordinate
@@ -43,7 +45,7 @@ public class Entity implements ViewableEntity {
             } else {
                 y = 0;
             }
-        } else {
+        } else if (isLegalPosition(x, nextY)) {
             if (nextX > x) {
                 x = 1;
             } else {

@@ -27,7 +27,7 @@ public class Player extends Entity implements ViewablePlayer {
     }
 
     @Override
-    public PlayerState getCurrentState() {
+    public PlayerState getPlayerState() {
         return this.currentState;
     }
 

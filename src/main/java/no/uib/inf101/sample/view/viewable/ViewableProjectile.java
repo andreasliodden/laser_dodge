@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public interface ViewableProjectile extends ViewableEntity {
     /**
-     * Gets a list of previous coordinates of a certain projectile, 
+     * Gets a list of previous coordinates of the projectile,
      * which is used to form a trail behind it.
      */
     ArrayList<Point2D> getTrail();

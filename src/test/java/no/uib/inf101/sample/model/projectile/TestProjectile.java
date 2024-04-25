@@ -10,7 +10,7 @@ public class TestProjectile {
     private Projectile projectile;
 
     @BeforeEach
-    private void initProjectile() {
+    private void initiateProjectile() {
         projectile = Projectile.createNewProjectile(0.1, 0.1);
     }
 

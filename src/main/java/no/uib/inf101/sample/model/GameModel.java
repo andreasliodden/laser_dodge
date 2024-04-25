@@ -18,8 +18,10 @@ import no.uib.inf101.sample.view.viewable.ViewablePlayer;
 import no.uib.inf101.sample.view.viewable.ViewableProjectile;
 
 /**
- * Represents the main game model that connects the logic of each game component.
- * It handles interactions between each component, such as collisions and scoring.
+ * Represents the main game model that connects the logic of each game
+ * component.
+ * It handles interactions between each component, such as collisions and
+ * scoring.
  */
 public class GameModel implements ControllableGameModel, ViewableGameModel {
     private static final int GAPPLE_COOLDOWN = 40;
@@ -33,8 +35,8 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     private GameState gameState;
     private GoldenApple gapple;
     private boolean gappleExists;
-    private int gameScore;
     private int gappleCountdown;
+    private int gameScore;
 
     public GameModel(ProjectileFactory factory) {
         this.factory = factory;
@@ -69,6 +71,13 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
         }
     }
 
+    private boolean playerProjectileCollision(double projectileX, double projectileY) {
+        double projectilePlayerX = Math.abs(projectileX - player.getX());
+        double projectilePlayerY = Math.abs(projectileY - player.getY());
+
+        return projectilePlayerX < COLLISION_ROOM && projectilePlayerY < COLLISION_ROOM;
+    }
+
     @Override
     public boolean movePlayer(int deltaX, int deltaY) {
         double nextX = player.getNextX(deltaX);
@@ -77,13 +86,6 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
             return player.move(deltaX, deltaY);
         }
         return false;
-    }
-
-    private boolean playerProjectileCollision(double projectileX, double projectileY) {
-        double projectilePlayerX = Math.abs(projectileX - player.getX());
-        double projectilePlayerY = Math.abs(projectileY - player.getY());
-
-        return projectilePlayerX < COLLISION_ROOM && projectilePlayerY < COLLISION_ROOM;
     }
 
     private boolean playerEnemyCollision(double playerX, double playerY) {
@@ -122,12 +124,12 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public double getGappleX(){
+    public double getGappleX() {
         return gapple.getX();
     }
 
     @Override
-    public double getGappleY(){
+    public double getGappleY() {
         return gapple.getY();
     }
 
@@ -163,7 +165,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public GameState getCurrentState() {
+    public GameState getGameState() {
         return this.gameState;
     }
 

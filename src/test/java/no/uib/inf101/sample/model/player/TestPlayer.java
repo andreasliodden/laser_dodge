@@ -10,21 +10,22 @@ import no.uib.inf101.sample.model.GameState;
 
 public class TestPlayer {
     private Player player;
+
     @BeforeEach
-    private void initGameModel() {
+    private void initiatePlayer() {
         player = new Player();
     }
 
     @Test 
-    public void initialPositionAndState() {
+    public void initialPosition() {
         double initPosition = 0.2;
         assertEquals(initPosition, player.getX());
         assertEquals(initPosition, player.getY());
-        assertEquals(PlayerState.FRONT_RIGHT, player.getCurrentState());
     } 
 
     @Test
-    public void initialHealth() {
+    public void initialStateAndHealth() {
+        assertEquals(PlayerState.FRONT_RIGHT, player.getPlayerState());
         assertEquals(player.getMaxHealth(), player.getHealth());
     }
 
@@ -58,24 +59,24 @@ public class TestPlayer {
     @Test
     public void updateStateAfterMove() {
         player.move(1, 0);
-        assertEquals(PlayerState.FRONT_RIGHT, player.getCurrentState());
+        assertEquals(PlayerState.FRONT_RIGHT, player.getPlayerState());
 
         player.move(-1, 0);
-        assertEquals(PlayerState.FRONT_LEFT, player.getCurrentState());
+        assertEquals(PlayerState.FRONT_LEFT, player.getPlayerState());
 
         player.move(0, 1);
-        assertEquals(PlayerState.FRONT_LEFT, player.getCurrentState());
+        assertEquals(PlayerState.FRONT_LEFT, player.getPlayerState());
 
         player.move(0, -1);
-        assertEquals(PlayerState.BACK_LEFT, player.getCurrentState());
+        assertEquals(PlayerState.BACK_LEFT, player.getPlayerState());
 
         player.move(1, 0);
 
         player.move(0, 1);
-        assertEquals(PlayerState.FRONT_RIGHT, player.getCurrentState());
+        assertEquals(PlayerState.FRONT_RIGHT, player.getPlayerState());
 
         player.move(0, -1);
-        assertEquals(PlayerState.BACK_RIGHT, player.getCurrentState());
+        assertEquals(PlayerState.BACK_RIGHT, player.getPlayerState());
     }
 
     @Test
@@ -88,6 +89,8 @@ public class TestPlayer {
             player.registerHit(gameState);
         }
         assertEquals(0, player.getHealth());
+
+        // Controls that player health can't be less than zero
         player.registerHit(gameState);
         assertEquals(0, player.getHealth());
     }
@@ -96,10 +99,12 @@ public class TestPlayer {
     public void eatingApples() {
         player.registerHit(GameState.ACTIVE_ANGRY);
         int expectedHealth = player.getMaxHealth() - 10;
+
         assertEquals(expectedHealth, player.getHealth());
 
         GameState gameState = GameState.ACTIVE_HAPPY;
         player.registerHit(gameState);
+
         assertEquals(expectedHealth + 2, player.getHealth());
 
         while (player.getHealth() < player.getMaxHealth()) {
@@ -107,7 +112,7 @@ public class TestPlayer {
         }
         assertEquals(player.getMaxHealth(), player.getHealth());
 
-        // Control that player health cant exceed max health
+        // Control that player health can't exceed max health
         player.registerHit(gameState);
         assertEquals(player.getMaxHealth(), player.getHealth());
     }
@@ -125,12 +130,12 @@ public class TestPlayer {
 
         assertNotEquals(initialPosition, player.getX());
         assertNotEquals(initialPosition, player.getY());
-        assertNotEquals(initialState, player.getCurrentState());
+        assertNotEquals(initialState, player.getPlayerState());
 
         player.reset();
 
         assertEquals(initialPosition, player.getX());
         assertEquals(initialPosition, player.getY());
-        assertEquals(initialState, player.getCurrentState());
+        assertEquals(initialState, player.getPlayerState());
     }
 }

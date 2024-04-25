@@ -15,12 +15,12 @@ import no.uib.inf101.sample.view.GameView;
  */
 
 public class GameController implements KeyListener {
-    private static final int timeDelay = 10;
+    private static final int TIME_DELAY = 10;
     private static final int UPDATE_ENEMY_TICK = 30;
     private static final int ADD_SCORE_TICK = 100;
     private static final int GAPPLE_COUNTDOWN_TICK = 100;
     private static final int ADD_PROJECTILE_TICK = 480;
-    private static final int SHOT_READY_TICK = ADD_PROJECTILE_TICK - 2 * UPDATE_ENEMY_TICK;
+    private static final int ENEMY_READY_TICK = ADD_PROJECTILE_TICK - 2 * UPDATE_ENEMY_TICK;
     private static final double RESET_GAME_TICK = 750;
     private static final int TICK_DIVISOR = 3;
 
@@ -34,9 +34,9 @@ public class GameController implements KeyListener {
 
     public GameController(ControllableGameModel gameModel, GameView gameView) {
         this.gameModel = gameModel;
-        this.enemy = gameModel.getControllableEnemy(); 
+        this.enemy = gameModel.getControllableEnemy();
         this.gameView = gameView;
-        this.timer = new Timer(timeDelay, e -> clockTick());
+        this.timer = new Timer(TIME_DELAY, e -> clockTick());
         this.tickCounter = 1;
         gameView.setFocusable(true);
         gameView.addKeyListener(this);
@@ -44,29 +44,29 @@ public class GameController implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        GameState gameState = gameModel.getCurrentState();
+        currentGameState = gameModel.getGameState();
         int keyCode = e.getKeyCode();
-        switch (gameState) {
+        switch (currentGameState) {
             case HOME -> handleHomeState(keyCode);
             case CONTROLS -> gameModel.setGameState(GameState.HOME);
             case ACTIVE_ANGRY, ACTIVE_HAPPY -> handleActiveState(keyCode);
             case PAUSED -> handlePauseState(keyCode);
             case GAME_OVER -> handleGameOver(keyCode);
-            default -> throw new IllegalArgumentException("'" + gameState + "' is not a known game state.");
+            default -> throw new IllegalArgumentException("'" + currentGameState + "' is not a known game state.");
         }
         gameView.repaint();
     }
 
     private void handleHomeState(int keyCode) {
         if (keyCode == KeyEvent.VK_S) {
-                gameModel.startNewGame();
-                timer.start();
-                resetTickCounter();
+            gameModel.startNewGame();
+            timer.start();
+            resetTickCounter();
         } else if (keyCode == KeyEvent.VK_C) {
             gameModel.setGameState(GameState.CONTROLS);
         }
     }
-    
+
     private void handleActiveState(int keyCode) {
         if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W) {
             playerUp = true;
@@ -79,7 +79,7 @@ public class GameController implements KeyListener {
         } else if (keyCode == KeyEvent.VK_P || keyCode == KeyEvent.VK_ESCAPE) {
             enemy.updatePause();
             gameModel.setGameState(GameState.PAUSED);
-            timer.stop();    
+            timer.stop();
         }
     }
 
@@ -101,9 +101,7 @@ public class GameController implements KeyListener {
         }
         timer.start();
         enemy.updatePause();
-        clockTick();
     }
-    
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -124,37 +122,38 @@ public class GameController implements KeyListener {
     }
 
     private void clockTick() {
-        currentGameState = gameModel.getCurrentState();
+        currentGameState = gameModel.getGameState();
 
         if (currentGameState == GameState.GAME_OVER) {
             timer.stop();
-        }
-        // The game state has been switched
-        if (previousGameState != null && currentGameState != previousGameState) {
-            resetTickCounter();
-        }
-        previousGameState = currentGameState;
+        } else {
+            // Checks if the game state is the same as last clock tick
+            if (previousGameState != null && currentGameState != previousGameState) {
+                resetTickCounter();
+            }
+            previousGameState = currentGameState;
 
-        if (tickCounter % UPDATE_ENEMY_TICK == 0) {
-            enemy.updateState();
-        } if (tickCounter % ADD_SCORE_TICK == 0) {
-            gameModel.addTimeScore();
-        }
+            if (tickCounter % UPDATE_ENEMY_TICK == 0) {
+                enemy.updateState();
+            }
+            if (tickCounter % ADD_SCORE_TICK == 0) {
+                gameModel.addTimeScore();
+            }
 
-        if (currentGameState == GameState.ACTIVE_ANGRY) {
-            if (tickCounter % GAPPLE_COUNTDOWN_TICK == 0) {
-                gameModel.updateGappleCountdown();
-            }
-            if (tickCounter % ADD_PROJECTILE_TICK == SHOT_READY_TICK) {
-                enemy.updateShootingStatus();
-            } else if (tickCounter % ADD_PROJECTILE_TICK == 0) {
-                gameModel.addProjectile();
-            }
-            if (tickCounter == gameModel.getGappleCooldown() * 100) {
-                gameModel.addGapple();
-            }
-        } else if (currentGameState == GameState.ACTIVE_HAPPY) {
-            int newProjectileTick = ADD_PROJECTILE_TICK / TICK_DIVISOR;
+            if (currentGameState == GameState.ACTIVE_ANGRY) {
+                if (tickCounter % GAPPLE_COUNTDOWN_TICK == 0) {
+                    gameModel.updateGappleCountdown();
+                }
+                if (tickCounter % ADD_PROJECTILE_TICK == ENEMY_READY_TICK) {
+                    enemy.updateShootingStatus();
+                } else if (tickCounter % ADD_PROJECTILE_TICK == 0) {
+                    gameModel.addProjectile();
+                }
+                if (tickCounter == gameModel.getGappleCooldown() * 100) {
+                    gameModel.addGapple();
+                }
+            } else if (currentGameState == GameState.ACTIVE_HAPPY) {
+                int newProjectileTick = ADD_PROJECTILE_TICK / TICK_DIVISOR;
 
                 if (tickCounter % newProjectileTick == newProjectileTick - 2 * UPDATE_ENEMY_TICK) {
                     enemy.updateShootingStatus();
@@ -167,12 +166,12 @@ public class GameController implements KeyListener {
                     enemy.switchMood();
                 }
             }
+            handlePlayerMovement();
+            gameModel.clockTick();
+            tickCounter++;
+        }
         gameView.repaint();
-        handlePlayerMovement();
-        gameModel.clockTick();
-        tickCounter++;
     }
-    
 
     private void handlePlayerMovement() {
         if ((playerUp && playerDown) || (playerLeft && playerRight)) {
@@ -180,14 +179,12 @@ public class GameController implements KeyListener {
         }
         if (playerUp) {
             gameModel.movePlayer(0, -1);
-        }
-        if (playerDown) {
+        } else if (playerDown) {
             gameModel.movePlayer(0, 1);
         }
         if (playerLeft) {
             gameModel.movePlayer(-1, 0);
-        }
-        if (playerRight) {
+        } else if (playerRight) {
             gameModel.movePlayer(1, 0);
         }
     }

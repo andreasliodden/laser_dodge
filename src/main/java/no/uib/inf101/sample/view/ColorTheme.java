@@ -20,9 +20,9 @@ public interface ColorTheme {
     Color getHappyBackground();
 
     /**
-     * Gets the default green color when the enemy is happy.
+     * Gets the text color associated with a happy enemy state.
      * 
-     * @return the default green color when the enemy is happy.
+     * @return the text color representing a happy enemy state
      */
     Color getHappyTextColor();
 }

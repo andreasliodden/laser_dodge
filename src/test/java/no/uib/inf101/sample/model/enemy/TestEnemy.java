@@ -9,8 +9,9 @@ import org.junit.jupiter.api.Test;
 
 public class TestEnemy {
     private Enemy enemy;
+
     @BeforeEach
-    private void initGameModel() {
+    private void initiateEnemy() {
         enemy = new Enemy();
     }
 
@@ -19,7 +20,7 @@ public class TestEnemy {
         double initPosition = 0.50;
         assertEquals(initPosition, enemy.getX());
         assertEquals(initPosition, enemy.getY());
-        assertEquals(EnemyState.ANGRY_ONE, enemy.getCurrentState());
+        assertEquals(EnemyState.ANGRY_ONE, enemy.getEnemyState());
     }
 
     @Test
@@ -32,21 +33,21 @@ public class TestEnemy {
     @Test
     public void getAndUpdateState() {
         enemy.updateState();
-        assertEquals(EnemyState.ANGRY_TWO, enemy.getCurrentState());
+        assertEquals(EnemyState.ANGRY_TWO, enemy.getEnemyState());
         enemy.updateShootingStatus();
-        assertEquals(EnemyState.ANGRY_READY, enemy.getCurrentState());
+        assertEquals(EnemyState.ANGRY_READY, enemy.getEnemyState());
 
         enemy.switchMood();
 
-        assertEquals(EnemyState.HAPPY_ONE, enemy.getCurrentState());
+        assertEquals(EnemyState.HAPPY_ONE, enemy.getEnemyState());
         enemy.updateState();
-        assertEquals(EnemyState.HAPPY_TWO, enemy.getCurrentState());
+        assertEquals(EnemyState.HAPPY_TWO, enemy.getEnemyState());
         enemy.updateShootingStatus();
-        assertEquals(EnemyState.HAPPY_READY, enemy.getCurrentState());
+        assertEquals(EnemyState.HAPPY_READY, enemy.getEnemyState());
 
         enemy.switchMood();
 
-        assertEquals(EnemyState.ANGRY_ONE, enemy.getCurrentState());
+        assertEquals(EnemyState.ANGRY_ONE, enemy.getEnemyState());
     }
 
     @Test
@@ -54,9 +55,9 @@ public class TestEnemy {
         enemy.updateState();
         enemy.switchMood();
         enemy.updateShootingStatus();
-        
+
         enemy.reset();
-        assertEquals(EnemyState.ANGRY_ONE, enemy.getCurrentState());
+        assertEquals(EnemyState.ANGRY_ONE, enemy.getEnemyState());
     }
 
     @Test
@@ -64,16 +65,16 @@ public class TestEnemy {
         enemy.updateShootingStatus();
         enemy.updatePause();
 
-        assertEquals(EnemyState.ANGRY_PAUSED, enemy.getCurrentState());
+        assertEquals(EnemyState.ANGRY_PAUSED, enemy.getEnemyState());
         enemy.updatePause();
-        assertEquals(EnemyState.ANGRY_READY, enemy.getCurrentState());
+        assertEquals(EnemyState.ANGRY_READY, enemy.getEnemyState());
 
         enemy.switchMood();
 
         enemy.updatePause();
-        assertEquals(EnemyState.HAPPY_PAUSED, enemy.getCurrentState());
+        assertEquals(EnemyState.HAPPY_PAUSED, enemy.getEnemyState());
         enemy.updatePause();
-        assertEquals(EnemyState.HAPPY_ONE, enemy.getCurrentState());
+        assertEquals(EnemyState.HAPPY_ONE, enemy.getEnemyState());
 
     }
 }

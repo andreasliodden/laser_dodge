@@ -32,14 +32,3 @@ public enum EnemyImage {
         return enemy.image;
     }
 }
-
-
-
-
-
-
-
-
-
-
-

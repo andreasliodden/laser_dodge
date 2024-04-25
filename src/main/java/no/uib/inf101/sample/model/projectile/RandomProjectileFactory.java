@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Generates random projectiles in the game.
- * Implements the ProjectileFactory interface, 
+ * Implements the ProjectileFactory interface,
  * which provides methods to generate new projetiles.
  */
 
@@ -16,20 +16,20 @@ public class RandomProjectileFactory implements ProjectileFactory {
 
     @Override
     public Projectile getNextProjectile() {
-        double speed = PROJECTILE_SPEED;
         double angle = random.nextDouble() * 2 * Math.PI;
 
-        return Projectile.createNewProjectile(getVelocityX(speed, angle), getVelocityY(speed, angle));
+        return Projectile.createNewProjectile(getVelocityX(PROJECTILE_SPEED, angle),
+                getVelocityY(PROJECTILE_SPEED, angle));
     }
 
     @Override
     public GoldenApple getGoldenApple() {
         double x = Math.random();
         double y = Math.random();
-        double speed = GAPPLE_SPEED;
         double angle = random.nextDouble() * 2 * Math.PI;
 
-        return GoldenApple.createGoldenApple(x, y, getVelocityX(speed, angle), getVelocityY(speed, angle));
+        return GoldenApple.createGoldenApple(x, y, getVelocityX(GAPPLE_SPEED, angle),
+                getVelocityY(GAPPLE_SPEED, angle));
     }
 
     private double getVelocityX(double speed, double angle) {
@@ -39,5 +39,5 @@ public class RandomProjectileFactory implements ProjectileFactory {
     private double getVelocityY(double speed, double angle) {
         return speed * Math.sin(angle);
     }
-    
+
 }

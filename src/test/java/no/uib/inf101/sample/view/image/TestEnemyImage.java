@@ -10,10 +10,11 @@ import no.uib.inf101.sample.model.enemy.EnemyState;
 import no.uib.inf101.sample.view.Inf101Graphics;
 
 public class TestEnemyImage extends ImageTest {
-    private EnemyState enemyState;
     private static final BufferedImage ENEMY_ANGRY_ONE = Inf101Graphics.loadImageFromResources("enemy/angry_1.png");
     private static final BufferedImage ENEMY_HAPPY_ONE = Inf101Graphics.loadImageFromResources("enemy/happy_1.png");
     private static final BufferedImage ENEMY_HAPPY_PAUSED = Inf101Graphics.loadImageFromResources("enemy/happy_paused.png");
+    
+    private EnemyState enemyState;
 
     @Test
     public void getImage() {

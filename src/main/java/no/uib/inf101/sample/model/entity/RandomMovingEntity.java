@@ -1,7 +1,7 @@
 package no.uib.inf101.sample.model.entity;
 
 /**
- * Represents a random moving entity, 
+ * Represents a random moving entity,
  * which moves in a random x and y direction.
  * Is an extension of the entity class.
  */
@@ -9,11 +9,11 @@ package no.uib.inf101.sample.model.entity;
 public class RandomMovingEntity extends Entity {
     protected double velocityX;
     protected double velocityY;
-    
+
     /**
-     * Moves the entity by updating its x- and 
+     * Moves the entity by updating its x- and
      * y-coordinates with its velocity in both directions.
-     * Validates the move with the checkAndUpdatePosition() 
+     * Validates the move with the checkAndUpdatePosition()
      * method inherited from the entity class.
      */
     public void move() {
@@ -25,10 +25,9 @@ public class RandomMovingEntity extends Entity {
 
     @Override
     protected boolean checkAndUpdatePosition(double nextX, double nextY) {
-        if(super.checkAndUpdatePosition(nextX, nextY)) {
+        if (super.checkAndUpdatePosition(nextX, nextY)) {
             return true;
-        }
-        else {
+        } else {
             if (nextX < MIN_LIMIT) {
                 velocityX = -velocityX;
             } else if (nextX > MAX_LIMIT) {
@@ -38,7 +37,7 @@ public class RandomMovingEntity extends Entity {
             } else if (nextY > MAX_LIMIT) {
                 velocityY = -velocityY;
             }
-            
+
             return false;
         }
     }

@@ -8,5 +8,5 @@ public interface ViewableEnemy extends ViewableEntity {
      * 
      * @return the current enemy state.
      */
-    EnemyState getCurrentState();
+    EnemyState getEnemyState();
 }

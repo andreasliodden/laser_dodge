@@ -10,7 +10,7 @@ public class TestGoldenApple {
     private GoldenApple gapple;
 
     @BeforeEach
-    private void initProjectile() {
+    private void initiateGapple() {
         gapple = GoldenApple.createGoldenApple(0.5, 0.5, 0.1, 0.1);
     }
 
@@ -38,7 +38,7 @@ public class TestGoldenApple {
         double velocityX = 0.1;
         gapple = GoldenApple.createGoldenApple(0.5, 0.5, velocityX, 0);
 
-        while(gapple.getX() < 1) {
+        while (gapple.getX() < 1) {
             gapple.move();
         }
 
@@ -58,7 +58,7 @@ public class TestGoldenApple {
         double velocityY = 0.1;
         gapple = GoldenApple.createGoldenApple(0.5, 0.5, 0, velocityY);
 
-        while(gapple.getY() < 1) {
+        while (gapple.getY() < 1) {
             gapple.move();
         }
 

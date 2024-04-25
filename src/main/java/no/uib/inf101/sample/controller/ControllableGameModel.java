@@ -46,7 +46,8 @@ public interface ControllableGameModel {
     void updateGappleCountdown();
 
     /**
-     * Resets the gapple countdown and boolean value that tells if the gapple is present.
+     * Resets the gapple countdown and boolean value that tells if the gapple is
+     * present.
      */
     void resetGapple();
 
@@ -67,7 +68,7 @@ public interface ControllableGameModel {
      * 
      * @return the current game state.
      */
-    GameState getCurrentState();
+    GameState getGameState();
 
     /**
      * Gets a ControllableEnemy object that is used by the GameController.

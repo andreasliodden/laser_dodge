@@ -10,10 +10,11 @@ import no.uib.inf101.sample.model.player.PlayerState;
 import no.uib.inf101.sample.view.Inf101Graphics;
 
 public class TestPlayerImage extends ImageTest {
-    private PlayerState playerState;
     private static final BufferedImage FRONT_RIGHT = Inf101Graphics.loadImageFromResources("player/front_right.png");
     private static final BufferedImage BACK_LEFT = Inf101Graphics.loadImageFromResources("player/back_left.png");
     private static final BufferedImage HURT_BACK_RIGHT = Inf101Graphics.loadImageFromResources("player/hurt_back_right.png");
+
+    private PlayerState playerState;
 
     @Test
     public void getImage() {
