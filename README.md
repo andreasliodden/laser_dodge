@@ -39,7 +39,7 @@ Laser Dodge er et spennende og utfordrende spill der du som spiller skal unngå 
 
 ## Video av applikasjonen
 
-- Lenke til YouTube: (lenke)
+- Lenke til YouTube: [(lenke)](https://www.youtube.com/watch?v=Lwsr428nyeU&ab_channel=AndreasLiodden)
 
 
 ## Kontakt
