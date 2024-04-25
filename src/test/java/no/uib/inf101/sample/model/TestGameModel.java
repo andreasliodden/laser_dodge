@@ -41,7 +41,7 @@ public class TestGameModel {
     }
 
     @Test
-    public void movePlayerAllDirections() {
+    public void canMovePlayerAllDirections() {
         assert (gameModel.movePlayer(1, 0));
         assert (gameModel.movePlayer(-1, 0));
         assert (gameModel.movePlayer(0, 1));
