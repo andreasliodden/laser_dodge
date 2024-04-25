@@ -2,6 +2,7 @@
 
 Laser Dodge er et spennende og utfordrende spill der du som spiller skal unngå laserskudd som blir skutt ut fra en fiende på midten av brettet. Laserskuddene skytes ut med en tilfeldig retning og spretter i veggene, noe som gjør spillet uforutsigbart og krevende over tid.
 
+Alle bilder og figurer i dette spillet er tegnet forhånd på https://www.piskelapp.com/p/create/sprite.
 
 ## Funksjoner
 
@@ -37,7 +38,7 @@ Laser Dodge er et spennende og utfordrende spill der du som spiller skal unngå 
 
 ## Video av applikasjonen
 
-- Lenke til YouTube: [(lenke)](https://www.youtube.com/watch?v=Lwsr428nyeU&ab_channel=AndreasLiodden)
+- Lenke til YouTube-video: [Laser Dodge](https://www.youtube.com/watch?v=Lwsr428nyeU&ab_channel=AndreasLiodden)
 
 
 ## Kontakt
