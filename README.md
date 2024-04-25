@@ -34,8 +34,6 @@ Laser Dodge er et spennende og utfordrende spill der du som spiller skal unngå 
 
 ![personal_best](/uploads/284fd35f2096f1bc1243bc61ffd57b16/personal_best.png)
 
-- Klarer du å slå den?
-
 
 ## Video av applikasjonen
 
