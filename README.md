@@ -4,7 +4,7 @@ Laser Dodge er et spennende og utfordrende spill der du som spiller skal unngå 
 
 ## Funksjoner
 
-- **Laserskudd**: Fienden i miten av brettet skyter laserskudd i tilfeldige retninger. Disse skuddene spretter i veggene, og spilleren må unngå dem for å overleve. Disse laserskuddene kommer ikke til å forsvinne så lenge du er i den normale spillmodusen.
+- **Laserskudd**: Fienden i midten av brettet skyter laserskudd i tilfeldige retninger. Disse skuddene spretter i veggene, og spilleren må unngå dem for å overleve. Disse laserskuddene kommer ikke til å forsvinne så lenge du er i den normale spillmodusen.
 
 - **Gulleple**: Etter en viss tid dukker det opp et gulleple på brettet. Når eplet blir plukket opp av spilleren, blir healing-modusen aktivert. Det kan kun være et gulleple på brettet om gangen, og nedtellingen til et nytt gulleple starter ikke før du har plukket opp det forrige og healingmodusen er over.
 
@@ -17,6 +17,9 @@ Laser Dodge er et spennende og utfordrende spill der du som spiller skal unngå 
 1. Klon repositoriet
 2. Åpne prosjektet i din foretrukne IDE.
 3. Kjør 'Main' klassen for å starte spillet.
+
+
+### Kontroller
 
 - Bruk C for å se reglene og kontrollene i spillet, og S for å starte.
 - Bruk W, A, S, D eller piltastene for å bevege spilleren.
