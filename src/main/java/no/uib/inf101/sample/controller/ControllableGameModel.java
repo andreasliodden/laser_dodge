@@ -9,12 +9,13 @@ public interface ControllableGameModel {
      * @param deltaX the change in x-direction
      * @param deltaY the change in y-direction
      * 
-     * @return true if the player was moved successfuly, false otherwise
+     * @return true if the player is moved successfuly, false otherwise
      */
     boolean movePlayer(int deltaX, int deltaY);
 
     /**
-     * Performs actions that should occur on each clock tick.
+     * Performs actions on game components 
+     * that should occur on each clock tick.
      */
     void clockTick();
 
@@ -41,13 +42,13 @@ public interface ControllableGameModel {
     int getGappleCooldown();
 
     /**
-     * Ticks the gapple countdown down until it has reached zero.
+     * Reduces the golden apple countdown by one.
      */
     void updateGappleCountdown();
 
     /**
-     * Resets the gapple countdown and boolean value that tells if the gapple is
-     * present.
+     * Resets the golden apple countdown and the boolean value 
+     * that tells if the golden apple is present.
      */
     void resetGapple();
 
@@ -57,7 +58,7 @@ public interface ControllableGameModel {
     void startNewGame();
 
     /**
-     * Updates and sets the game state to the given one,
+     * Updates and sets the current game state to the one given.
      * 
      * @param nextState the game state to be set
      */

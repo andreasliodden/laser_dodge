@@ -7,10 +7,10 @@ import no.uib.inf101.sample.model.entity.RandomMovingEntity;
 import no.uib.inf101.sample.view.viewable.ViewableProjectile;
 
 /**
- * Represents the projectiles shot from the vicious enemy.
+ * Represents the projectiles shot from the enemy.
  * It extends the RandomMovingEntity class,
- * which means it has a position and velocity, and it can move in random
- * directions.
+ * which means it has a position and velocity, and
+ * can move in random directions.
  */
 public class Projectile extends RandomMovingEntity implements ViewableProjectile {
     private static final int MAX_TRAIL_SIZE = 20;

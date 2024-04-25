@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * Generates random projectiles in the game.
  * Implements the ProjectileFactory interface,
- * which provides methods to generate new projetiles.
+ * which provides methods to generate new projectiles.
  */
 
 public class RandomProjectileFactory implements ProjectileFactory {

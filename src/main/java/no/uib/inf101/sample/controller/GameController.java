@@ -141,36 +141,45 @@ public class GameController implements KeyListener {
             }
 
             if (currentGameState == GameState.ACTIVE_ANGRY) {
-                if (tickCounter % GAPPLE_COUNTDOWN_TICK == 0) {
-                    gameModel.updateGappleCountdown();
-                }
-                if (tickCounter % ADD_PROJECTILE_TICK == ENEMY_READY_TICK) {
-                    enemy.updateShootingStatus();
-                } else if (tickCounter % ADD_PROJECTILE_TICK == 0) {
-                    gameModel.addProjectile();
-                }
-                if (tickCounter == gameModel.getGappleCooldown() * 100) {
-                    gameModel.addGapple();
-                }
+                angryEnemyTick();
             } else if (currentGameState == GameState.ACTIVE_HAPPY) {
-                int newProjectileTick = ADD_PROJECTILE_TICK / TICK_DIVISOR;
-
-                if (tickCounter % newProjectileTick == newProjectileTick - 2 * UPDATE_ENEMY_TICK) {
-                    enemy.updateShootingStatus();
-                } else if (tickCounter % newProjectileTick == 0) {
-                    gameModel.addProjectile();
-                }
-                if (tickCounter == RESET_GAME_TICK) {
-                    gameModel.setGameState(GameState.ACTIVE_ANGRY);
-                    gameModel.resetGapple();
-                    enemy.switchMood();
-                }
+                happyEnemyTick();
             }
+
             handlePlayerMovement();
             gameModel.clockTick();
             tickCounter++;
         }
         gameView.repaint();
+    }
+
+    private void angryEnemyTick() {
+        if (tickCounter % GAPPLE_COUNTDOWN_TICK == 0) {
+            gameModel.updateGappleCountdown();
+        }
+        if (tickCounter % ADD_PROJECTILE_TICK == ENEMY_READY_TICK) {
+            enemy.updateShootingStatus();
+        } else if (tickCounter % ADD_PROJECTILE_TICK == 0) {
+            gameModel.addProjectile();
+        }
+        if (tickCounter == gameModel.getGappleCooldown() * 100) {
+            gameModel.addGapple();
+        }
+    }
+
+    private void happyEnemyTick() {
+        int newProjectileTick = ADD_PROJECTILE_TICK / TICK_DIVISOR;
+
+        if (tickCounter % newProjectileTick == newProjectileTick - 2 * UPDATE_ENEMY_TICK) {
+                enemy.updateShootingStatus();
+        } else if (tickCounter % newProjectileTick == 0) {
+                gameModel.addProjectile();
+        }
+        if (tickCounter == RESET_GAME_TICK) {
+            gameModel.setGameState(GameState.ACTIVE_ANGRY);
+            gameModel.resetGapple();
+            enemy.switchMood();
+        }
     }
 
     private void handlePlayerMovement() {

@@ -48,17 +48,26 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     @Override
     public void clockTick() {
         if (gappleExists) {
-            gapple.move();
-            if (playerProjectileCollision(gapple.getX(), gapple.getY())) {
-                enemy.switchMood();
-                gameState = GameState.ACTIVE_HAPPY;
-                gappleExists = false;
-            }
+            handleActiveGapple();
         }
+        handleActiveProjectiles();
+    }
+
+    private void handleActiveGapple() {
+        gapple.move();
+        if (playerProjectileCollision(gapple.getX(), gapple.getY())) {
+            enemy.switchMood();
+            gameState = GameState.ACTIVE_HAPPY;
+            gappleExists = false;
+        }
+    }
+
+    private void handleActiveProjectiles() {
         Iterator<Projectile> iterator = activeProjectiles.iterator();
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
             projectile.move();
+
             if (playerProjectileCollision(projectile.getX(), projectile.getY())) {
                 player.registerHit(gameState);
                 iterator.remove();
@@ -183,10 +192,14 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     public void startNewGame() {
         this.gameState = GameState.ACTIVE_ANGRY;
         this.gameScore = 0;
-        this.activeProjectiles = new ArrayList<>();
-        resetGapple();
+        resetEntities();
+    }
+
+    private void resetEntities() {
         player.reset();
         enemy.reset();
+        this.activeProjectiles = new ArrayList<>();
+        resetGapple();
     }
 
     @Override
