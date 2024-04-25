@@ -21,7 +21,7 @@ public class GameController implements KeyListener {
     private static final int GAPPLE_COUNTDOWN_TICK = 100;
     private static final int ADD_PROJECTILE_TICK = 480;
     private static final int SHOT_READY_TICK = ADD_PROJECTILE_TICK - 2 * UPDATE_ENEMY_TICK;
-    private static final double RESET_GAME_TICK = 600;
+    private static final double RESET_GAME_TICK = 750;
     private static final int TICK_DIVISOR = 3;
 
     private ControllableGameModel gameModel;

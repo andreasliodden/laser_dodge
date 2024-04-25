@@ -177,7 +177,7 @@ public class GameView extends JPanel {
                 infoBox.getWidth() / 2, stringHeight);
 
         Inf101Graphics.drawCenteredString(
-                g2, "APPLE EATEN: +3",
+                g2, "APPLE EATEN: +2",
                 infoBox.getCenterX(), this.getHeight() * 0.775,
                 infoBox.getWidth() / 2, stringHeight);
 
