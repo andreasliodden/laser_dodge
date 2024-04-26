@@ -2,6 +2,10 @@ package no.uib.inf101.sample.controller;
 
 import no.uib.inf101.sample.model.GameState;
 
+/**
+ * Interface that defines methods for controlling a game model, 
+ * including player movement and game updates.
+ */
 public interface ControllableGameModel {
     /**
      * Moves the player by the specified delta x and y values.

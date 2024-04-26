@@ -4,7 +4,8 @@ import no.uib.inf101.sample.view.viewable.ViewableEntity;
 
 /**
  * Represents an entity of the game.
- * Has a floating x- and y-coordinate between 0 and 1.
+ * Stores the x- and y-coordinate
+ * with a floating number between 0 and 1.
  */
 
 public class Entity implements ViewableEntity {

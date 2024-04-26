@@ -6,7 +6,7 @@ import no.uib.inf101.sample.model.enemy.EnemyState;
 import no.uib.inf101.sample.view.Inf101Graphics;
 
 /**
- * Defines the different images that represents the enemy.
+ * Enum that defines the different images representing the enemy.
  */
 public enum EnemyImage {
     ANGRY_ONE("enemy/angry_1.png"),

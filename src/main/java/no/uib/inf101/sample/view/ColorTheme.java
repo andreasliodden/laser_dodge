@@ -2,6 +2,10 @@ package no.uib.inf101.sample.view;
 
 import java.awt.Color;
 
+/**
+ * Interface that defines methods for retrieving color themes 
+ * associated with different states of the game.
+ */
 public interface ColorTheme {
     /**
      * Gets the default background color 

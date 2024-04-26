@@ -33,9 +33,9 @@ public class GameView extends JPanel {
     private static final double WINDOW_RATIO = (double) (START_WIDTH / START_HEIGHT);
 
     private static final BufferedImage APPLE = Inf101Graphics
-                .loadImageFromResources("apple.png");
+            .loadImageFromResources("apple/red_apple.png");
     private static final BufferedImage GOLDEN_APPLE = Inf101Graphics
-                .loadImageFromResources("golden_apple.png");
+            .loadImageFromResources("apple/golden_apple.png");
 
     private ColorTheme colorTheme;
     private ViewableGameModel gameModel;
@@ -75,8 +75,7 @@ public class GameView extends JPanel {
             case PAUSED -> drawPaused(g2);
             case GAME_OVER -> drawGameOver(g2);
             default -> throw new IllegalArgumentException(
-                        "'" + gameState +"' is not a game state."
-                );
+                    "'" + gameState + "' is not a game state.");
         }
         drawEnemy(g2);
     }
@@ -211,13 +210,15 @@ public class GameView extends JPanel {
     }
 
     private void drawGoldenApple(Graphics2D g2) {
-        drawImage(g2, GOLDEN_APPLE, gameModel.getGappleX(), gameModel.getGappleY(), 3);
+        drawImage(g2, GOLDEN_APPLE, gameModel.getGappleX(),
+                gameModel.getGappleY(), 3);
     }
 
     private void drawApples(Graphics2D g2) {
         for (int i = 0; i < gameModel.getNumberOfProjectiles(); i++) {
             ViewableProjectile projectile = gameModel.getProjectile(i);
-            drawImage(g2, APPLE, projectile.getX(), projectile.getY(), 3);
+            drawImage(g2, APPLE, projectile.getX(),
+                    projectile.getY(), 3);
         }
     }
 
@@ -302,13 +303,9 @@ public class GameView extends JPanel {
     private void drawProjectile(Graphics2D g2) {
         double width = PROJECTILE_WIDTH * this.getWidth();
         double height = width * WINDOW_RATIO;
-        Rectangle2D projectileBox, trailBox;
-        double resizingFactor;
-        int colorFactor;
+        Rectangle2D projectileBox;
 
         for (int i = 0; i < gameModel.getNumberOfProjectiles(); i++) {
-            colorFactor = 0;
-            resizingFactor = 1;
             ViewableProjectile projectile = gameModel.getProjectile(i);
             ArrayList<Point2D> trail = projectile.getTrail();
             projectileBox = new Rectangle2D.Double(
@@ -318,18 +315,28 @@ public class GameView extends JPanel {
             g2.setColor(Color.RED);
             g2.fill(projectileBox);
 
-            for (int j = trail.size() - 1; j >= 0; j--) {
-                Point2D point = trail.get(j);
-                trailBox = new Rectangle2D.Double(
-                        point.getX() * (this.getWidth() - width * resizingFactor),
-                        point.getY() * (this.getHeight() - height * resizingFactor),
-                        width * resizingFactor, height * resizingFactor);
-                g2.setColor(new Color(Math.max(0, 255 - colorFactor), 0, 0));
-                g2.fill(trailBox);
-                colorFactor += MAX_RGB / 10;
-                resizingFactor -= 1.0 / trail.size();
-            }
+            drawProjectileTrail(g2, trail, width, height);
+        }
+    }
 
+    private void drawProjectileTrail(Graphics2D g2,
+            ArrayList<Point2D> trail, double width, double height) {
+        Rectangle2D trailBox;
+        double resizingFactor = 1;
+        int redColorValue = 0;
+        for (int j = trail.size() - 1; j >= 0; j--) {
+            Point2D coordinate = trail.get(j);
+            trailBox = new Rectangle2D.Double(
+                    coordinate.getX() * (this.getWidth()
+                            - width * resizingFactor),
+                    coordinate.getY() * (this.getHeight()
+                            - height * resizingFactor),
+                    width * resizingFactor, height * resizingFactor);
+            g2.setColor(new Color(
+                    Math.max(0, 255 - redColorValue), 0, 0));
+            g2.fill(trailBox);
+            redColorValue += MAX_RGB / 10;
+            resizingFactor -= 1.0 / trail.size();
         }
     }
 
@@ -351,7 +358,8 @@ public class GameView extends JPanel {
         g2.setFont(getFont(30));
         Inf101Graphics.drawCenteredString(
                 g2, "PRESS KEY TO UNPAUSE",
-                0, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2);
+                0, this.getHeight() / 2,
+                this.getWidth(), this.getHeight() / 2);
     }
 
     private void drawGameOver(Graphics2D g2) {
@@ -382,8 +390,10 @@ public class GameView extends JPanel {
         return new Font("Monospaced", Font.BOLD, fontSize);
     }
 
-    private void drawImage(Graphics2D g2, BufferedImage image, double entityX, double entityY, int imageScale) {
-        int imageWidth = (int) (image.getWidth() * this.getWidth() * imageScale) / START_WIDTH;
+    private void drawImage(Graphics2D g2, BufferedImage image,
+            double entityX, double entityY, int imageScale) {
+        int imageWidth = (int) (image.getWidth() * this.getWidth()
+                * imageScale) / START_WIDTH;
         int imageHeight = (int) (imageWidth * WINDOW_RATIO);
         int x = (int) (entityX * (this.getWidth() - imageWidth));
         int y = (int) (entityY * (this.getHeight() - imageHeight));

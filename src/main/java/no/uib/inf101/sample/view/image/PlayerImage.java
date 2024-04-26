@@ -6,7 +6,7 @@ import no.uib.inf101.sample.model.player.PlayerState;
 import no.uib.inf101.sample.view.Inf101Graphics;
 
 /**
- * Defines the different images that represents the player.
+ * Enum that defines the different images representing the player.
  */
 public enum PlayerImage {
     FRONT_LEFT("player/front_left.png"),

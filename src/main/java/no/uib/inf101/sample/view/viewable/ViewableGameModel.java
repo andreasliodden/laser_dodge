@@ -2,6 +2,11 @@ package no.uib.inf101.sample.view.viewable;
 
 import no.uib.inf101.sample.model.GameState;
 
+/**
+ * Interface that defines methods for viewing elements of the game model,
+ * including a viewable player, enemy and projectile, in addition to the 
+ * golden apple, game state, score and countdown.
+ */
 public interface ViewableGameModel {
     /**
      * Gets a viewable representation of the player.

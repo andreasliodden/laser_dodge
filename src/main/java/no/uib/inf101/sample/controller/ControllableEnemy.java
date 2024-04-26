@@ -2,6 +2,10 @@ package no.uib.inf101.sample.controller;
 
 import no.uib.inf101.sample.model.enemy.EnemyState;
 
+/**
+ * Interface that defines methods for controlling the enemy, 
+ * which includes its state and shooting status.
+ */
 public interface ControllableEnemy {
 
     /**
