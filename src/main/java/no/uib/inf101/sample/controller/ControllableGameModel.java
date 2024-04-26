@@ -29,11 +29,6 @@ public interface ControllableGameModel {
     void addProjectile();
 
     /**
-     * Adds a golden apple power-up to the game.
-     */
-    void addGapple();
-
-    /**
      * Adds points to the game as time passes.
      */
     void addTimeScore();

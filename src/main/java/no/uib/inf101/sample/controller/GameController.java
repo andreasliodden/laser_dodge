@@ -162,9 +162,6 @@ public class GameController implements KeyListener {
         } else if (tickCounter % ADD_PROJECTILE_TICK == 0) {
             gameModel.addProjectile();
         }
-        if (tickCounter == gameModel.getGappleCooldown() * 100) {
-            gameModel.addGapple();
-        }
     }
 
     private void happyEnemyTick() {

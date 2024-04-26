@@ -28,9 +28,9 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     private static final int PROJECTILE_POINTS = 10;
     private static final double COLLISION_ROOM = 0.035;
 
+    private ArrayList<Projectile> activeProjectiles = new ArrayList<>();
     private Enemy enemy;
     private Player player;
-    private ArrayList<Projectile> activeProjectiles = new ArrayList<>();
     private ProjectileFactory factory;
     private GameState gameState;
     private GoldenApple gapple;
@@ -120,14 +120,6 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
 
     @Override
-    public void addGapple() {
-        if (!gappleExists) {
-            gapple = factory.getGoldenApple();
-            gappleExists = true;
-        }
-    }
-
-    @Override
     public boolean gappleExists() {
         return this.gappleExists;
     }
@@ -152,17 +144,18 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
         if (gappleCountdown > 0) {
             gappleCountdown -= 1;
         }
+        if (gappleCountdown == 0 && !gappleExists) {
+            addGapple();
+        } 
+    }
+    private void addGapple() {
+        gapple = factory.getGoldenApple();
+        gappleExists = true;
     }
 
     @Override
     public int getGappleCooldown() {
         return GAPPLE_COOLDOWN;
-    }
-
-    @Override
-    public void resetGapple() {
-        this.gappleCountdown = GAPPLE_COOLDOWN;
-        this.gappleExists = false;
     }
 
     @Override
@@ -200,6 +193,13 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
         enemy.reset();
         this.activeProjectiles = new ArrayList<>();
         resetGapple();
+    }
+
+
+    @Override
+    public void resetGapple() {
+        this.gappleCountdown = GAPPLE_COOLDOWN;
+        this.gappleExists = false;
     }
 
     @Override
