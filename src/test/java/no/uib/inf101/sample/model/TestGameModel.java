@@ -81,9 +81,10 @@ public class TestGameModel {
     }
 
     @Test
-    public void addGappleWhenCountdownZero() {
+    public void addGappleWhenCountdownIsZero() {
         gameModel.startNewGame();
         assertFalse(gameModel.gappleExists());
+        
         while (gameModel.getGappleCountdown() > 0) {
             gameModel.updateGappleCountdown();
         }
